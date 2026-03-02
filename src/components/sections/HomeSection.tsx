@@ -39,6 +39,22 @@ export const HomeSection = () => {
           width: '90%',
           maxWidth: '1200px'
         }}>
+          {/* Animated Badge */}
+          <div className="parallax-slide-in layer-1" style={{
+            display: 'inline-block',
+            padding: '8px 20px',
+            border: '1px solid rgba(179, 136, 235, 0.3)',
+            borderRadius: '50px',
+            fontSize: '11px',
+            letterSpacing: '0.2em',
+            marginBottom: '2rem',
+            backdropFilter: 'blur(10px)',
+            background: 'rgba(0, 0, 0, 0.3)',
+            animation: 'fadeInUp 1s ease-out 0.5s both'
+          }}>
+            ✨ AVAILABLE FOR FREELANCE
+          </div>
+
           <h1 className="heading-font parallax-slide-in layer-1" style={{
             fontSize: 'clamp(2.5rem, 7vw, 6rem)',
             fontWeight: 700,
@@ -47,25 +63,86 @@ export const HomeSection = () => {
             lineHeight: 1.1,
             textShadow: '0 4px 30px rgba(179, 136, 235, 0.5), 0 0 60px rgba(179, 136, 235, 0.3)'
           }}>
-            <GlitchText>CODE. CREATE.</GlitchText>
+            <GlitchText>CREATIVE</GlitchText>
             <br />
             <span style={{
               background: 'linear-gradient(135deg, #b388eb 0%, #7f5af0 50%, #ff006e 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text'
-            }}>INNOVATE.</span>
+            }}>DEVELOPER</span>
           </h1>
+          
           <p className="tech-font parallax-slide-in layer-2" style={{
             fontSize: 'clamp(0.9rem, 1.8vw, 1.4rem)',
             fontWeight: 300,
             letterSpacing: '0.15em',
             opacity: 0.9,
             textShadow: '0 2px 15px rgba(0, 0, 0, 0.9)',
-            marginBottom: '2rem'
+            marginBottom: '2rem',
+            maxWidth: '600px',
+            margin: '0 auto 2rem'
           }}>
-            Building the future, one line at a time
+            Crafting digital experiences that blend art with technology
           </p>
+          
+          {/* CTA Buttons */}
+          <div className="parallax-slide-in layer-3" style={{
+            display: 'flex',
+            gap: '1rem',
+            justifyContent: 'center',
+            marginBottom: '3rem',
+            flexWrap: 'wrap'
+          }}>
+            <button style={{
+              padding: '12px 32px',
+              background: 'linear-gradient(135deg, #b388eb, #7f5af0)',
+              border: 'none',
+              borderRadius: '50px',
+              color: 'white',
+              fontSize: '14px',
+              letterSpacing: '0.1em',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              fontFamily: 'Space Mono, monospace',
+              pointerEvents: 'auto',
+              boxShadow: '0 4px 20px rgba(179, 136, 235, 0.4)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 6px 30px rgba(179, 136, 235, 0.6)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 4px 20px rgba(179, 136, 235, 0.4)';
+            }}>
+              VIEW WORK
+            </button>
+            <button style={{
+              padding: '12px 32px',
+              background: 'transparent',
+              border: '1px solid rgba(179, 136, 235, 0.5)',
+              borderRadius: '50px',
+              color: 'white',
+              fontSize: '14px',
+              letterSpacing: '0.1em',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              fontFamily: 'Space Mono, monospace',
+              pointerEvents: 'auto',
+              backdropFilter: 'blur(10px)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(179, 136, 235, 0.1)';
+              e.currentTarget.style.borderColor = '#b388eb';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.borderColor = 'rgba(179, 136, 235, 0.5)';
+            }}>
+              GET IN TOUCH
+            </button>
+          </div>
           
           {/* Tech Stats */}
           <div className="parallax-slide-in layer-3" style={{
@@ -76,29 +153,42 @@ export const HomeSection = () => {
             flexWrap: 'wrap'
           }}>
             {[
-              { label: 'PROJECTS', value: '50+' },
-              { label: 'CLIENTS', value: '30+' },
-              { label: 'AWARDS', value: '15+' }
+              { label: 'PROJECTS', value: '50+', icon: '🚀' },
+              { label: 'CLIENTS', value: '30+', icon: '🤝' },
+              { label: 'AWARDS', value: '15+', icon: '🏆' }
             ].map((stat, i) => (
               <div key={i} style={{
                 textAlign: 'center',
-                padding: '1rem 1.5rem',
+                padding: '1.5rem 2rem',
                 border: '1px solid rgba(179, 136, 235, 0.2)',
-                borderRadius: '8px',
+                borderRadius: '12px',
                 backdropFilter: 'blur(10px)',
-                background: 'rgba(0, 0, 0, 0.3)'
+                background: 'rgba(0, 0, 0, 0.3)',
+                minWidth: '140px',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = '#b388eb';
+                e.currentTarget.style.transform = 'translateY(-5px)';
+                e.currentTarget.style.boxShadow = '0 10px 30px rgba(179, 136, 235, 0.3)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(179, 136, 235, 0.2)';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'none';
               }}>
+                <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{stat.icon}</div>
                 <div style={{
-                  fontSize: 'clamp(1.5rem, 3vw, 2.5rem)',
+                  fontSize: 'clamp(1.8rem, 3vw, 2.5rem)',
                   fontWeight: 700,
                   color: '#b388eb',
-                  fontFamily: 'Syncopate, sans-serif'
+                  fontFamily: 'Syncopate, sans-serif',
+                  marginBottom: '0.5rem'
                 }}>{stat.value}</div>
                 <div style={{
                   fontSize: '0.7rem',
                   letterSpacing: '0.2em',
-                  opacity: 0.6,
-                  marginTop: '0.5rem'
+                  opacity: 0.6
                 }}>{stat.label}</div>
               </div>
             ))}
