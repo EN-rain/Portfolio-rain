@@ -69,18 +69,10 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
       const minScale = 0.5; // Scale when dropping in or out
       const maxScale = 1.2;  // Scale when perfectly centered (change to 1.3 for zoom effect)
 
-      // Section 4 (Experience) gets a dedicated horizontal-scroll phase.
-      const section4EnterStart = ((3 - 1) * (transitionLength + pauseLength)) + pauseLength;
-      const section4EnterEnd = section4EnterStart + transitionLength;
-      const section4HorizontalLength = vh * 2.6;
-      const section4HorizontalStart = section4EnterEnd;
-      const section4HorizontalEnd = section4HorizontalStart + section4HorizontalLength;
-      const section4LeaveStart = section4HorizontalEnd;
+      // Section 4 (Experience) uses standard timing but has a custom shrink/flip exit animation
+      const section4LeaveStart = 3 * (transitionLength + pauseLength) + pauseLength;
       const section4LeaveEnd = section4LeaveStart + transitionLength;
 
-      // Section 5 can only start after the horizontal phase of section 4 is complete.
-      const section5EnterStart = section4LeaveStart;
-      const section5EnterEnd = section5EnterStart + transitionLength;
       let section4ProgressSnapshot = 0;
 
       const sections = document.querySelectorAll('.stack-section');
@@ -114,14 +106,13 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
           currentRotation = 0;
           currentScale = 1;
         } else if (i === 4) {
-          // SECTION 5 LOGIC (CONTACT - Final Section)
-          if (currentScroll < section5EnterStart) {
-            currentYMoveVh = -100;
-          } else if (currentScroll >= section5EnterStart && currentScroll < section5EnterEnd) {
-            let progress = (currentScroll - section5EnterStart) / transitionLength;
-            currentYMoveVh = -100 + (progress * 100);
+          // SECTION 5 LOGIC (CONTACT)
+          // Stay hidden below the viewport while earlier sections are active.
+          // Once Experience starts its exit, jump to position 0 as a background layer.
+          if (currentScroll < section4LeaveStart) {
+            currentYMoveVh = 100; // off-screen below — doesn't block earlier sections
           } else {
-            currentYMoveVh = 0;
+            currentYMoveVh = 0; // snap into position as background while Experience exits
           }
           currentRotation = 0;
           currentScale = 1;
@@ -149,15 +140,8 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
             currentRotation = 0;
             currentScale = maxScale;
             currentOpacity = 1;
-            const horizontalProgress = Math.max(
-              0,
-              Math.min(1, (currentScroll - section4HorizontalStart) / section4HorizontalLength)
-            );
-            const smoothHorizontalProgress = horizontalProgress < 0.5
-              ? 2 * horizontalProgress * horizontalProgress
-              : 1 - Math.pow(-2 * horizontalProgress + 2, 2) / 2;
             lockedContentXVw = 0;
-            section4HorizontalProgress = smoothHorizontalProgress;
+            section4HorizontalProgress = 0;
           } else if (currentScroll >= section4LeaveStart && currentScroll < section4LeaveEnd) {
             let progress = (currentScroll - section4LeaveStart) / transitionLength;
             
@@ -311,54 +295,42 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
 
 
       // Icon and Text animation for Section 5 (CONTACT)
+      // Background is always visible (no white gap), but content fades in only after Experience is fully gone.
       const contactIcon = document.getElementById('contact-icon') as HTMLElement;
       const contactTexts = document.querySelectorAll('.contact-text') as NodeListOf<HTMLElement>;
-      
-      const contactSecStart = section5EnterStart;
-      const contactSecEnd = section5EnterEnd;
+      const contactAnimDuration = transitionLength * 0.6;
 
-      if (currentScroll >= contactSecStart && currentScroll <= contactSecEnd) {
-        let p = (currentScroll - contactSecStart) / transitionLength;
-        
-        // Icon Animation (0.7 to 1.0)
-        let iconP = Math.max(0, Math.min(1, (p - 0.7) / 0.3));
-        let easeIcon = 1 - Math.pow(1 - iconP, 3);
-        if (contactIcon) {
-          let rotY = 90 - (easeIcon * 90);
-          contactIcon.style.transform = `rotateY(${rotY}deg)`;
-          contactIcon.style.opacity = String(easeIcon);
-        }
-
-        // Text Animation (starts slightly after icon starts: 0.8 to 1.0)
-        let textP = Math.max(0, Math.min(1, (p - 0.8) / 0.2));
-        let easeText = 1 - Math.pow(1 - textP, 3);
-        contactTexts.forEach(el => {
-          el.style.opacity = String(easeText);
-          // Optional: Subtle slide effect
-          const isLeft = el.classList.contains('text-left');
-          const isRight = el.classList.contains('text-right');
-          const slideDist = (1 - easeText) * 30;
-          if (isLeft) el.style.transform = `translateX(${-slideDist}px)`;
-          else if (isRight) el.style.transform = `translateX(${slideDist}px)`;
-          else el.style.transform = `translateY(${slideDist}px)`;
-        });
-
-      } else if (currentScroll > contactSecEnd) {
-        if (contactIcon) {
-          contactIcon.style.transform = `rotateY(0deg)`;
-          contactIcon.style.opacity = '1';
-        }
-        contactTexts.forEach(el => {
-          el.style.opacity = '1';
-          el.style.transform = 'translate(0,0)';
-        });
-      } else {
+      if (currentScroll < section4LeaveEnd) {
+        // Experience still visible — hide contact content
         if (contactIcon) {
           contactIcon.style.transform = `rotateY(90deg)`;
           contactIcon.style.opacity = '0';
         }
         contactTexts.forEach(el => {
           el.style.opacity = '0';
+          el.style.transform = 'translate(0,0)';
+        });
+      } else if (currentScroll >= section4LeaveEnd && currentScroll < section4LeaveEnd + contactAnimDuration) {
+        // Experience just left — animate content in
+        const p = (currentScroll - section4LeaveEnd) / contactAnimDuration;
+        const eased = 1 - Math.pow(1 - p, 3);
+        if (contactIcon) {
+          contactIcon.style.transform = `rotateY(${90 - eased * 90}deg)`;
+          contactIcon.style.opacity = String(eased);
+        }
+        const textEased = 1 - Math.pow(1 - Math.min(1, Math.max(0, (p - 0.2) / 0.8)), 3);
+        contactTexts.forEach(el => {
+          el.style.opacity = String(textEased);
+          el.style.transform = `translateY(${(1 - textEased) * 20}px)`;
+        });
+      } else {
+        // Fully revealed
+        if (contactIcon) {
+          contactIcon.style.transform = `rotateY(0deg)`;
+          contactIcon.style.opacity = '1';
+        }
+        contactTexts.forEach(el => {
+          el.style.opacity = '1';
           el.style.transform = 'translate(0,0)';
         });
       }
