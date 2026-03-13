@@ -9,7 +9,7 @@
 body {
   margin: 0;
   background-color: var(--bg-color);
-  color: #ffffff;
+  color: #000000;
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -133,7 +133,7 @@ main {
   width: 100%;
   height: 100vh;
   z-index: 99999;
-  background-color: #000000;
+  background-color: #ffffff;
   transition:
     height 1s cubic-bezier(0.85, 0, 0.15, 1),
     background-color 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.3s,
@@ -156,7 +156,7 @@ main {
   left: 50%;
   margin: 0;
   padding-right: 0.5em;
-  color: #ffffff;
+  color: #000000;
   font-size: 3rem;
   letter-spacing: 0.5em;
   white-space: nowrap;
@@ -241,7 +241,7 @@ main {
 .navbar-buttons button {
   border: none;
   background: transparent;
-  color: #ffffff;
+  color: #000000;
   font-family: 'Space Mono', monospace;
   font-size: 10px;
   letter-spacing: 0.2em;
@@ -269,7 +269,7 @@ main {
 
 .mask-shaped-section .clip-gap-inner {
   clip-path: none;
-  background: var(--mask-color);
+  background: transparent;
   filter: blur(0.1px);
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2048 972' preserveAspectRatio='none'%3E%3Cpath fill='%23d9d9d9' d='M134 2H1320Q1336 2 1347 13L1415 63Q1426 74 1442 74H1998C2025 74 2046 95 2046 122V912C2046 939 2025 960 1998 960H440Q424 960 413 949L357 913Q346 902 330 902H48C21 902 0 881 0 854V242C0 226 8 214 20 204L86 146V50C86 23 107 2 134 2Z'/%3E%3C/svg%3E");
   -webkit-mask-size: 100% 100%;
@@ -419,23 +419,4 @@ main {
   will-change: transform;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-}
-
-/* Fade In Up Animation */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Skill Bar Animation */
-@keyframes skillBar {
-  from {
-    width: 0%;
-  }
 }
