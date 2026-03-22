@@ -15,7 +15,7 @@ const AnimatedSphere = () => {
   return (
     <Sphere ref={sphereRef} args={[1, 100, 200]} scale={2.5}>
       <MeshDistortMaterial
-        color="#b388eb"
+        color="#6ee7b7"
         attach="material"
         distort={0.4}
         speed={2}
@@ -40,7 +40,7 @@ export const Scene3D = () => {
       <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
         <ambientLight intensity={0.5} />
         <directionalLight position={[10, 10, 5]} intensity={1} />
-        <pointLight position={[-10, -10, -5]} intensity={0.5} color="#7f5af0" />
+        <pointLight position={[-10, -10, -5]} intensity={0.5} color="#818cf8" />
         <AnimatedSphere />
         <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} />
       </Canvas>

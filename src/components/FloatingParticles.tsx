@@ -30,7 +30,7 @@ const Particles = () => {
     <points ref={particlesRef} geometry={particlesGeometry}>
       <pointsMaterial
         size={0.02}
-        color="#b388eb"
+        color="#6ee7b7"
         transparent
         opacity={0.6}
         sizeAttenuation

@@ -69,7 +69,7 @@ export const CustomCursor = () => {
           width: '8px',
           height: '8px',
           borderRadius: '50%',
-          backgroundColor: '#b388eb',
+          backgroundColor: '#6ee7b7',
           pointerEvents: 'none',
           zIndex: 99999,
           mixBlendMode: 'difference',
@@ -84,7 +84,7 @@ export const CustomCursor = () => {
           width: '30px',
           height: '30px',
           borderRadius: '50%',
-          border: '1px solid rgba(179, 136, 235, 0.5)',
+          border: '1px solid rgba(110, 231, 183, 0.5)',
           pointerEvents: 'none',
           zIndex: 99998,
           transform: 'translate(-50%, -50%)'
