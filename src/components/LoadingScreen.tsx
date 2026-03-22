@@ -51,7 +51,7 @@ export const LoadingScreen = ({ onComplete }: { onComplete: () => void }) => {
             fontSize: 'clamp(2rem, 5vw, 4rem)',
             letterSpacing: '0.3em',
             marginBottom: '2rem',
-            background: 'linear-gradient(135deg, #b388eb 0%, #7f5af0 50%, #ff006e 100%)',
+            background: 'linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #6ee7b7 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text'
@@ -74,9 +74,9 @@ export const LoadingScreen = ({ onComplete }: { onComplete: () => void }) => {
             style={{
               width: `${Math.min(progress, 100)}%`,
               height: '100%',
-              background: 'linear-gradient(90deg, #b388eb, #7f5af0, #ff006e)',
+              background: 'linear-gradient(90deg, #38bdf8, #818cf8, #6ee7b7)',
               transition: 'width 0.3s ease',
-              boxShadow: '0 0 10px #b388eb'
+              boxShadow: '0 0 10px #38bdf8'
             }}
           />
         </div>

@@ -32,7 +32,7 @@ export const SocialLinks = () => {
             width: '40px',
             height: '40px',
             borderRadius: '50%',
-            border: '1px solid rgba(179, 136, 235, 0.3)',
+            border: '1px solid rgba(110, 231, 183, 0.3)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -42,13 +42,13 @@ export const SocialLinks = () => {
             background: 'rgba(0, 0, 0, 0.3)'
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = '#b388eb';
-            e.currentTarget.style.color = '#b388eb';
+            e.currentTarget.style.borderColor = '#38bdf8';
+            e.currentTarget.style.color = '#38bdf8';
             e.currentTarget.style.transform = 'translateY(-5px)';
-            e.currentTarget.style.boxShadow = '0 5px 20px rgba(179, 136, 235, 0.4)';
+            e.currentTarget.style.boxShadow = '0 5px 20px rgba(56, 189, 248, 0.4)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = 'rgba(179, 136, 235, 0.3)';
+            e.currentTarget.style.borderColor = 'rgba(110, 231, 183, 0.3)';
             e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)';
             e.currentTarget.style.transform = 'translateY(0)';
             e.currentTarget.style.boxShadow = 'none';

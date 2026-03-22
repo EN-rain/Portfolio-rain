@@ -152,7 +152,7 @@ export const ProjectsSection = memo(() => {
   return (
     <section className="stack-section mask-shaped-section" style={{ zIndex: 30, '--mask-color': '#6c2bd9', '--mask-shadow': '#6c2bd98c' } as CSSProperties}>
       <div className="clip-gap-outer parallax-content">
-        <div className="clip-gap-inner" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, #060510 0%, #0a0816 50%, #070512 100%)' }}>
+        <div className="clip-gap-inner" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, #060b18 0%, #0c1221 50%, #060b18 100%)' }}>
           <div
             ref={carouselRef}
             className={`pc-carousel locked-content${transition ? ` is-${transition.type}-transition` : ''}`}
@@ -288,7 +288,7 @@ export const ProjectsSection = memo(() => {
           font-family: 'Space Mono', monospace;
           font-size: 11px;
           letter-spacing: 0.4em;
-          color: #b388eb;
+          color: #38bdf8;
           margin-bottom: 14px;
           animation-delay: 0.2s;
         }
@@ -324,9 +324,9 @@ export const ProjectsSection = memo(() => {
           text-transform: uppercase;
           padding: 6px 14px;
           border-radius: 100px;
-          border: 1px solid rgba(179,136,235,0.25);
+          border: 1px solid rgba(56,189,248,0.25);
           color: rgba(255,255,255,0.6);
-          background: rgba(179,136,235,0.08);
+          background: rgba(56,189,248,0.08);
           backdrop-filter: blur(8px);
         }
         .pc-buttons {
@@ -349,10 +349,10 @@ export const ProjectsSection = memo(() => {
           box-shadow: 0 10px 24px rgba(255,255,255,0.12);
         }
         .pc-buttons button:hover {
-          background: #b388eb;
+          background: #38bdf8;
           color: #fff;
           transform: translateY(-2px) scale(1.03);
-          box-shadow: 0 18px 40px rgba(179,136,235,0.28);
+          box-shadow: 0 18px 40px rgba(56,189,248,0.28);
         }
 
         @keyframes pcShowContent {
@@ -390,11 +390,11 @@ export const ProjectsSection = memo(() => {
         }
         .pc-thumb:hover {
           transform: translateY(-4px) scale(1.025);
-          box-shadow: 0 20px 38px rgba(179,136,235,0.22);
+          box-shadow: 0 20px 38px rgba(56,189,248,0.22);
           filter: saturate(1.08);
         }
         .pc-thumb:focus-visible {
-          outline: 2px solid #b388eb;
+          outline: 2px solid #38bdf8;
           outline-offset: 4px;
         }
         .pc-thumb.is-transition-source {
@@ -488,9 +488,9 @@ export const ProjectsSection = memo(() => {
         }
         .pc-arrows button:hover {
           transform: translateY(-3px);
-          background: linear-gradient(180deg, rgba(179,136,235,0.4), rgba(255,255,255,0.14));
-          border-color: rgba(179,136,235,0.42);
-          box-shadow: 0 18px 44px rgba(108,43,217,0.28);
+          background: linear-gradient(180deg, rgba(56,189,248,0.4), rgba(255,255,255,0.14));
+          border-color: rgba(56,189,248,0.42);
+          box-shadow: 0 18px 44px rgba(30,58,138,0.28);
         }
         .pc-arrows button:focus-visible {
           outline: 2px solid #fff;

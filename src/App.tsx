@@ -43,7 +43,7 @@ function App() {
           >
             <span style={{
               fontSize: '10px',
-              color: currentSection === i ? '#b388eb' : 'rgba(255, 255, 255, 0.3)',
+              color: currentSection === i ? '#6ee7b7' : 'rgba(255, 255, 255, 0.3)',
               fontFamily: 'Space Mono, monospace',
               letterSpacing: '0.1em',
               opacity: currentSection === i ? 1 : 0,
@@ -55,9 +55,9 @@ function App() {
             <div style={{
               width: currentSection === i ? '30px' : '15px',
               height: '2px',
-              background: currentSection === i ? '#b388eb' : 'rgba(255, 255, 255, 0.3)',
+              background: currentSection === i ? '#6ee7b7' : 'rgba(255, 255, 255, 0.3)',
               transition: 'all 0.3s ease',
-              boxShadow: currentSection === i ? '0 0 10px #b388eb' : 'none'
+              boxShadow: currentSection === i ? '0 0 10px #6ee7b7' : 'none'
             }} />
           </div>
         ))}
