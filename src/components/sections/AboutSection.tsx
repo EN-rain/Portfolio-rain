@@ -46,9 +46,9 @@ export const AboutSection = () => {
             </svg>
           </div>
 
-          <div className="about-shell locked-content relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-16 px-8 pt-24 text-[#151226] lg:flex-row lg:gap-20">
+          <div className="about-shell locked-content relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-12 px-8 pt-20 text-[#151226] lg:flex-row lg:gap-16">
             <div className="about-copy flex-1 text-left">
-              <div className="tech-font text-reveal text-reveal-fast text-reveal-delay-1 mb-6 flex items-center gap-3 text-[10px] uppercase tracking-[0.5em] text-[#6d28d9]/70">
+              <div className="tech-font text-reveal text-reveal-fast text-reveal-delay-1 mb-4 flex items-center gap-3 text-[10px] uppercase tracking-[0.5em] text-[#6d28d9]/70">
                 <span className="h-[1px] w-8 bg-[#a78bfa]/50"></span>
                 <span>Summary</span>
               </div>
@@ -59,76 +59,11 @@ export const AboutSection = () => {
                 <span className="mt-1 block text-[#151226]/92">SYSTEMS</span>
               </h2>
 
-              <p className="about-summary text-reveal text-reveal-fast text-reveal-delay-3 mb-10 max-w-md text-[15px] font-light leading-[1.9] text-[#5b576f]" style={{ fontFamily: 'Inter, sans-serif' }}>
+              <p className="about-summary text-reveal text-reveal-fast text-reveal-delay-3 mb-6 max-w-md text-[15px] font-light leading-[1.9] text-[#5b576f]" style={{ fontFamily: 'Inter, sans-serif' }}>
                 Junior full-stack developer with hands-on experience in React, Node.js, TypeScript, PostgreSQL, and automation workflows. Built and shipped personal and academic projects across AI, web, and game development, and completed a full-stack internship focused on authentication, REST APIs, and process automation.
               </p>
 
-              <div className="about-skill-list text-reveal text-reveal-fast text-reveal-delay-4 mb-10 max-w-md space-y-3">
-                {[
-                  {
-                    title: 'Frontend',
-                    detail: 'React, TypeScript, auth flows, responsive UI',
-                    icon: (
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                        <rect x="3" y="4" width="18" height="14" rx="2" />
-                        <path d="M8 20h8" />
-                      </svg>
-                    )
-                  },
-                  {
-                    title: 'Backend',
-                    detail: 'Node.js, REST APIs, PostgreSQL, Supabase',
-                    icon: (
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                        <ellipse cx="12" cy="5" rx="7" ry="3" />
-                        <path d="M5 5v6c0 1.7 3.1 3 7 3s7-1.3 7-3V5" />
-                        <path d="M5 11v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6" />
-                      </svg>
-                    )
-                  },
-                  {
-                    title: 'Automation',
-                    detail: 'n8n workflows, webhooks, email and CSV processing',
-                    icon: (
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M4 7h8" />
-                        <path d="M4 17h10" />
-                        <path d="M14 4l6 6-6 6" />
-                      </svg>
-                    )
-                  },
-                  {
-                    title: 'Tools',
-                    detail: 'Docker, Git, Python, Godot, WPF',
-                    icon: (
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M14.7 6.3a1 1 0 0 0-1.4 0L4 15.6V20h4.4l9.3-9.3a1 1 0 0 0 0-1.4Z" />
-                        <path d="m12 8 4 4" />
-                      </svg>
-                    )
-                  }
-                ].map((skill, i) => (
-                  <div
-                    key={i}
-                    className="about-skill-row border-b pb-3"
-                    style={{ borderColor: 'rgba(124, 58, 237, 0.1)' }}
-                  >
-                    <div className="mb-1.5 flex items-center gap-2.5 text-[#6d28d9]">
-                      <span className="flex h-5 w-5 items-center justify-center">
-                        {skill.icon}
-                      </span>
-                      <span className="tech-font text-[10px] uppercase tracking-[0.22em] text-[#6d28d9]">
-                        {skill.title}
-                      </span>
-                    </div>
-                    <div className="pl-7 text-[13px] leading-[1.7] text-[#5b576f]">
-                      {skill.detail}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="about-tag-list text-reveal text-reveal-fast text-reveal-delay-5 mb-8 flex flex-wrap gap-2">
+              <div className="about-tag-list text-reveal text-reveal-fast text-reveal-delay-5 mb-5 flex flex-wrap gap-2">
                 {['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Supabase', 'Docker', 'Python', 'Godot'].map((skill, i) => (
                   <span
                     key={i}
@@ -153,47 +88,27 @@ export const AboutSection = () => {
               </MagneticButton>
             </div>
 
-            <div className="about-media relative mt-8 flex w-full flex-1 justify-center lg:mt-0">
-              <div className="relative w-full max-w-[380px]">
-                <div
-                  className="text-reveal text-reveal-delay-4 relative overflow-hidden rounded-3xl border p-8"
+            <div className="about-media relative mt-4 flex w-full flex-1 justify-center lg:mt-0 lg:justify-end">
+              <div
+                className="text-reveal text-reveal-delay-4 relative w-full overflow-hidden"
+                style={{
+                  maxWidth: '320px',
+                  aspectRatio: '1 / 1',
+                  borderRadius: '999px'
+                }}
+              >
+                <img
+                  className="about-image"
+                  src={profileImage}
+                  alt="Developer portrait"
                   style={{
-                    borderColor: 'rgba(124, 58, 237, 0.14)',
-                    backgroundColor: 'rgba(255, 255, 255, 0.92)'
+                    display: 'block',
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'center'
                   }}
-                >
-                  <div className="absolute left-[20%] top-0 h-[1px] w-[60%]" style={{ backgroundColor: 'rgba(124, 58, 237, 0.18)' }}></div>
-                  <div className="relative overflow-hidden rounded-[24px] border border-[#7c3aed]/12 bg-[#f1efff]">
-                    <img
-                      className="about-image"
-                      src={profileImage}
-                      alt="Developer portrait"
-                      style={{
-                        display: 'block',
-                        width: '100%',
-                        height: '460px',
-                        objectFit: 'cover',
-                        objectPosition: 'center'
-                      }}
-                    />
-                    <div
-                      style={{
-                        position: 'absolute',
-                        inset: 'auto 0 0 0',
-                        padding: '1rem 1.1rem',
-                        backgroundColor: 'rgba(255, 255, 255, 0.86)',
-                        borderTop: '1px solid rgba(124, 58, 237, 0.12)'
-                      }}
-                    >
-                      <div className="tech-font text-[9px] uppercase tracking-[0.24em] text-[#6d28d9]">
-                        Junior Full-Stack Developer
-                      </div>
-                      <div style={{ marginTop: '0.45rem', color: '#5b576f', fontSize: '13px', lineHeight: 1.6 }}>
-                        React, Node.js, TypeScript, automation workflows, and product-focused full-stack work.
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                />
               </div>
             </div>
           </div>
@@ -201,17 +116,49 @@ export const AboutSection = () => {
       </div>
 
       <style>{`
+        @media (min-width: 1025px) {
+          .about-shell {
+            gap: 3.25rem !important;
+            padding-top: 7.25rem !important;
+            padding-bottom: 5.5rem !important;
+            align-items: start !important;
+          }
+
+          .about-copy h2 {
+            margin-bottom: 1.5rem !important;
+            font-size: 4.9rem !important;
+          }
+
+          .about-summary {
+            margin-bottom: 1.5rem !important;
+            max-width: 34rem !important;
+          }
+
+          .about-tag-list {
+            margin-bottom: 1.25rem !important;
+          }
+
+          .about-media {
+            margin-top: 0 !important;
+            align-self: center !important;
+          }
+
+          .about-image {
+            height: 100% !important;
+          }
+        }
+
         @media (max-width: 1024px) {
           .about-shell {
-            gap: 2.75rem !important;
-            padding-top: 6.5rem !important;
+            gap: 1.5rem !important;
+            padding-top: 4.25rem !important;
           }
         }
 
         @media (max-width: 768px) {
           .about-shell {
-            gap: 2rem !important;
-            padding: 6rem 1.25rem 2rem !important;
+            gap: 1.1rem !important;
+            padding: 5.5rem 1.25rem 4.75rem !important;
           }
 
           .about-copy {
@@ -219,7 +166,6 @@ export const AboutSection = () => {
           }
 
           .about-summary,
-          .about-skill-list,
           .about-tag-list {
             max-width: 100% !important;
           }
@@ -235,33 +181,26 @@ export const AboutSection = () => {
           }
 
           .about-image {
-            height: 340px !important;
+            height: 100% !important;
           }
         }
 
         @media (max-width: 480px) {
           .about-shell {
-            padding: 5.5rem 1rem 1.5rem !important;
+            gap: 0.9rem !important;
+            padding: 5rem 1rem 5.5rem !important;
           }
 
           .about-shell h2 {
-            margin-bottom: 1.5rem !important;
-            font-size: 2.4rem !important;
+            margin-bottom: 0.8rem !important;
+            font-size: 1.85rem !important;
+            line-height: 0.92 !important;
           }
 
           .about-summary {
-            margin-bottom: 1.5rem !important;
-            font-size: 14px !important;
-            line-height: 1.8 !important;
-          }
-
-          .about-skill-list > div {
-            padding: 0.85rem 0.9rem !important;
-          }
-
-          .about-skill-row {
-            padding-left: 0 !important;
-            padding-right: 0 !important;
+            margin-bottom: 0.8rem !important;
+            font-size: 13px !important;
+            line-height: 1.6 !important;
           }
 
           .about-tag-list > span {
@@ -269,7 +208,7 @@ export const AboutSection = () => {
           }
 
           .about-image {
-            height: 280px !important;
+            height: 100% !important;
           }
         }
       `}</style>

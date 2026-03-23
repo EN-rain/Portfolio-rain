@@ -7,7 +7,6 @@ import {
   ExperienceSection,
   ContactSection
 } from './components/sections';
-import { SocialLinks } from './components/SocialLinks';
 import './App.css';
 
 function App() {
@@ -17,8 +16,6 @@ function App() {
 
   return (
     <>
-      <SocialLinks />
-
       <main style={{ position: 'relative', height: '900vh' }}>
         <HomeSection />
         <AboutSection />

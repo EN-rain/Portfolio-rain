@@ -112,13 +112,14 @@ export const HomeSection = () => {
             zIndex: 5,
             display: 'grid',
             gridTemplateColumns: 'minmax(0, 1.2fr) minmax(320px, 0.8fr)',
-            alignItems: 'center',
+            alignItems: 'start',
             gap: '2rem',
-            padding: 'clamp(2rem, 4vw, 4rem)'
+            padding: 'clamp(3.25rem, 8vh, 6rem) clamp(2rem, 4vw, 4rem) clamp(3rem, 6vh, 5rem)'
           }}
         >
           <div
-            className="parallax-slide-in layer-1 home-copy"
+            className="parallax-slide-in layer-1 home-copy scroll-parallax-text"
+            data-speed="0.06"
             style={{
               maxWidth: '920px',
               color: '#f5f3ff',
@@ -156,11 +157,11 @@ export const HomeSection = () => {
                 maxWidth: '980px'
               }}
             >
-              Building digital
+              Building clean
               <br />
-              <span style={{ color: '#a78bfa' }}>systems</span> that feel
+              <span style={{ color: '#a78bfa' }}>digital</span> products
               <br />
-              sharp, fast, and real.
+              for real use.
             </h1>
 
             <div
@@ -173,7 +174,7 @@ export const HomeSection = () => {
                 color: 'rgba(245, 243, 255, 0.74)'
               }}
             >
-              AI tools, web apps, automation workflows, and product-focused engineering for teams that need clean execution instead of noise.
+              Web apps, automation, and full-stack implementation focused on useful products and clear execution.
             </div>
 
             <div
@@ -210,12 +211,33 @@ export const HomeSection = () => {
       </div>
 
       <style>{`
+        @media (min-width: 1200px) {
+          .home-shell {
+            padding-top: 2.25rem !important;
+            padding-bottom: 4.5rem !important;
+          }
+
+          .home-title {
+            font-size: 6.6rem !important;
+            line-height: 0.92 !important;
+          }
+
+          .home-summary {
+            margin-top: 1rem !important;
+            max-width: 640px !important;
+          }
+
+          .home-chip-row {
+            margin-top: 1.4rem !important;
+          }
+        }
+
         @media (max-width: 960px) {
           .home-shell {
             grid-template-columns: 1fr !important;
             gap: 1.25rem !important;
-            padding: 5.5rem 1.25rem 2rem !important;
-            align-items: end !important;
+            padding: 4.4rem 1.25rem 2rem !important;
+            align-items: start !important;
           }
 
           .home-copy {
@@ -258,8 +280,8 @@ export const HomeSection = () => {
 
         @media (max-width: 420px) {
           .home-shell {
-            padding: 4.5rem 1rem 1.25rem !important;
-            align-items: center !important;
+            padding: 4rem 1rem 1.25rem !important;
+            align-items: start !important;
           }
 
           .home-kicker {
