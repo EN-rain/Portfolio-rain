@@ -478,6 +478,13 @@ main {
   }
 }
 
+@media (max-width: 768px) {
+  .social-links {
+    bottom: 20px !important;
+    left: 20px !important;
+  }
+}
+
 /* Smooth parallax transitions */
 .parallax-layer {
   will-change: transform;

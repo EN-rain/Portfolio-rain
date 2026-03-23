@@ -271,7 +271,21 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
         const lockedContent = sec.querySelectorAll('.locked-content') as NodeListOf<HTMLElement>;
         lockedContent.forEach(content => {
           const safeScale = Math.max(0.001, currentScale);
-          content.style.transform = `scale(${1 / safeScale}) rotateZ(${-currentRotation}deg) translate3d(${lockedContentXVw}vw, ${-currentYMoveVh}vh, 0)`;
+          if (i === 3 && currentScroll >= section4LeaveStart) {
+            const contentExitScale = Math.max(0.72, 1 - section4HorizontalProgress * 0.28);
+            content.style.transform = `scale(${contentExitScale / safeScale}) rotateZ(${-currentRotation}deg) translate3d(${lockedContentXVw}vw, ${-currentYMoveVh}vh, 0)`;
+          } else {
+            content.style.transform = `scale(${1 / safeScale}) rotateZ(${-currentRotation}deg) translate3d(${lockedContentXVw}vw, ${-currentYMoveVh}vh, 0)`;
+          }
+        });
+
+        const textParallaxBlocks = sec.querySelectorAll('.scroll-parallax-text') as NodeListOf<HTMLElement>;
+        textParallaxBlocks.forEach((block) => {
+          const speed = parseFloat(block.getAttribute('data-speed') || '0.04');
+          const referenceStart = i === 0 ? 0 : enterStart;
+          const localScroll = currentScroll - referenceStart;
+          const yOffset = localScroll * speed * 0.08;
+          block.style.transform = `translate3d(0, ${yOffset}px, 0)`;
         });
 
         const frameOverlay = sec.querySelector('.section-frame-overlay') as HTMLElement;

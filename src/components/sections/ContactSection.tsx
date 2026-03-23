@@ -31,15 +31,15 @@ export const ContactSection = () => {
           </svg>
         </div>
 
-        <div className="contact-shell locked-content relative z-10 mx-auto flex h-full w-full max-w-5xl flex-col items-center justify-center gap-8 py-16">
-          <div className="contact-text contact-copy" style={{ width: '100%', maxWidth: '760px', textAlign: 'center' }}>
+        <div className="contact-shell locked-content relative z-10 mx-auto grid h-full w-full max-w-6xl grid-cols-[minmax(0,0.9fr)_minmax(320px,380px)_minmax(0,0.9fr)] items-center gap-8 py-12">
+          <div className="contact-text contact-copy scroll-parallax-text" data-speed="0.04" style={{ width: '100%', textAlign: 'left' }}>
             <div
               className="tech-font text-reveal text-reveal-fast text-reveal-delay-1"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.9rem',
-                marginBottom: '1.4rem',
+                marginBottom: '1rem',
                 fontSize: '10px',
                 letterSpacing: '0.34em',
                 textTransform: 'uppercase',
@@ -72,8 +72,8 @@ export const ContactSection = () => {
             <p
               className="text-reveal text-reveal-fast text-reveal-delay-3"
               style={{
-                margin: '1.4rem auto 0',
-                maxWidth: '620px',
+                margin: '1rem 0 0',
+                maxWidth: '500px',
                 fontSize: '15px',
                 lineHeight: 1.85,
                 color: 'rgba(245, 243, 255, 0.72)'
@@ -87,17 +87,14 @@ export const ContactSection = () => {
             <div
               className="contact-media-card text-reveal text-reveal-fast text-reveal-delay-5"
               style={{
-                width: 'min(100%, 420px)',
-                border: '1px solid rgba(167, 139, 250, 0.16)',
-                backgroundColor: 'rgba(10, 7, 18, 0.92)',
-                borderRadius: '20px',
-                padding: '1rem'
+                width: '100%',
+                padding: 0
               }}
             >
               <div
                 className="tech-font contact-text"
                 style={{
-                  marginBottom: '0.9rem',
+                  marginBottom: '0.5rem',
                   fontSize: '9px',
                   letterSpacing: '0.28em',
                   textTransform: 'uppercase',
@@ -124,7 +121,7 @@ export const ContactSection = () => {
                   style={{
                     display: 'block',
                     width: '100%',
-                    height: '420px',
+                    height: '340px',
                     objectFit: 'cover',
                     objectPosition: 'center'
                   }}
@@ -134,7 +131,7 @@ export const ContactSection = () => {
               <div
                 className="contact-text"
                 style={{
-                  marginTop: '0.9rem',
+                  marginTop: '0.7rem',
                   padding: '0.1rem 0.2rem 0.2rem'
                 }}
               >
@@ -153,11 +150,12 @@ export const ContactSection = () => {
           </div>
 
           <div
-            className="contact-grid text-reveal text-reveal-fast text-reveal-delay-4"
+            className="contact-grid scroll-parallax-text text-reveal text-reveal-fast text-reveal-delay-4"
+            data-speed="0.025"
             style={{
               width: '100%',
               display: 'grid',
-              gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+              gridTemplateColumns: '1fr',
               gap: '1rem'
             }}
           >
@@ -171,11 +169,9 @@ export const ContactSection = () => {
                 key={item.label}
                 className="contact-text"
                 style={{
-                  border: '1px solid rgba(167, 139, 250, 0.16)',
-                  backgroundColor: 'rgba(10, 7, 18, 0.88)',
-                  borderRadius: '16px',
-                  padding: '1rem 1.05rem',
-                  textAlign: 'center'
+                  borderBottom: '1px solid rgba(167, 139, 250, 0.14)',
+                  padding: '0.85rem 0',
+                  textAlign: 'left'
                 }}
               >
                 <div
@@ -217,9 +213,20 @@ export const ContactSection = () => {
       <style>{`
         @media (max-width: 900px) {
           .contact-shell {
-            gap: 1.5rem !important;
-            padding-top: 5.5rem !important;
-            padding-bottom: 1.5rem !important;
+            grid-template-columns: 1fr !important;
+            gap: 1rem !important;
+            padding-top: 4.75rem !important;
+            padding-bottom: 1rem !important;
+          }
+
+          .contact-copy,
+          .contact-grid > div {
+            text-align: center !important;
+          }
+
+          .contact-copy p {
+            margin-left: auto !important;
+            margin-right: auto !important;
           }
         }
 
@@ -240,20 +247,20 @@ export const ContactSection = () => {
 
         @media (max-width: 480px) {
           .contact-shell {
-            gap: 1rem !important;
-            padding-top: 5rem !important;
-            padding-bottom: 1rem !important;
+            gap: 0.7rem !important;
+            padding-top: 4.5rem !important;
+            padding-bottom: 0.75rem !important;
           }
 
           .contact-copy h2 {
-            font-size: 2.35rem !important;
+            font-size: 2rem !important;
             line-height: 1 !important;
           }
 
           .contact-copy p {
-            margin-top: 1rem !important;
-            font-size: 13px !important;
-            line-height: 1.6 !important;
+            margin-top: 0.8rem !important;
+            font-size: 12px !important;
+            line-height: 1.5 !important;
           }
 
           .contact-grid {
@@ -262,8 +269,7 @@ export const ContactSection = () => {
           }
 
           .contact-grid > div {
-            padding: 0.9rem !important;
-            border-radius: 14px !important;
+            padding: 0.8rem 0 !important;
           }
 
           .contact-grid a,
@@ -273,7 +279,7 @@ export const ContactSection = () => {
           }
 
           .contact-image {
-            height: 200px !important;
+            height: 180px !important;
           }
         }
       `}</style>
