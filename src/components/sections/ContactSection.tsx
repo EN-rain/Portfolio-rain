@@ -1,135 +1,280 @@
 import icon from '../../assets/images/icon.jpg';
-import { MagneticButton } from '../MagneticButton';
 
 export const ContactSection = () => {
   return (
     <section className="stack-section" style={{ zIndex: 45 }}>
-      <div className="parallax-content flex flex-col items-center justify-center text-white px-6 relative overflow-hidden" style={{ backgroundColor: '#060b18' }}>
-        
-        {/* SVG Geometric diamond grid pattern */}
+      <div
+        className="parallax-content relative flex flex-col items-center justify-center overflow-hidden px-6 text-white"
+        style={{ backgroundColor: '#050308' }}
+      >
         <div className="absolute inset-0" style={{ pointerEvents: 'none' }}>
           <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1920 1080">
-            {/* Diamond grid */}
-            <g opacity="0.04" stroke="#38bdf8" strokeWidth="0.5" fill="none">
-              <rect x="200" y="150" width="60" height="60" transform="rotate(45 230 180)" />
-              <rect x="400" y="300" width="50" height="50" transform="rotate(45 425 325)" />
-              <rect x="650" y="100" width="45" height="45" transform="rotate(45 672 122)" />
-              <rect x="900" y="250" width="55" height="55" transform="rotate(45 927 277)" />
-              <rect x="1150" y="120" width="50" height="50" transform="rotate(45 1175 145)" />
-              <rect x="1400" y="280" width="60" height="60" transform="rotate(45 1430 310)" />
-              <rect x="1650" y="180" width="45" height="45" transform="rotate(45 1672 202)" />
+            <g fill="none" stroke="#7c3aed" strokeWidth="0.7" opacity="0.1">
+              <path d="M0 210h1920" />
+              <path d="M0 540h1920" />
+              <path d="M0 860h1920" />
+              <path d="M280 0v1080" />
+              <path d="M960 0v1080" />
+              <path d="M1620 0v1080" />
             </g>
-            <g opacity="0.035" stroke="#818cf8" strokeWidth="0.5" fill="none">
-              <rect x="100" y="700" width="55" height="55" transform="rotate(45 127 727)" />
-              <rect x="350" y="850" width="50" height="50" transform="rotate(45 375 875)" />
-              <rect x="600" y="750" width="60" height="60" transform="rotate(45 630 780)" />
-              <rect x="850" y="900" width="45" height="45" transform="rotate(45 872 922)" />
-              <rect x="1100" y="800" width="55" height="55" transform="rotate(45 1127 827)" />
-              <rect x="1350" y="920" width="50" height="50" transform="rotate(45 1375 945)" />
-              <rect x="1600" y="780" width="60" height="60" transform="rotate(45 1630 810)" />
-              <rect x="1800" y="880" width="45" height="45" transform="rotate(45 1822 902)" />
+            <g fill="none" stroke="#f5f3ff" strokeWidth="0.6" opacity="0.14">
+              <rect x="148" y="164" width="92" height="92" />
+              <rect x="1532" y="206" width="74" height="74" />
+              <rect x="1360" y="742" width="86" height="86" />
+              <rect x="420" y="782" width="66" height="66" />
             </g>
-            
-            {/* Center accent — concentric diamonds */}
-            <g opacity="0.06" stroke="#38bdf8" strokeWidth="0.5" fill="none">
-              <rect x="910" y="490" width="100" height="100" transform="rotate(45 960 540)" />
-              <rect x="925" y="505" width="70" height="70" transform="rotate(45 960 540)" />
-              <rect x="940" y="520" width="40" height="40" transform="rotate(45 960 540)" />
-            </g>
-            <circle cx="960" cy="540" r="2" fill="#38bdf8" opacity="0.1" />
-            
-            {/* Scattered small dots */}
-            <circle cx="150" cy="450" r="1.5" fill="#38bdf8" opacity="0.06" />
-            <circle cx="500" cy="550" r="1.5" fill="#818cf8" opacity="0.05" />
-            <circle cx="1400" cy="500" r="1.5" fill="#38bdf8" opacity="0.05" />
-            <circle cx="1750" cy="400" r="1.5" fill="#818cf8" opacity="0.04" />
-            
-            {/* Corner accent marks */}
-            <g opacity="0.06" stroke="#38bdf8" strokeWidth="0.6">
-              <line x1="50" y1="50" x2="80" y2="50" />
-              <line x1="50" y1="50" x2="50" y2="80" />
-            </g>
-            <g opacity="0.06" stroke="#38bdf8" strokeWidth="0.6">
-              <line x1="1870" y1="1030" x2="1840" y2="1030" />
-              <line x1="1870" y1="1030" x2="1870" y2="1000" />
+            <g fill="#a78bfa" opacity="0.14">
+              <circle cx="288" cy="210" r="2.5" />
+              <circle cx="960" cy="540" r="3" />
+              <circle cx="1620" cy="860" r="2.5" />
             </g>
           </svg>
         </div>
-        
-        <div className="locked-content relative flex items-center justify-center w-full max-w-6xl h-full mx-auto">
-           
-           {/* Left Info Column */}
-           <div className="hidden md:flex absolute left-0 flex-col gap-12 text-left tech-font contact-text">
-              <div className="group cursor-crosshair">
-                <div className="text-[10px] tracking-[0.3em] opacity-30 uppercase mb-3 group-hover:opacity-60 transition-opacity">Initiate Comms</div>
-                <div className="text-xl lg:text-3xl font-bold tracking-tighter hover:text-[#38bdf8] transition-colors relative">
-                  HELLO@VOID.TECH
-                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#38bdf8] group-hover:w-full transition-all duration-500"></div>
+
+        <div className="contact-shell locked-content relative z-10 mx-auto flex h-full w-full max-w-5xl flex-col items-center justify-center gap-8 py-16">
+          <div className="contact-text contact-copy" style={{ width: '100%', maxWidth: '760px', textAlign: 'center' }}>
+            <div
+              className="tech-font text-reveal text-reveal-fast text-reveal-delay-1"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.9rem',
+                marginBottom: '1.4rem',
+                fontSize: '10px',
+                letterSpacing: '0.34em',
+                textTransform: 'uppercase',
+                color: 'rgba(167, 139, 250, 0.82)'
+              }}
+            >
+              <span style={{ width: '42px', height: '1px', backgroundColor: '#a78bfa', opacity: 0.85 }} />
+              Contact
+            </div>
+
+            <h2
+              className="text-reveal text-reveal-delay-2"
+              style={{
+                margin: 0,
+                maxWidth: '760px',
+                fontFamily: 'Outfit, sans-serif',
+                fontSize: 'clamp(2.8rem, 6vw, 5.6rem)',
+                lineHeight: 0.96,
+                letterSpacing: '-0.05em',
+                fontWeight: 800,
+                textTransform: 'uppercase',
+                color: '#f5f3ff'
+              }}
+            >
+              Let&apos;s build
+              <br />
+              <span style={{ color: '#a78bfa' }}>something useful.</span>
+            </h2>
+
+            <p
+              className="text-reveal text-reveal-fast text-reveal-delay-3"
+              style={{
+                margin: '1.4rem auto 0',
+                maxWidth: '620px',
+                fontSize: '15px',
+                lineHeight: 1.85,
+                color: 'rgba(245, 243, 255, 0.72)'
+              }}
+            >
+              Open to junior full-stack and associate engineering roles, especially teams working on product systems, AI tools, internal platforms, or automation-heavy workflows.
+            </p>
+          </div>
+
+          <div className="contact-media relative flex w-full items-center justify-center">
+            <div
+              className="contact-media-card text-reveal text-reveal-fast text-reveal-delay-5"
+              style={{
+                width: 'min(100%, 420px)',
+                border: '1px solid rgba(167, 139, 250, 0.16)',
+                backgroundColor: 'rgba(10, 7, 18, 0.92)',
+                borderRadius: '20px',
+                padding: '1rem'
+              }}
+            >
+              <div
+                className="tech-font contact-text"
+                style={{
+                  marginBottom: '0.9rem',
+                  fontSize: '9px',
+                  letterSpacing: '0.28em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(167, 139, 250, 0.8)'
+                }}
+              >
+                Available for remote roles
+              </div>
+
+              <div
+                id="contact-icon"
+                style={{
+                  position: 'relative',
+                  overflow: 'hidden',
+                  borderRadius: '16px',
+                  border: '1px solid rgba(167, 139, 250, 0.16)',
+                  backgroundColor: '#0a0712'
+                }}
+              >
+                <img
+                  className="contact-image"
+                  src={icon}
+                  alt="Developer portrait"
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    height: '420px',
+                    objectFit: 'cover',
+                    objectPosition: 'center'
+                  }}
+                />
+              </div>
+
+              <div
+                className="contact-text"
+                style={{
+                  marginTop: '0.9rem',
+                  padding: '0.1rem 0.2rem 0.2rem'
+                }}
+              >
+                <div
+                  style={{
+                    color: '#f5f3ff',
+                    fontSize: '16px',
+                    lineHeight: 1.5,
+                    fontWeight: 600
+                  }}
+                >
+                  React, Node.js, TypeScript, APIs, automation, and product-focused implementation.
                 </div>
               </div>
-              <div className="group cursor-crosshair">
-                <div className="text-[10px] tracking-[0.3em] opacity-30 uppercase mb-3 group-hover:opacity-60 transition-opacity">Secure Line</div>
-                <div className="text-xl lg:text-3xl font-bold tracking-tighter hover:text-[#38bdf8] transition-colors relative">
-                  +1 800 000 000
-                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#38bdf8] group-hover:w-full transition-all duration-500"></div>
+            </div>
+          </div>
+
+          <div
+            className="contact-grid text-reveal text-reveal-fast text-reveal-delay-4"
+            style={{
+              width: '100%',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+              gap: '1rem'
+            }}
+          >
+            {[
+              { label: 'Email', value: 'alex.rivera@email.com', href: 'mailto:alex.rivera@email.com' },
+              { label: 'GitHub', value: 'github.com/alexrivera', href: 'https://github.com/alexrivera' },
+              { label: 'LinkedIn', value: 'linkedin.com/in/alexrivera', href: 'https://linkedin.com/in/alexrivera' },
+              { label: 'Location', value: 'Metro Manila, PH', href: undefined }
+            ].map((item) => (
+              <div
+                key={item.label}
+                className="contact-text"
+                style={{
+                  border: '1px solid rgba(167, 139, 250, 0.16)',
+                  backgroundColor: 'rgba(10, 7, 18, 0.88)',
+                  borderRadius: '16px',
+                  padding: '1rem 1.05rem',
+                  textAlign: 'center'
+                }}
+              >
+                <div
+                  className="tech-font"
+                  style={{
+                    marginBottom: '0.45rem',
+                    fontSize: '9px',
+                    letterSpacing: '0.24em',
+                    textTransform: 'uppercase',
+                    color: 'rgba(167, 139, 250, 0.8)'
+                  }}
+                >
+                  {item.label}
                 </div>
+                {item.href ? (
+                  <a
+                    href={item.href}
+                    target={item.href.startsWith('http') ? '_blank' : undefined}
+                    rel={item.href.startsWith('http') ? 'noreferrer' : undefined}
+                    style={{
+                      color: '#f5f3ff',
+                      textDecoration: 'none',
+                      fontSize: '15px',
+                      lineHeight: 1.55,
+                      wordBreak: 'break-word'
+                    }}
+                  >
+                    {item.value}
+                  </a>
+                ) : (
+                  <div style={{ color: '#f5f3ff', fontSize: '15px', lineHeight: 1.55 }}>{item.value}</div>
+                )}
               </div>
-           </div>
-
-           {/* Center Icon (Retains its ID for scrolling animation) */}
-           <div className="icon-container z-10 relative group">
-             <div className="absolute inset-0 bg-[#38bdf8] rounded-full opacity-0 group-hover:opacity-20 blur-[60px] transition-opacity duration-700"></div>
-             <img 
-               src={icon} 
-               alt="icon" 
-               className="w-[200px] md:w-[350px] h-auto object-contain grayscale hover:grayscale-0 transition-all duration-700 relative z-10" 
-               id="contact-icon" 
-             />
-             {/* Rotating ring */}
-             <div className="absolute inset-0 border-2 border-[#38bdf8]/20 rounded-full animate-spin-slow opacity-0 group-hover:opacity-100 transition-opacity duration-700" style={{ animationDuration: '20s' }}></div>
-           </div>
-
-           {/* Right Info Column */}
-           <div className="hidden md:flex absolute right-0 flex-col gap-12 text-right tech-font contact-text">
-              <div className="group cursor-crosshair">
-                <div className="text-[10px] tracking-[0.3em] opacity-30 uppercase mb-3 group-hover:opacity-60 transition-opacity">Base Location</div>
-                <div className="text-xl lg:text-3xl font-bold tracking-tighter hover:text-[#38bdf8] transition-colors relative">
-                  SECTOR 01 // TOKYO
-                  <div className="absolute bottom-0 right-0 w-0 h-0.5 bg-[#38bdf8] group-hover:w-full transition-all duration-500"></div>
-                </div>
-              </div>
-              <div className="group cursor-crosshair">
-                <div className="text-[10px] tracking-[0.3em] opacity-30 uppercase mb-3 group-hover:opacity-60 transition-opacity">Social Grid</div>
-                <div className="flex gap-6 justify-end text-sm tracking-[0.2em] font-bold">
-                  <MagneticButton className="hover:text-[#38bdf8] transition-all cursor-hover">
-                    GITHUB
-                  </MagneticButton>
-                  <MagneticButton className="hover:text-[#38bdf8] transition-all cursor-hover">
-                    LINKEDIN
-                  </MagneticButton>
-                </div>
-              </div>
-           </div>
-
-           {/* Mobile Only Info */}
-           <div className="md:hidden mt-12 flex flex-col items-center gap-6 tech-font contact-text">
-              <div className="text-sm font-bold tracking-widest hover:text-[#38bdf8] transition-colors cursor-pointer">HELLO@VOID.TECH</div>
-              <div className="flex gap-6 text-[10px] tracking-widest opacity-50">
-                <span className="hover:opacity-100 hover:text-[#38bdf8] transition-all cursor-pointer">GITHUB</span>
-                <span className="hover:opacity-100 hover:text-[#38bdf8] transition-all cursor-pointer">LINKEDIN</span>
-              </div>
-           </div>
-
+            ))}
+          </div>
         </div>
       </div>
-      
+
       <style>{`
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+        @media (max-width: 900px) {
+          .contact-shell {
+            gap: 1.5rem !important;
+            padding-top: 5.5rem !important;
+            padding-bottom: 1.5rem !important;
+          }
         }
-        .animate-spin-slow {
-          animation: spin-slow 20s linear infinite;
+
+        @media (max-width: 768px) {
+          .contact-grid {
+            grid-template-columns: 1fr !important;
+            gap: 0.75rem !important;
+          }
+
+          .contact-media-card {
+            width: 100% !important;
+          }
+
+          .contact-image {
+            height: 220px !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .contact-shell {
+            gap: 1rem !important;
+            padding-top: 5rem !important;
+            padding-bottom: 1rem !important;
+          }
+
+          .contact-copy h2 {
+            font-size: 2.35rem !important;
+            line-height: 1 !important;
+          }
+
+          .contact-copy p {
+            margin-top: 1rem !important;
+            font-size: 13px !important;
+            line-height: 1.6 !important;
+          }
+
+          .contact-grid {
+            grid-template-columns: 1fr !important;
+            gap: 0.6rem !important;
+          }
+
+          .contact-grid > div {
+            padding: 0.9rem !important;
+            border-radius: 14px !important;
+          }
+
+          .contact-grid a,
+          .contact-grid div:not(.tech-font) {
+            font-size: 13px !important;
+            line-height: 1.4 !important;
+          }
+
+          .contact-image {
+            height: 200px !important;
+          }
         }
       `}</style>
     </section>

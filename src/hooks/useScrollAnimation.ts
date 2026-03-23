@@ -76,6 +76,13 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
       let section4ProgressSnapshot = 0;
 
       const sections = document.querySelectorAll('.stack-section');
+      
+      // Ensure first section is visible on initial load
+      if (currentScroll < 10 && sections[0]) {
+        (sections[0] as HTMLElement).style.transform = 'translate3d(0vw, 0vh, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1)';
+        (sections[0] as HTMLElement).style.opacity = '1';
+      }
+      
       sections.forEach((sec, i) => {
         const inner = sec.querySelector('.parallax-content') as HTMLElement;
         const bgImages = sec.querySelectorAll('.bg-image') as NodeListOf<HTMLElement>;
@@ -141,7 +148,7 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
             section4HorizontalProgress = 0;
           } else if (currentScroll >= section4LeaveStart && currentScroll < section4LeaveEnd) {
             let progress = (currentScroll - section4LeaveStart) / transitionLength;
-            
+
             let pShrink = Math.max(0, Math.min(1, progress / 0.35));
             let pRotate = Math.max(0, Math.min(1, (progress - 0.15) / 0.40));
             let pExit = Math.max(0, Math.min(1, (progress - 0.70) / 0.30));
@@ -154,7 +161,7 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
             currentYMoveVh = (sShrink * 30) + (sExit * (100 + gapVh - 30));
             currentRotationY = sRotate * 70;
             currentOpacity = 1 - sExit;
-            
+
             currentRotation = 0;
             lockedContentXVw = 0;
             section4HorizontalProgress = 1;
@@ -169,17 +176,17 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
           }
           section4ProgressSnapshot = section4HorizontalProgress;
         } else if (i === 1) {
-          // SECTION 2 LOGIC (About) — enters from BOTTOM (slides up)
+          // SECTION 2 LOGIC (About) — enters from TOP (slides down)
           if (currentScroll < enterStart) {
-            currentYMoveVh = (100 + gapVh);
-            currentRotation = 10;
+            currentYMoveVh = -(100 + gapVh);
+            currentRotation = -10;
             currentScale = minScale;
             currentOpacity = 1;
           } else if (currentScroll >= enterStart && currentScroll < enterEnd) {
             let progress = (currentScroll - enterStart) / transitionLength;
             let smoothProgress = progress < 0.75 ? (progress / 0.75) * (progress / 0.75) : 1;
-            currentYMoveVh = (100 + gapVh) - (progress * (100 + gapVh));
-            currentRotation = 10 - (progress * 10);
+            currentYMoveVh = -(100 + gapVh) + (progress * (100 + gapVh));
+            currentRotation = -10 + (progress * 10);
             currentScale = minScale + (smoothProgress * (maxScale - minScale));
             currentOpacity = 1;
           } else if (currentScroll >= enterEnd && currentScroll < leaveStart) {
@@ -188,11 +195,9 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
             currentScale = maxScale;
             currentOpacity = 1;
           } else if (currentScroll >= leaveStart && currentScroll < leaveEnd) {
-            let progress = (currentScroll - leaveStart) / transitionLength;
-            let smoothProgress = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-            currentYMoveVh = progress * (100 + gapVh);
-            currentRotation = progress * 10;
-            currentScale = maxScale - (smoothProgress * (maxScale - minScale));
+            currentYMoveVh = 0;
+            currentRotation = 0;
+            currentScale = maxScale;
             currentOpacity = 1;
           } else {
             currentYMoveVh = 100 + gapVh;
@@ -220,11 +225,9 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
             currentScale = maxScale;
             currentOpacity = 1;
           } else if (currentScroll >= leaveStart && currentScroll < leaveEnd) {
-            let progress = (currentScroll - leaveStart) / transitionLength;
-            let smoothProgress = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-            currentYMoveVh = progress * (100 + gapVh);
-            currentRotation = progress * 10;
-            currentScale = maxScale - (smoothProgress * (maxScale - minScale));
+            currentYMoveVh = 0;
+            currentRotation = 0;
+            currentScale = maxScale;
             currentOpacity = 1;
           } else {
             currentYMoveVh = 100 + gapVh;

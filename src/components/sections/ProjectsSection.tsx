@@ -1,14 +1,14 @@
 import { useRef, useCallback, useEffect, useState, memo, type CSSProperties, type MouseEvent } from 'react';
-import imgNeon from '../../assets/images/projects/desktop_workspace.jpg';
-import imgSignal from '../../assets/images/projects/electronic_office_dualscreen.jpg';
-import imgAtlas from '../../assets/images/projects/minimalist_monitors.jpg';
-import imgAR from '../../assets/images/projects/augmented_reality_headset.jpg';
+import imgNeon from '../../assets/images/projects/optimized/desktop_workspace.jpg';
+import imgSignal from '../../assets/images/projects/optimized/electronic_office_dualscreen.jpg';
+import imgAtlas from '../../assets/images/projects/optimized/minimalist_monitors.jpg';
+import imgAR from '../../assets/images/projects/optimized/augmented_reality_headset.jpg';
 
 const projects = [
-  { id: '01', title: 'NEON', line2: 'COMMERCE', des: 'Immersive storefront with motion-driven storytelling and high-conversion checkout flows built for the next generation.', img: imgNeon, stack: ['React', 'Vite', 'Stripe'] },
-  { id: '02', title: 'SIGNAL', line2: 'DASHBOARD', des: 'Operational analytics surface for live product telemetry, incidents, and release health monitoring in real-time.', img: imgSignal, stack: ['TypeScript', 'D3', 'Node'] },
-  { id: '03', title: 'ATLAS', line2: 'PORTFOLIO', des: 'Editorial portfolio experience designed around cinematic transitions, layered depth, and immersive storytelling.', img: imgAtlas, stack: ['Three.js', 'GSAP', 'CMS'] },
-  { id: '04', title: 'HOLO', line2: 'INTERFACE', des: 'Augmented reality UI system blending holographic elements with intuitive gesture-based interaction design.', img: imgAR, stack: ['WebXR', 'React', 'WebGL'] },
+  { id: '01', title: 'TSUKIAI', line2: 'VOICE COMPANION', des: 'Desktop AI assistant with WPF and C# orchestration, local and remote LLM routing, and a real-time voice pipeline tuned for sub-100ms response.', img: imgNeon, stack: ['WPF', 'C#', 'Node.js', 'Python'] },
+  { id: '02', title: 'DISCORD', line2: 'VOICE BRIDGE', des: 'Concurrent Discord voice bridge with per-user state management, audio segmentation, voice activity detection, and live session handling.', img: imgSignal, stack: ['Node.js', 'Discord', 'Audio', 'VAD'] },
+  { id: '03', title: 'CHEMQUEST2', line2: 'MOBILE GAME', des: 'Scene-driven educational chemistry RPG covering quest systems, save and load flows, scene transitions, NPC dialogue, and modular JSON-driven lesson content.', img: imgAtlas, stack: ['Godot', 'GDScript', 'Mobile', 'JSON'] },
+  { id: '04', title: 'SEMANTIC', line2: 'MEMORY HELPER', des: 'Python memory helper for better context retention inside TsukiAI, supporting daily chatmate features and longer-running conversational state.', img: imgAR, stack: ['Python', 'Memory', 'AI', 'Context'] },
 ];
 
 const pcAnimationDurationMs = 760;
@@ -17,6 +17,8 @@ type TransitionRect = {
   height: number;
   left: number;
   radius: number;
+  stageHeight: number;
+  stageWidth: number;
   top: number;
   width: number;
 };
@@ -39,9 +41,10 @@ export const ProjectsSection = memo(() => {
 
   const currentProject = projects[activeIndex];
   const visualActiveIndex = transition ? transition.targetIndex : activeIndex;
-  const displayedProject = transition?.type === 'prev'
+  const backgroundProject = transition
     ? projects[transition.targetIndex]
     : currentProject;
+  const contentProject = currentProject;
 
   const thumbnailProjects = projects.map((_, offset) => {
     const projectIndex = getWrappedIndex(visualActiveIndex + offset + 1);
@@ -63,6 +66,8 @@ export const ProjectsSection = memo(() => {
       height: thumbRect.height,
       left: thumbRect.left - carouselRect.left,
       radius,
+      stageHeight: carouselRect.height,
+      stageWidth: carouselRect.width,
       top: thumbRect.top - carouselRect.top,
       width: thumbRect.width,
     };
@@ -149,10 +154,18 @@ export const ProjectsSection = memo(() => {
     clearTimeout(timerRef.current);
   }, []);
 
+  useEffect(() => {
+    projects.forEach((project) => {
+      const image = new Image();
+      image.decoding = 'async';
+      image.src = project.img;
+    });
+  }, []);
+
   return (
     <section className="stack-section mask-shaped-section" style={{ zIndex: 30, '--mask-color': '#6c2bd9', '--mask-shadow': '#6c2bd98c' } as CSSProperties}>
       <div className="clip-gap-outer parallax-content">
-        <div className="clip-gap-inner" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, #060b18 0%, #0c1221 50%, #060b18 100%)' }}>
+        <div className="clip-gap-inner" style={{ position: 'absolute', inset: 0, backgroundColor: '#0a1020' }}>
           <div
             ref={carouselRef}
             className={`pc-carousel locked-content${transition ? ` is-${transition.type}-transition` : ''}`}
@@ -160,13 +173,18 @@ export const ProjectsSection = memo(() => {
           >
             <div className="pc-stage">
               <div className="pc-slide pc-slide-active">
-                <img src={displayedProject.img} alt={displayedProject.title} />
-                <div key={displayedProject.id} className="pc-content">
-                  <div className="pc-id">PROJECT {displayedProject.id}</div>
-                  <div className="pc-title">{displayedProject.title}<br/>{displayedProject.line2}</div>
-                  <div className="pc-des">{displayedProject.des}</div>
-                  <div className="pc-stack">{displayedProject.stack.map((stackItem) => <span key={stackItem}>{stackItem}</span>)}</div>
-                  <div className="pc-buttons"><button>View Project</button></div>
+                <img
+                  src={backgroundProject.img}
+                  alt={backgroundProject.title}
+                  decoding="async"
+                  fetchPriority="high"
+                />
+                <div key={contentProject.id} className={`pc-content${transition ? ' is-transitioning' : ''}`}>
+                  <div className="pc-id">PROJECT {contentProject.id}</div>
+                  <div className="pc-title">{contentProject.title}<br/>{contentProject.line2}</div>
+                  <div className="pc-des">{contentProject.des}</div>
+                  <div className="pc-stack">{contentProject.stack.map((stackItem) => <span key={stackItem}>{stackItem}</span>)}</div>
+                  <div className="pc-buttons"><button>Selected Work</button></div>
                 </div>
               </div>
 
@@ -175,14 +193,14 @@ export const ProjectsSection = memo(() => {
                   aria-hidden="true"
                   className={`pc-transition-layer pc-transition-${transition.type}`}
                   style={{
-                    '--pc-expand-height': `${transition.rect.height}px`,
-                    '--pc-expand-left': `${transition.rect.left}px`,
                     '--pc-expand-radius': `${transition.rect.radius}px`,
+                    '--pc-expand-scale-x': `${transition.rect.width / transition.rect.stageWidth}`,
+                    '--pc-expand-scale-y': `${transition.rect.height / transition.rect.stageHeight}`,
                     '--pc-expand-top': `${transition.rect.top}px`,
-                    '--pc-expand-width': `${transition.rect.width}px`,
+                    '--pc-expand-left': `${transition.rect.left}px`,
                   } as CSSProperties}
                 >
-                  <img src={transition.src} alt="" />
+                  <img src={transition.src} alt="" decoding="async" fetchPriority="high" />
                 </div>
               ) : null}
             </div>
@@ -202,7 +220,7 @@ export const ProjectsSection = memo(() => {
                     aria-label={`Show project ${project.title} ${project.line2}`}
                     style={{ zIndex: order === 0 ? 1 : 2 }}
                   >
-                    <img src={project.img} alt={project.title} />
+                    <img src={project.img} alt={project.title} decoding="async" loading="lazy" />
                   </button>
                 );
               })}
@@ -254,13 +272,15 @@ export const ProjectsSection = memo(() => {
           height: 100%;
           object-fit: cover;
           object-position: center;
+          transform: translateZ(0);
+          backface-visibility: hidden;
         }
         .pc-slide-active::before {
           content: '';
           position: absolute;
           inset: 0;
           z-index: 1;
-          background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0) 100%);
+          background: rgba(0, 0, 0, 0.42);
         }
 
         .pc-content {
@@ -272,6 +292,9 @@ export const ProjectsSection = memo(() => {
           z-index: 2;
           color: #fff;
           text-shadow: 0 5px 10px rgba(0,0,0,0.3);
+        }
+        .pc-content.is-transitioning {
+          opacity: 0;
         }
         .pc-content .pc-id,
         .pc-content .pc-title,
@@ -407,56 +430,56 @@ export const ProjectsSection = memo(() => {
           height: 100%;
           object-fit: cover;
           border-radius: 20px;
+          transform: translateZ(0);
+          backface-visibility: hidden;
         }
 
         .pc-transition-layer {
           position: absolute;
           overflow: hidden;
           pointer-events: none;
+          inset: 0;
           z-index: 110;
           box-shadow: 0 30px 80px rgba(0,0,0,0.45);
-          will-change: transform, width, height, top, left, opacity;
+          will-change: transform, border-radius, opacity;
+          transform: translateZ(0);
+          transform-origin: top left;
+          backface-visibility: hidden;
         }
         .pc-transition-layer img {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          transform: translateZ(0);
+          backface-visibility: hidden;
         }
         .pc-transition-next,
         .pc-transition-thumb {
-          top: var(--pc-expand-top);
-          left: var(--pc-expand-left);
-          width: var(--pc-expand-width);
-          height: var(--pc-expand-height);
           border-radius: var(--pc-expand-radius);
+          transform: translate3d(var(--pc-expand-left), var(--pc-expand-top), 0) scale(var(--pc-expand-scale-x), var(--pc-expand-scale-y));
           animation: pcTransitionExpand 0.76s var(--pc-ease-smooth) forwards;
         }
         .pc-transition-prev {
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
           border-radius: 0;
           z-index: 121;
           animation: pcTransitionShrink 0.76s var(--pc-ease-smooth) forwards;
         }
         @keyframes pcTransitionExpand {
           to {
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             border-radius: 0;
+            transform: translate3d(0, 0, 0) scale(1, 1);
             box-shadow: none;
           }
         }
         @keyframes pcTransitionShrink {
+          from {
+            border-radius: 0;
+            transform: translate3d(0, 0, 0) scale(1, 1);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+          }
           to {
-            top: var(--pc-expand-top);
-            left: var(--pc-expand-left);
-            width: var(--pc-expand-width);
-            height: var(--pc-expand-height);
             border-radius: var(--pc-expand-radius);
+            transform: translate3d(var(--pc-expand-left), var(--pc-expand-top), 0) scale(var(--pc-expand-scale-x), var(--pc-expand-scale-y));
             box-shadow: none;
           }
         }
@@ -474,7 +497,7 @@ export const ProjectsSection = memo(() => {
           height: 52px;
           border-radius: 999px;
           padding: 0 18px;
-          background: linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.08));
+          background: rgba(255, 255, 255, 0.14);
           backdrop-filter: blur(14px);
           border: 1px solid rgba(255,255,255,0.18);
           color: #fff;
@@ -488,7 +511,7 @@ export const ProjectsSection = memo(() => {
         }
         .pc-arrows button:hover {
           transform: translateY(-3px);
-          background: linear-gradient(180deg, rgba(56,189,248,0.4), rgba(255,255,255,0.14));
+          background: rgba(56, 189, 248, 0.28);
           border-color: rgba(56,189,248,0.42);
           box-shadow: 0 18px 44px rgba(30,58,138,0.28);
         }
@@ -626,6 +649,73 @@ export const ProjectsSection = memo(() => {
 
           .pc-arrow-label {
             font-size: 9px;
+          }
+        }
+
+        @media (max-width: 560px) {
+          .pc-carousel {
+            --pc-thumb-w: 104px;
+            --pc-thumb-h: 64px;
+            --pc-thumb-gap: 8px;
+            --pc-thumb-right: 14px;
+            --pc-thumb-bottom: 78px;
+          }
+
+          .pc-content {
+            top: 10%;
+            left: 14px;
+            width: calc(100% - 28px);
+          }
+
+          .pc-id {
+            margin-bottom: 10px;
+            letter-spacing: 0.28em;
+          }
+
+          .pc-title {
+            font-size: clamp(1.45rem, 8vw, 2.2rem);
+            letter-spacing: 0.04em;
+          }
+
+          .pc-des {
+            margin-top: 12px;
+            font-size: 12px;
+            line-height: 1.45;
+            max-width: 92%;
+          }
+
+          .pc-stack {
+            margin-top: 12px;
+            gap: 5px;
+          }
+
+          .pc-stack span {
+            font-size: 8px;
+            padding: 5px 10px;
+          }
+
+          .pc-buttons {
+            margin-top: 16px;
+          }
+
+          .pc-buttons button {
+            width: 100%;
+            max-width: 180px;
+            padding: 10px 14px;
+          }
+
+          .pc-arrows {
+            left: 14px;
+            right: 14px;
+            bottom: 18px;
+            justify-content: space-between;
+          }
+
+          .pc-arrows button {
+            min-width: 0;
+            width: calc(50% - 6px);
+            height: 42px;
+            padding: 0 12px;
           }
         }
       `}</style>

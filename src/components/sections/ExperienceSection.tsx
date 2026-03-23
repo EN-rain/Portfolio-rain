@@ -1,24 +1,10 @@
 const experience = [
   {
-    year: '2026',
-    role: 'Lead Frontend Engineer',
-    place: 'Void Systems',
-    summary: 'Directed immersive web builds, established component standards, and shipped motion-heavy product launches.',
-    highlights: ['Team Leadership', 'Design Systems', 'Performance']
-  },
-  {
     year: '2024',
-    role: 'Creative Technologist',
-    place: 'Independent Lab',
-    summary: 'Built experimental interfaces mixing realtime graphics, sound-reactive visuals, and portfolio systems.',
-    highlights: ['WebGL', 'Creative Coding', 'R&D']
-  },
-  {
-    year: '2022',
-    role: 'UI Developer',
-    place: 'Studio North',
-    summary: 'Delivered polished marketing sites and internal tools with a focus on speed, accessibility, and maintainability.',
-    highlights: ['Accessibility', 'Performance', 'React']
+    role: 'Full-Stack Developer Intern',
+    place: 'Acme Solutions Inc.',
+    summary: 'Built a React dashboard with login and 2FA, developed a Node.js backend with 15+ REST endpoints, automated email-to-CSV reporting with n8n, and implemented Supabase PostgreSQL schemas with row-level security.',
+    highlights: ['React', 'Node.js', 'Supabase', 'n8n']
   }
 ];
 
@@ -26,132 +12,111 @@ export const ExperienceSection = () => {
   return (
     <section className="stack-section mask-shaped-section mask-theme-purple" style={{ zIndex: 50 }}>
       <div className="clip-gap-outer parallax-content">
-        <div className="clip-gap-inner flex items-center justify-center px-6 py-16 text-white">
-          {/* Dark base */}
-          <div className="absolute inset-0" style={{ backgroundColor: '#060b18' }} />
-          
-          {/* SVG Topographic contour pattern */}
+        <div className="clip-gap-inner flex items-center justify-center px-6 py-16 text-[#151226]">
+          <div className="absolute inset-0" style={{ backgroundColor: '#f7f7fc' }} />
+
           <div className="absolute inset-0" style={{ pointerEvents: 'none' }}>
             <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1920 1080">
-              {/* Topographic contour lines */}
-              <ellipse cx="350" cy="400" rx="280" ry="180" fill="none" stroke="#6ee7b7" strokeWidth="0.5" opacity="0.05" />
-              <ellipse cx="350" cy="400" rx="220" ry="140" fill="none" stroke="#6ee7b7" strokeWidth="0.5" opacity="0.04" />
-              <ellipse cx="350" cy="400" rx="160" ry="100" fill="none" stroke="#6ee7b7" strokeWidth="0.5" opacity="0.03" />
-              <ellipse cx="350" cy="400" rx="100" ry="60" fill="none" stroke="#6ee7b7" strokeWidth="0.5" opacity="0.06" />
-              <circle cx="350" cy="400" r="3" fill="#6ee7b7" opacity="0.08" />
-              
-              {/* Second contour cluster — right side */}
-              <ellipse cx="1550" cy="650" rx="320" ry="200" fill="none" stroke="#818cf8" strokeWidth="0.5" opacity="0.04" />
-              <ellipse cx="1550" cy="650" rx="250" ry="155" fill="none" stroke="#818cf8" strokeWidth="0.5" opacity="0.035" />
-              <ellipse cx="1550" cy="650" rx="180" ry="110" fill="none" stroke="#818cf8" strokeWidth="0.5" opacity="0.045" />
-              <ellipse cx="1550" cy="650" rx="110" ry="65" fill="none" stroke="#818cf8" strokeWidth="0.5" opacity="0.055" />
-              <circle cx="1550" cy="650" r="3" fill="#818cf8" opacity="0.07" />
-              
-              {/* Scattered measurement markers */}
-              <g opacity="0.07" stroke="#6ee7b7" strokeWidth="0.6">
+              <ellipse cx="350" cy="400" rx="280" ry="180" fill="none" stroke="#7c3aed" strokeWidth="0.5" opacity="0.07" />
+              <ellipse cx="350" cy="400" rx="220" ry="140" fill="none" stroke="#7c3aed" strokeWidth="0.5" opacity="0.06" />
+              <ellipse cx="350" cy="400" rx="160" ry="100" fill="none" stroke="#7c3aed" strokeWidth="0.5" opacity="0.05" />
+              <ellipse cx="350" cy="400" rx="100" ry="60" fill="none" stroke="#7c3aed" strokeWidth="0.5" opacity="0.08" />
+              <circle cx="350" cy="400" r="3" fill="#7c3aed" opacity="0.12" />
+
+              <ellipse cx="1550" cy="650" rx="320" ry="200" fill="none" stroke="#a78bfa" strokeWidth="0.5" opacity="0.05" />
+              <ellipse cx="1550" cy="650" rx="250" ry="155" fill="none" stroke="#a78bfa" strokeWidth="0.5" opacity="0.045" />
+              <ellipse cx="1550" cy="650" rx="180" ry="110" fill="none" stroke="#a78bfa" strokeWidth="0.5" opacity="0.055" />
+              <ellipse cx="1550" cy="650" rx="110" ry="65" fill="none" stroke="#a78bfa" strokeWidth="0.5" opacity="0.065" />
+              <circle cx="1550" cy="650" r="3" fill="#a78bfa" opacity="0.1" />
+
+              <g opacity="0.08" stroke="#7c3aed" strokeWidth="0.6">
                 <line x1="900" y1="145" x2="900" y2="155" />
                 <line x1="895" y1="150" x2="905" y2="150" />
               </g>
-              <g opacity="0.05" stroke="#818cf8" strokeWidth="0.6">
+              <g opacity="0.06" stroke="#a78bfa" strokeWidth="0.6">
                 <line x1="1200" y1="895" x2="1200" y2="905" />
                 <line x1="1195" y1="900" x2="1205" y2="900" />
               </g>
-              
-              {/* Coordinate lines */}
-              <line x1="0" y1="1" x2="1920" y2="1" stroke="#6ee7b7" strokeWidth="0.5" opacity="0.04" />
-              <line x1="0" y1="1079" x2="1920" y2="1079" stroke="#6ee7b7" strokeWidth="0.5" opacity="0.04" />
-              <line x1="1" y1="0" x2="1" y2="1080" stroke="#6ee7b7" strokeWidth="0.5" opacity="0.03" />
-              <line x1="1919" y1="0" x2="1919" y2="1080" stroke="#6ee7b7" strokeWidth="0.5" opacity="0.03" />
-              
-              {/* Small dots */}
-              <circle cx="960" cy="150" r="1.5" fill="#6ee7b7" opacity="0.06" />
-              <circle cx="200" cy="900" r="1.5" fill="#818cf8" opacity="0.05" />
-              <circle cx="1700" cy="200" r="1.5" fill="#6ee7b7" opacity="0.04" />
+
+              <line x1="0" y1="1" x2="1920" y2="1" stroke="#7c3aed" strokeWidth="0.5" opacity="0.05" />
+              <line x1="0" y1="1079" x2="1920" y2="1079" stroke="#7c3aed" strokeWidth="0.5" opacity="0.05" />
+              <line x1="1" y1="0" x2="1" y2="1080" stroke="#7c3aed" strokeWidth="0.5" opacity="0.04" />
+              <line x1="1919" y1="0" x2="1919" y2="1080" stroke="#7c3aed" strokeWidth="0.5" opacity="0.04" />
+
+              <circle cx="960" cy="150" r="1.5" fill="#7c3aed" opacity="0.08" />
+              <circle cx="200" cy="900" r="1.5" fill="#a78bfa" opacity="0.07" />
+              <circle cx="1700" cy="200" r="1.5" fill="#7c3aed" opacity="0.06" />
             </svg>
           </div>
 
-          <div className="locked-content relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col justify-center">
-            {/* Header */}
-            <div className="mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div className="experience-shell locked-content relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col justify-center">
+            <div className="experience-header mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
               <div>
-                <div className="tech-font text-[10px] uppercase tracking-[0.5em] text-white/40 flex items-center gap-3 mb-5">
-                  <span className="w-8 h-[1px] bg-white/20"></span>
-                  <span>Career Path</span>
+                <div className="tech-font text-reveal text-reveal-fast text-reveal-delay-1 mb-5 flex items-center gap-3 text-[10px] uppercase tracking-[0.5em] text-[#6b6486]">
+                  <span className="h-[1px] w-8 bg-[#7c3aed]/30"></span>
+                  <span>Experience</span>
                 </div>
-                <h2 className="heading-font flex flex-wrap items-baseline gap-x-4 gap-y-1 text-4xl font-bold leading-[0.95] tracking-tight md:text-6xl">
-                  <span className="whitespace-nowrap text-white/90">WORK</span>
-                  <span className="whitespace-nowrap" style={{
-                    color: '#6ee7b7'
-                  }}>EXPERIENCE</span>
+                <h2 className="heading-font text-reveal text-reveal-delay-2 flex flex-wrap items-baseline gap-x-4 gap-y-1 text-4xl font-bold leading-[0.95] tracking-tight md:text-6xl">
+                  <span className="whitespace-nowrap text-[#151226]/92">WORK</span>
+                  <span className="whitespace-nowrap" style={{ color: '#7c3aed' }}>EXPERIENCE</span>
                 </h2>
               </div>
-              <p className="max-w-xs text-[13px] leading-[1.9] text-white/35" style={{ fontFamily: 'Inter, sans-serif' }}>
-                A journey through creative technology — from crafting pixels to leading teams.
-              </p>
             </div>
 
-            {/* Timeline */}
             <div className="relative">
-              {/* Vertical timeline line */}
-              <div className="absolute left-[60px] top-0 bottom-0 w-[1px] hidden md:block" style={{
-                backgroundColor: 'rgba(110, 231, 183, 0.08)'
-              }}></div>
-              
+              <div className="absolute bottom-0 left-[60px] top-0 hidden w-[1px] md:block" style={{ backgroundColor: 'rgba(124, 58, 237, 0.14)' }}></div>
+
               <div className="space-y-5">
                 {experience.map((item, index) => (
                   <div
                     key={`${item.year}-${item.role}`}
-                    className="group relative grid gap-5 rounded-[20px] border border-white/[0.05] p-6 md:p-7 transition-all duration-700 hover:border-white/[0.1] md:grid-cols-[100px_1fr] cursor-pointer"
+                    className="experience-card text-reveal text-reveal-fast text-reveal-delay-4 group relative grid cursor-pointer gap-5 rounded-[20px] border p-6 transition-all duration-700 md:grid-cols-[100px_1fr] md:p-7"
                     style={{
-                      backgroundColor: 'rgba(255,255,255,0.015)'
+                      borderColor: 'rgba(124, 58, 237, 0.12)',
+                      backgroundColor: 'rgba(255, 255, 255, 0.9)'
                     }}
                   >
-                    {/* Card hover accent */}
-                    <div className="absolute inset-0 rounded-[20px] opacity-0 group-hover:opacity-100 transition-opacity duration-700" style={{
-                      backgroundColor: 'rgba(110, 231, 183, 0.02)'
-                    }} />
-                    
-                    {/* Left accent */}
-                    <div className="absolute left-0 top-6 bottom-6 w-[2px] rounded-full opacity-0 group-hover:opacity-100 transition-all duration-700" style={{
-                      backgroundColor: '#6ee7b7'
-                    }} />
-                    
-                    {/* Year column */}
-                    <div className="relative flex flex-col items-center md:items-start gap-2">
-                      {/* Timeline dot */}
-                      <div className="hidden md:block absolute left-[21px] top-[6px] w-2.5 h-2.5 rounded-full border-2 border-[#6ee7b7]/30 group-hover:border-[#6ee7b7] group-hover:shadow-[0_0_12px_rgba(110,231,183,0.4)] transition-all duration-500" style={{
-                        background: index === 0 ? '#6ee7b7' : 'rgba(110, 231, 183, 0.15)'
-                      }}></div>
-                      
-                      <div className="tech-font text-lg tracking-[0.3em] text-white/25 group-hover:text-[#6ee7b7]/70 transition-colors duration-500 font-bold md:ml-10">{item.year}</div>
+                    <div className="absolute inset-0 rounded-[20px] opacity-0 transition-opacity duration-700 group-hover:opacity-100" style={{ backgroundColor: 'rgba(124, 58, 237, 0.04)' }} />
+
+                    <div className="absolute bottom-6 left-0 top-6 w-[2px] rounded-full opacity-0 transition-all duration-700 group-hover:opacity-100" style={{ backgroundColor: '#7c3aed' }} />
+
+                    <div className="relative flex flex-col items-center gap-2 md:items-start">
+                      <div
+                        className="absolute left-[21px] top-[6px] hidden h-2.5 w-2.5 rounded-full border-2 transition-all duration-500 md:block"
+                        style={{
+                          borderColor: 'rgba(124, 58, 237, 0.3)',
+                          boxShadow: index === 0 ? '0 0 12px rgba(124, 58, 237, 0.18)' : 'none',
+                          background: index === 0 ? '#7c3aed' : 'rgba(124, 58, 237, 0.12)'
+                        }}
+                      ></div>
+
+                      <div className="tech-font text-lg font-bold tracking-[0.3em] text-[#6b6486] transition-colors duration-500 group-hover:text-[#6d28d9] md:ml-10">{item.year}</div>
                     </div>
-                    
-                    {/* Content */}
+
                     <div className="relative z-10">
-                      <div className="flex flex-col gap-1.5 md:flex-row md:items-baseline md:justify-between mb-4">
-                        <h3 className="text-xl md:text-2xl font-semibold tracking-tight text-white/80 group-hover:text-white transition-colors duration-500">{item.role}</h3>
-                        <div className="tech-font text-[10px] uppercase tracking-[0.3em] text-white/25 flex items-center gap-2 group-hover:text-[#6ee7b7]/50 transition-colors duration-500">
-                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="opacity-40">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                            <circle cx="12" cy="10" r="3"/>
+                      <div className="mb-4 flex flex-col gap-1.5 md:flex-row md:items-baseline md:justify-between">
+                        <h3 className="text-xl font-semibold tracking-tight text-[#151226]/88 transition-colors duration-500 group-hover:text-[#151226] md:text-2xl">{item.role}</h3>
+                        <div className="tech-font flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-[#6b6486] transition-colors duration-500 group-hover:text-[#6d28d9]">
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="opacity-50">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                            <circle cx="12" cy="10" r="3" />
                           </svg>
                           {item.place}
                         </div>
                       </div>
-                      
-                      <p className="text-[13px] leading-[1.8] text-white/35 group-hover:text-white/50 transition-colors duration-500 mb-5 max-w-3xl" style={{ fontFamily: 'Inter, sans-serif' }}>
+
+                      <p className="mb-5 max-w-3xl text-[13px] leading-[1.8] text-[#5b576f] transition-colors duration-500 group-hover:text-[#34304a]" style={{ fontFamily: 'Inter, sans-serif' }}>
                         {item.summary}
                       </p>
-                      
-                      {/* Highlight tags */}
+
                       <div className="flex flex-wrap gap-2">
                         {item.highlights.map((tag) => (
                           <span
                             key={tag}
-                            className="tech-font text-[8px] tracking-[0.2em] uppercase px-3 py-1.5 rounded-full text-white/25 group-hover:text-white/40 transition-all duration-500"
+                            className="tech-font rounded-full px-3 py-1.5 text-[8px] uppercase tracking-[0.2em] text-[#6b6486] transition-all duration-500 group-hover:text-[#4d4667]"
                             style={{
-                              border: '1px solid rgba(255,255,255,0.04)',
-                              background: 'rgba(110, 231, 183, 0.03)'
+                              border: '1px solid rgba(124, 58, 237, 0.12)',
+                              background: 'rgba(124, 58, 237, 0.05)'
                             }}
                           >
                             {tag}
@@ -163,30 +128,52 @@ export const ExperienceSection = () => {
                 ))}
               </div>
             </div>
-            
-            {/* Bottom education teaser */}
-            <div className="mt-10 flex items-center justify-between border-t border-white/[0.04] pt-8">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl border border-white/[0.06] flex items-center justify-center" style={{
-                  background: 'rgba(110, 231, 183, 0.05)'
-                }}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6ee7b7" strokeWidth="1.5" className="opacity-40">
-                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
-                    <path d="M6 12v5c3 3 9 3 12 0v-5"/>
-                  </svg>
-                </div>
-                <div>
-                  <div className="text-[13px] text-white/50 font-medium">Computer Science</div>
-                  <div className="tech-font text-[9px] tracking-[0.2em] text-white/20 mt-0.5">BACHELOR'S DEGREE — 2021</div>
-                </div>
-              </div>
-              <div className="tech-font text-[9px] tracking-[0.2em] text-white/15 uppercase hidden md:block">
-                Continuous Learner
-              </div>
-            </div>
+
           </div>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .experience-shell {
+            padding-top: 5.5rem;
+            padding-bottom: 1.5rem;
+          }
+
+          .experience-header {
+            margin-bottom: 1.5rem !important;
+            gap: 1rem !important;
+          }
+
+          .experience-card {
+            padding: 1rem !important;
+            gap: 0.9rem !important;
+          }
+
+          .experience-card h3 {
+            font-size: 1.1rem !important;
+          }
+
+          .experience-card p {
+            margin-bottom: 1rem !important;
+          }
+
+        }
+
+        @media (max-width: 480px) {
+          .experience-shell {
+            padding-top: 5rem;
+          }
+
+          .experience-header h2 {
+            font-size: 2.25rem !important;
+          }
+
+          .experience-card .tech-font.text-lg {
+            letter-spacing: 0.18em !important;
+          }
+        }
+      `}</style>
     </section>
   );
 };
