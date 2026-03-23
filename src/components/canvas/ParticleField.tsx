@@ -17,7 +17,7 @@ const ParticleCloud = () => {
       positions[i + 1] = (Math.random() - 0.5) * 30;
       positions[i + 2] = (Math.random() - 0.5) * 15;
       
-      // Color gradient from purple to pink
+      // Vary particle color slightly for depth
       const t = Math.random();
       colors[i] = 0.7 + t * 0.3;     // R
       colors[i + 1] = 0.3 + t * 0.2; // G

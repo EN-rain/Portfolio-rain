@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&family=Syncopate:wght@400;700&family=Inter:wght@300;400;600;800&family=Space+Mono&display=swap');
 
 :root {
-  --bg-color: #060b18;
-  --accent: #6ee7b7;
-  --accent-secondary: #818cf8;
-  --text-dark: #0f172a;
+  --bg-color: #050308;
+  --accent: #a78bfa;
+  --accent-secondary: #f5f3ff;
+  --text-dark: #11081a;
 }
 
 body {
@@ -289,15 +289,15 @@ main {
 
 /* Selection Styling */
 ::selection {
-  background-color: rgba(110, 231, 183, 0.3);
+  background-color: rgba(167, 139, 250, 0.32);
   color: #ffffff;
 }
 
 /* Glow Effects */
 .glow-text {
-  text-shadow: 0 0 20px rgba(110, 231, 183, 0.5),
-               0 0 40px rgba(110, 231, 183, 0.3),
-               0 0 60px rgba(110, 231, 183, 0.2);
+  text-shadow: 0 0 20px rgba(167, 139, 250, 0.45),
+               0 0 40px rgba(167, 139, 250, 0.28),
+               0 0 60px rgba(167, 139, 250, 0.18);
 }
 
 /* Hover States */
@@ -307,21 +307,6 @@ main {
 
 .cursor-hover:hover {
   transform: scale(1.05);
-}
-
-/* Gradient Animation */
-@keyframes gradient-shift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-.animated-gradient {
-  background-size: 200% 200%;
-  animation: gradient-shift 5s ease infinite;
 }
 
 /* Pulse Animation */
@@ -354,6 +339,47 @@ main {
   animation: fadeIn 0.6s ease-out forwards;
 }
 
+@keyframes textRiseIn {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.text-reveal {
+  opacity: 0;
+  animation: textRiseIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.text-reveal-fast {
+  animation-duration: 0.65s;
+}
+
+.text-reveal-delay-1 {
+  animation-delay: 2s;
+}
+
+.text-reveal-delay-2 {
+  animation-delay: 2.12s;
+}
+
+.text-reveal-delay-3 {
+  animation-delay: 2.24s;
+}
+
+.text-reveal-delay-4 {
+  animation-delay: 2.36s;
+}
+
+.text-reveal-delay-5 {
+  animation-delay: 2.48s;
+}
+
 /* Shimmer Effect */
 @keyframes shimmer {
   0% {
@@ -365,12 +391,7 @@ main {
 }
 
 .shimmer {
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(110, 231, 183, 0.2) 50%,
-    transparent 100%
-  );
+  background: rgba(167, 139, 250, 0.12);
   background-size: 1000px 100%;
   animation: shimmer 3s infinite;
 }
@@ -399,19 +420,61 @@ main {
   .cursor-follower {
     display: none !important;
   }
+
+  .clip-gap-inner,
+  .mask-shaped-section .clip-gap-inner {
+    -webkit-mask-image: none;
+    mask-image: none;
+    clip-path: none;
+  }
+
+  .clip-gap-outer,
+  .clip-gap-inner {
+    clip-path: none;
+  }
+
+  main {
+    height: 900vh;
+  }
 }
 
 /* Social Links Responsive */
 @media (max-width: 768px) {
   .social-links {
-    bottom: 15px !important;
-    left: 15px !important;
-    gap: 10px !important;
+    bottom: 12px !important;
+    left: 12px !important;
+    gap: 8px !important;
   }
   
   .social-links a {
-    width: 35px !important;
-    height: 35px !important;
+    width: 32px !important;
+    height: 32px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .social-links {
+    display: none !important;
+  }
+
+  .portfolio-title {
+    font-size: 2rem;
+    letter-spacing: 0.32em;
+  }
+
+  .loading-elements {
+    width: min(240px, calc(100vw - 48px));
+  }
+
+  .loading-screen.shrinking .portfolio-title {
+    left: 18px;
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+  }
+
+  .navbar-buttons {
+    right: 16px;
+    gap: 12px;
   }
 }
 
