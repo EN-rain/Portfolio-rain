@@ -36,14 +36,18 @@ export const ProjectsSection = memo(() => {
   const carouselRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout>>();
+  const transitionFrameRef = useRef<number>();
   const [activeIndex, setActiveIndex] = useState(0);
   const [transition, setTransition] = useState<TransitionState | null>(null);
 
   const currentProject = projects[activeIndex];
   const visualActiveIndex = transition ? transition.targetIndex : activeIndex;
-  const backgroundProject = transition
+  const backgroundProject = transition?.type === 'prev'
     ? projects[transition.targetIndex]
     : currentProject;
+  const transitionTargetProject = transition
+    ? (transition.type === 'prev' ? null : projects[transition.targetIndex])
+    : null;
   const contentProject = currentProject;
 
   const thumbnailProjects = projects.map((_, offset) => {
@@ -75,7 +79,17 @@ export const ProjectsSection = memo(() => {
 
   const finishTransition = useCallback((targetIndex: number) => {
     setActiveIndex(targetIndex);
-    setTransition(null);
+
+    if (transitionFrameRef.current) {
+      cancelAnimationFrame(transitionFrameRef.current);
+    }
+
+    transitionFrameRef.current = requestAnimationFrame(() => {
+      transitionFrameRef.current = requestAnimationFrame(() => {
+        setTransition(null);
+        transitionFrameRef.current = undefined;
+      });
+    });
   }, []);
 
   const startTransition = useCallback((nextTransition: TransitionState) => {
@@ -152,6 +166,9 @@ export const ProjectsSection = memo(() => {
 
   useEffect(() => () => {
     clearTimeout(timerRef.current);
+    if (transitionFrameRef.current) {
+      cancelAnimationFrame(transitionFrameRef.current);
+    }
   }, []);
 
   useEffect(() => {
@@ -176,10 +193,24 @@ export const ProjectsSection = memo(() => {
                 <img
                   src={backgroundProject.img}
                   alt={backgroundProject.title}
+                  className="pc-stage-image"
                   decoding="async"
                   fetchPriority="high"
                 />
-                <div key={contentProject.id} className={`pc-content${transition ? ' is-transitioning' : ''}`}>
+                {transitionTargetProject ? (
+                  <img
+                    src={transitionTargetProject.img}
+                    alt=""
+                    aria-hidden="true"
+                    className="pc-stage-image pc-stage-image-target"
+                    decoding="async"
+                    fetchPriority="high"
+                  />
+                ) : null}
+                <div
+                  key={contentProject.id}
+                  className={`pc-content${transition ? ' is-transitioning' : ''}${transition?.type === 'prev' ? ' is-transitioning-prev' : ''}${transition?.type === 'next' ? ' is-transitioning-next' : ''}`}
+                >
                   <div className="pc-id">PROJECT {contentProject.id}</div>
                   <div className="pc-title">{contentProject.title}<br/>{contentProject.line2}</div>
                   <div className="pc-des">{contentProject.des}</div>
@@ -196,6 +227,10 @@ export const ProjectsSection = memo(() => {
                     '--pc-expand-radius': `${transition.rect.radius}px`,
                     '--pc-expand-scale-x': `${transition.rect.width / transition.rect.stageWidth}`,
                     '--pc-expand-scale-y': `${transition.rect.height / transition.rect.stageHeight}`,
+                    '--pc-expand-radius-x': `${transition.rect.radius / (transition.rect.width / transition.rect.stageWidth)}px`,
+                    '--pc-expand-radius-y': `${transition.rect.radius / (transition.rect.height / transition.rect.stageHeight)}px`,
+                    '--pc-expand-width': `${transition.rect.width}px`,
+                    '--pc-expand-height': `${transition.rect.height}px`,
                     '--pc-expand-top': `${transition.rect.top}px`,
                     '--pc-expand-left': `${transition.rect.left}px`,
                   } as CSSProperties}
@@ -208,7 +243,10 @@ export const ProjectsSection = memo(() => {
             <div ref={thumbRef} className="pc-thumbnail">
               {thumbnailProjects.map(({ index, project }, order) => {
                 const isTransitionSource = transition
-                  ? transition.type !== 'prev' && index === transition.targetIndex
+                  ? (
+                    (transition.type === 'prev' && order === 0)
+                    || (transition.type !== 'prev' && index === transition.targetIndex)
+                  )
                   : false;
 
                 return (
@@ -267,7 +305,9 @@ export const ProjectsSection = memo(() => {
           position: absolute;
           inset: 0;
         }
-        .pc-slide-active img {
+        .pc-stage-image {
+          position: absolute;
+          inset: 0;
           width: 100%;
           height: 100%;
           object-fit: cover;
@@ -275,12 +315,24 @@ export const ProjectsSection = memo(() => {
           transform: translateZ(0);
           backface-visibility: hidden;
         }
-        .pc-slide-active::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          z-index: 1;
-          background: rgba(0, 0, 0, 0.42);
+        .pc-stage-image-target {
+          opacity: 0;
+        }
+        .pc-carousel.is-next-transition .pc-stage-image-target,
+        .pc-carousel.is-prev-transition .pc-stage-image-target,
+        .pc-carousel.is-thumb-transition .pc-stage-image-target {
+          animation: pcStageBackgroundReveal 0.76s linear forwards;
+        }
+        @keyframes pcStageBackgroundReveal {
+          0% {
+            opacity: 0;
+          }
+          78% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 1;
+          }
         }
 
         .pc-content {
@@ -295,6 +347,14 @@ export const ProjectsSection = memo(() => {
         }
         .pc-content.is-transitioning {
           opacity: 0;
+        }
+        .pc-content.is-transitioning-next {
+          opacity: 1;
+          animation: pcHideContentNext 0.42s var(--pc-ease-soft) forwards;
+        }
+        .pc-content.is-transitioning-prev {
+          opacity: 1;
+          animation: pcHideContentPrev 0.42s var(--pc-ease-soft) forwards;
         }
         .pc-content .pc-id,
         .pc-content .pc-title,
@@ -385,6 +445,26 @@ export const ProjectsSection = memo(() => {
             opacity: 1;
           }
         }
+        @keyframes pcHideContentPrev {
+          from {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          to {
+            opacity: 0;
+            transform: translateY(42px);
+          }
+        }
+        @keyframes pcHideContentNext {
+          from {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          to {
+            opacity: 0;
+            transform: translateY(-42px);
+          }
+        }
 
         .pc-thumbnail {
           position: absolute;
@@ -425,6 +505,9 @@ export const ProjectsSection = memo(() => {
           transform: none;
           box-shadow: none;
         }
+        .pc-carousel.is-prev-transition .pc-thumb.is-transition-source {
+          animation: pcThumbReveal 0.16s ease-out 0.68s forwards;
+        }
         .pc-thumb img {
           width: 100%;
           height: 100%;
@@ -433,18 +516,30 @@ export const ProjectsSection = memo(() => {
           transform: translateZ(0);
           backface-visibility: hidden;
         }
+        @keyframes pcThumbReveal {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
 
         .pc-transition-layer {
           position: absolute;
           overflow: hidden;
           pointer-events: none;
-          inset: 0;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
           z-index: 110;
           box-shadow: 0 30px 80px rgba(0,0,0,0.45);
-          will-change: transform, border-radius, opacity;
+          will-change: transform, top, left, width, height, border-radius, opacity;
           transform: translateZ(0);
           transform-origin: top left;
           backface-visibility: hidden;
+          border-radius: 0;
         }
         .pc-transition-layer img {
           width: 100%;
@@ -452,10 +547,11 @@ export const ProjectsSection = memo(() => {
           object-fit: cover;
           transform: translateZ(0);
           backface-visibility: hidden;
+          border-radius: inherit;
         }
         .pc-transition-next,
         .pc-transition-thumb {
-          border-radius: var(--pc-expand-radius);
+          border-radius: var(--pc-expand-radius-x) / var(--pc-expand-radius-y);
           transform: translate3d(var(--pc-expand-left), var(--pc-expand-top), 0) scale(var(--pc-expand-scale-x), var(--pc-expand-scale-y));
           animation: pcTransitionExpand 0.76s var(--pc-ease-smooth) forwards;
         }
@@ -473,13 +569,21 @@ export const ProjectsSection = memo(() => {
         }
         @keyframes pcTransitionShrink {
           from {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             border-radius: 0;
-            transform: translate3d(0, 0, 0) scale(1, 1);
+            transform: translate3d(0, 0, 0);
             box-shadow: 0 30px 80px rgba(0,0,0,0.45);
           }
           to {
+            top: var(--pc-expand-top);
+            left: var(--pc-expand-left);
+            width: var(--pc-expand-width);
+            height: var(--pc-expand-height);
             border-radius: var(--pc-expand-radius);
-            transform: translate3d(var(--pc-expand-left), var(--pc-expand-top), 0) scale(var(--pc-expand-scale-x), var(--pc-expand-scale-y));
+            transform: translate3d(0, 0, 0);
             box-shadow: none;
           }
         }
