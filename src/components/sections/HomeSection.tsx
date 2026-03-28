@@ -4,50 +4,53 @@ export const HomeSection = () => {
   return (
     <section className="stack-section" style={{ zIndex: 10, transform: 'translate3d(0, 0, 0)' }}>
       <div className="parallax-content home-section">
-        <div className="home-section__grain parallax-layer" data-speed="-0.08" />
+        {/* Background gradient orb with parallax */}
+        <div className="home-section__orb parallax-layer" data-speed="0.05" data-speed-x="-0.02" />
+        
+        <div className="home-section__grain parallax-layer" data-speed="-0.08" data-speed-x="0.02" />
         <div className="home-section__vignette parallax-layer" data-speed="-0.05" />
-        <div className="home-section__ring parallax-layer home-section__intro-ring" data-speed="-0.2" />
-        <div className="home-section__crosshair parallax-layer home-section__intro-crosshair" data-speed="0.16" />
-        <div className="home-section__circuit home-section__circuit--left parallax-layer home-section__intro-rail-left" data-speed="-0.18" />
-        <div className="home-section__circuit home-section__circuit--right parallax-layer home-section__intro-rail-right" data-speed="0.2" />
-        <div className="home-section__glyph home-section__glyph--left">{'{}'}</div>
-        <div className="home-section__glyph home-section__glyph--right">{'< />'}</div>
+        <div className="home-section__ring parallax-layer home-section__intro-ring" data-speed="-0.2" data-speed-x="0.05" />
+        <div className="home-section__crosshair parallax-layer home-section__intro-crosshair" data-speed="0.16" data-speed-x="-0.03" />
+        
+        {/* Floating geometric shapes with parallax */}
+        <div className="home-section__shape home-section__shape--1 parallax-layer" data-speed="-0.12" data-speed-x="0.08" />
+        <div className="home-section__shape home-section__shape--2 parallax-layer" data-speed="0.18" data-speed-x="-0.06" />
+        <div className="home-section__shape home-section__shape--3 parallax-layer" data-speed="-0.15" data-speed-x="0.04" />
+        
+        <div className="home-section__circuit home-section__circuit--left parallax-layer home-section__intro-rail-left" data-speed="-0.18" data-speed-x="0.06" />
+        <div className="home-section__circuit home-section__circuit--right parallax-layer home-section__intro-rail-right" data-speed="0.2" data-speed-x="-0.04" />
+        <div className="home-section__glyph home-section__glyph--left parallax-float" data-float-speed="0.06">{'{}'}</div>
+        <div className="home-section__glyph home-section__glyph--right parallax-float" data-float-speed="0.08">{'</>'}</div>
+        
+        {/* Additional glyphs with parallax */}
+        <div className="home-section__glyph home-section__glyph--top parallax-float" data-float-speed="0.05">{'//'}</div>
+        <div className="home-section__glyph home-section__glyph--topleft parallax-float" data-float-speed="0.04">{'()'}</div>
+        <div className="home-section__glyph home-section__glyph--topright parallax-float" data-float-speed="0.06">{'/*'}</div>
+        <div className="home-section__glyph home-section__glyph--bottomleft parallax-float" data-float-speed="0.05">{'=>'}</div>
+        <div className="home-section__glyph home-section__glyph--bottomright parallax-float" data-float-speed="0.07">{'!='}</div>
 
-        <div className="home-section__code home-section__code--left home-section__intro-copy">
-          <span className="home-section__code-line"><em>const</em> hero = <strong>'ED'</strong></span>
-          <span className="home-section__code-line"><em>theme</em>: <strong>'black'</strong></span>
-          <span className="home-section__code-line"><em>motion</em>: <strong>'parallax'</strong></span>
+        <div className="home-section__code home-section__code--left home-section__intro-copy parallax-float" data-float-speed="0.04">
+          <span className="home-section__code-line code-line-1"><em>const</em> hero = <strong>'ED'</strong></span>
+          <span className="home-section__code-line code-line-2"><em>theme</em>: <strong>'black'</strong></span>
+          <span className="home-section__code-line code-line-3"><em>motion</em>: <strong>'parallax'</strong></span>
         </div>
 
-        <div className="home-section__code home-section__code--right home-section__intro-copy">
-          <span className="home-section__code-line"><em>render</em>() {'=>'} visible</span>
-          <span className="home-section__code-line"><em>image</em>: centered</span>
-          <span className="home-section__code-line"><em>intro</em>: active</span>
-        </div>
-
-        <div className="home-section__terminal home-section__intro-image">
-          <div className="home-section__terminal-bar">
-            <span />
-            <span />
-            <span />
-          </div>
-          <div className="home-section__terminal-body">
-            <div>$ npm run dev</div>
-            <div>&gt; vite ready</div>
-            <div>&gt; home section online</div>
-          </div>
+        <div className="home-section__code home-section__code--right home-section__intro-copy parallax-float" data-float-speed="0.05">
+          <span className="home-section__code-line code-line-1"><em>render</em>() {'=>'} visible</span>
+          <span className="home-section__code-line code-line-2"><em>image</em>: centered</span>
+          <span className="home-section__code-line code-line-3"><em>intro</em>: active</span>
         </div>
 
         <div className="home-section__center locked-content">
-          <div className="home-section__image-wrap">
+          <div className="home-section__image-wrap parallax-image" data-img-speed="0.02">
             <div className="home-section__image-stack home-section__intro-image">
-              <div className="home-section__image-shadow" />
-              <img className="home-section__image" src={homeImage} alt="Portrait" />
+              <div className="home-section__image-shadow parallax-shadow" data-shadow-speed="0.06" />
+              <img className="home-section__image parallax-img" src={homeImage} alt="Portrait" data-img-scroll="0.04" />
             </div>
           </div>
         </div>
 
-        <div className="home-section__subtext">
+        <div className="home-section__subtext parallax-text" data-text-speed="0.15">
           <p className="home-section__subtext-inner home-section__intro-baseline">
             UI engineer building dark, fast, product-facing interfaces.
           </p>
@@ -73,18 +76,66 @@ export const HomeSection = () => {
         }
 
         .home-section__grain {
-          opacity: 0.1;
-          background-image:
-            linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-          background-size: 120px 120px;
-          mask-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1) 18%, rgba(0, 0, 0, 1) 82%, transparent);
+          display: none;
         }
 
         .home-section__vignette {
-          background:
-            linear-gradient(90deg, rgba(0, 0, 0, 0.94) 0%, rgba(0, 0, 0, 0.2) 22%, rgba(0, 0, 0, 0.2) 78%, rgba(0, 0, 0, 0.94) 100%),
-            linear-gradient(180deg, rgba(0, 0, 0, 0.92) 0%, transparent 20%, transparent 80%, rgba(0, 0, 0, 0.92) 100%);
+          display: none;
+        }
+
+        /* Gradient orb with parallax */
+        .home-section__orb {
+          display: none;
+        }
+
+        /* Floating geometric shapes */
+        .home-section__shape {
+          position: absolute;
+          border: 1px solid rgba(167, 139, 250, 0.12);
+          will-change: transform;
+        }
+
+        .home-section__shape--1 {
+          width: 120px;
+          height: 120px;
+          top: 20%;
+          left: 15%;
+          border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+          animation: morphShape 8s ease-in-out infinite;
+        }
+
+        .home-section__shape--2 {
+          width: 80px;
+          height: 80px;
+          bottom: 30%;
+          right: 20%;
+          transform: rotate(45deg);
+          animation: rotateShape 20s linear infinite;
+        }
+
+        .home-section__shape--3 {
+          width: 60px;
+          height: 60px;
+          top: 60%;
+          right: 35%;
+          border-radius: 50%;
+          border-style: dashed;
+          animation: pulseShape 4s ease-in-out infinite;
+        }
+
+        @keyframes morphShape {
+          0%, 100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+          50% { border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%; }
+        }
+
+        @keyframes rotateShape {
+          from { transform: rotate(45deg); }
+          to { transform: rotate(405deg); }
+        }
+
+        @keyframes pulseShape {
+          0%, 100% { transform: scale(1); opacity: 0.4; }
+          50% { transform: scale(1.1); opacity: 0.6; }
         }
 
         .home-section__ring {
@@ -106,8 +157,7 @@ export const HomeSection = () => {
 
         .home-section__circuit,
         .home-section__glyph,
-        .home-section__code,
-        .home-section__terminal {
+        .home-section__code {
           position: absolute;
           z-index: 1;
           pointer-events: none;
@@ -161,6 +211,38 @@ export const HomeSection = () => {
           right: 11%;
         }
 
+        .home-section__glyph--top {
+          top: 3%;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+
+        .home-section__glyph--bottom {
+          bottom: 8%;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+
+        .home-section__glyph--topleft {
+          top: 18%;
+          left: 22%;
+        }
+
+        .home-section__glyph--topright {
+          top: 12%;
+          right: 18%;
+        }
+
+        .home-section__glyph--bottomleft {
+          bottom: 15%;
+          left: 18%;
+        }
+
+        .home-section__glyph--bottomright {
+          bottom: 20%;
+          right: 22%;
+        }
+
         .home-section__code {
           display: flex;
           flex-direction: column;
@@ -193,6 +275,16 @@ export const HomeSection = () => {
           font-weight: 400;
           color: rgba(255, 255, 255, 0.82);
         }
+
+        .home-section__code-line {
+          display: block;
+          will-change: transform;
+          transition: transform 0.1s ease-out;
+        }
+
+        .code-line-1 { transform: translateX(0); }
+        .code-line-2 { transform: translateX(8px); }
+        .code-line-3 { transform: translateX(16px); }
 
         .home-section__terminal {
           left: clamp(24px, 6vw, 96px);
@@ -313,13 +405,7 @@ export const HomeSection = () => {
         }
 
         .home-section__image-shadow {
-          inset: auto;
-          width: 72%;
-          height: 72%;
-          border-radius: 50%;
-          background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 18%, transparent 72%);
-          filter: blur(18px);
-          opacity: 0.22;
+          display: none;
         }
 
         .home-section__image {
@@ -393,12 +479,6 @@ export const HomeSection = () => {
           .home-section__crosshair {
             opacity: 0.24;
           }
-
-          .home-section__terminal {
-            top: 20px;
-            left: 20px;
-            width: 220px;
-          }
         }
 
         @media (max-width: 640px) {
@@ -421,12 +501,6 @@ export const HomeSection = () => {
           .home-section__image-wrap {
             width: 100%;
             height: 100%;
-          }
-
-          .home-section__terminal {
-            left: 12px;
-            top: 12px;
-            width: min(210px, calc(100vw - 24px));
           }
         }
       `}</style>

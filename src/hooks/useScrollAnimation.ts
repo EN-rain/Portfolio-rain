@@ -254,13 +254,94 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
           const parallaxLayers = sec.querySelectorAll('.parallax-layer') as NodeListOf<HTMLElement>;
           
           parallaxLayers.forEach(layer => {
-            const speed = parseFloat(layer.getAttribute('data-speed') || '0');
-            const parallaxIntensity = 0.3;
-            const yOffset = currentScroll * speed * parallaxIntensity;
+            const speedY = parseFloat(layer.getAttribute('data-speed') || '0');
+            const speedX = parseFloat(layer.getAttribute('data-speed-x') || '0');
+            const parallaxIntensity = 0.5;
+            const yOffset = currentScroll * speedY * parallaxIntensity;
+            const xOffset = currentScroll * speedX * parallaxIntensity;
             
-            layer.style.transform = `translateY(${yOffset}px)`;
-            layer.style.transition = 'transform 0.1s ease-out';
+            layer.style.transform = `translate3d(${xOffset}px, ${yOffset}px, 0)`;
+            layer.style.transition = 'transform 0.08s ease-out';
           });
+
+          // Text parallax with fade
+          const textElements = sec.querySelectorAll('.parallax-text') as NodeListOf<HTMLElement>;
+          textElements.forEach(el => {
+            const speed = parseFloat(el.getAttribute('data-text-speed') || '0.2');
+            const yOffset = currentScroll * speed;
+            el.style.transform = `translate3d(0, ${yOffset}px, 0)`;
+          });
+
+          // Code lines parallax - both blocks move down together
+          const codeLines = sec.querySelectorAll('.home-section__code-line') as NodeListOf<HTMLElement>;
+          codeLines.forEach((line) => {
+            const speed = 0.12;
+            const yOffset = currentScroll * speed;
+            line.style.transform = `translate3d(0, ${yOffset}px, 0)`;
+          });
+          const floatElements = sec.querySelectorAll('.parallax-float') as NodeListOf<HTMLElement>;
+          floatElements.forEach(el => {
+            const speed = parseFloat(el.getAttribute('data-float-speed') || '0.1');
+            
+            // Determine direction based on position class
+            let xDirection = 0;
+            let yDirection = 0;
+            
+            if (el.classList.contains('home-section__glyph--left') || 
+                el.classList.contains('home-section__code--left') ||
+                el.classList.contains('home-section__glyph--topleft') ||
+                el.classList.contains('home-section__glyph--bottomleft')) {
+              xDirection = -1; // Move LEFT
+            } else if (el.classList.contains('home-section__glyph--right') || 
+                       el.classList.contains('home-section__code--right') ||
+                       el.classList.contains('home-section__glyph--topright') ||
+                       el.classList.contains('home-section__glyph--bottomright')) {
+              xDirection = 1; // Move RIGHT
+            }
+            
+            if (el.classList.contains('home-section__glyph--top')) {
+              yDirection = -1; // Move UP faster
+            } else if (el.classList.contains('home-section__glyph--bottom')) {
+              yDirection = 1; // Move DOWN
+            }
+            
+            const yOffset = currentScroll * speed * (1 + yDirection * 0.3);
+            const xOffset = currentScroll * speed * 0.4 * xDirection;
+            el.style.transform = `translate3d(${xOffset}px, ${yOffset}px, 0)`;
+            el.style.transition = 'transform 0.1s ease-out';
+          });
+
+          // Image parallax - vertical drift only (no scale)
+          const imageWrap = sec.querySelector('.parallax-image') as HTMLElement;
+          const imgElement = sec.querySelector('.parallax-img') as HTMLElement;
+          
+          if (imageWrap && imgElement) {
+            // Both exist - create layered parallax effect
+            const wrapSpeed = parseFloat(imageWrap.getAttribute('data-img-speed') || '0.02');
+            const imgSpeed = parseFloat(imgElement.getAttribute('data-img-scroll') || '0.04');
+            const yOffsetWrap = currentScroll * wrapSpeed;
+            const yOffsetImg = currentScroll * imgSpeed;
+            // Container moves slower, image moves faster for depth
+            imageWrap.style.transform = `translate3d(0, ${yOffsetWrap}px, 0)`;
+            imgElement.style.transform = `translate3d(0, ${yOffsetImg - yOffsetWrap}px, 0)`;
+            imgElement.style.transition = 'transform 0.08s ease-out';
+          } else if (imageWrap) {
+            // Only container exists
+            const speed = parseFloat(imageWrap.getAttribute('data-img-speed') || '0.02');
+            const yOffset = currentScroll * speed;
+            imageWrap.style.transform = `translate3d(0, ${yOffset}px, 0)`;
+            imageWrap.style.transition = 'transform 0.1s ease-out';
+          }
+
+          // Image shadow parallax (moves faster for depth)
+          const imageShadow = sec.querySelector('.parallax-shadow') as HTMLElement;
+          if (imageShadow) {
+            const speed = parseFloat(imageShadow.getAttribute('data-shadow-speed') || '0.06');
+            const yOffset = currentScroll * speed;
+            const xOffset = currentScroll * speed * 0.2;
+            imageShadow.style.transform = `translate3d(${xOffset}px, ${yOffset}px, 0)`;
+            imageShadow.style.transition = 'transform 0.08s ease-out';
+          }
         }
 
         if (inner) {
@@ -270,6 +351,12 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
 
         const lockedContent = sec.querySelectorAll('.locked-content') as NodeListOf<HTMLElement>;
         lockedContent.forEach(content => {
+          // Skip parallax elements in home section - they handle their own transforms
+          if (i === 0 && (content.classList.contains('parallax-image') || 
+                         content.querySelector('.parallax-img'))) {
+            return;
+          }
+          
           const safeScale = Math.max(0.001, currentScale);
           if (i === 3 && currentScroll >= section4LeaveStart) {
             const contentExitScale = Math.max(0.72, 1 - section4HorizontalProgress * 0.28);
