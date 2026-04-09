@@ -1,4 +1,5 @@
 import { useRef, useCallback, useEffect, useState, memo, type CSSProperties, type MouseEvent } from 'react';
+import { AudioLines, Bot, Brain, Gamepad2, MessageSquareMore, Mic, Puzzle, Server, Workflow } from 'lucide-react';
 import imgNeon from '../../assets/images/projects/optimized/desktop_workspace.jpg';
 import imgSignal from '../../assets/images/projects/optimized/electronic_office_dualscreen.jpg';
 import imgAtlas from '../../assets/images/projects/optimized/minimalist_monitors.jpg';
@@ -12,6 +13,23 @@ const projects = [
 ];
 
 const pcAnimationDurationMs = 760;
+
+const stackIcons = {
+  WPF: Puzzle,
+  'C#': Bot,
+  'Node.js': Server,
+  Python: Workflow,
+  Discord: MessageSquareMore,
+  Audio: AudioLines,
+  VAD: Mic,
+  Godot: Gamepad2,
+  GDScript: Puzzle,
+  Mobile: Gamepad2,
+  JSON: Puzzle,
+  Memory: Brain,
+  AI: Bot,
+  Context: Brain,
+} as const;
 
 type TransitionRect = {
   height: number;
@@ -180,7 +198,7 @@ export const ProjectsSection = memo(() => {
   }, []);
 
   return (
-    <section className="stack-section mask-shaped-section" style={{ zIndex: 30, '--mask-color': '#6c2bd9', '--mask-shadow': '#6c2bd98c' } as CSSProperties}>
+    <section className="stack-section mask-shaped-section" style={{ zIndex: 50, '--mask-color': '#6c2bd9', '--mask-shadow': '#6c2bd98c' } as CSSProperties}>
       <div className="clip-gap-outer parallax-content">
         <div className="clip-gap-inner" style={{ position: 'absolute', inset: 0, backgroundColor: '#0a1020' }}>
           <div
@@ -207,15 +225,27 @@ export const ProjectsSection = memo(() => {
                     fetchPriority="high"
                   />
                 ) : null}
-                <div
-                  key={contentProject.id}
-                  className={`pc-content${transition ? ' is-transitioning' : ''}${transition?.type === 'prev' ? ' is-transitioning-prev' : ''}${transition?.type === 'next' ? ' is-transitioning-next' : ''}`}
-                >
-                  <div className="pc-id">PROJECT {contentProject.id}</div>
-                  <div className="pc-title">{contentProject.title}<br/>{contentProject.line2}</div>
-                  <div className="pc-des">{contentProject.des}</div>
-                  <div className="pc-stack">{contentProject.stack.map((stackItem) => <span key={stackItem}>{stackItem}</span>)}</div>
-                  <div className="pc-buttons"><button>Selected Work</button></div>
+                <div className="pc-content-track scroll-parallax-text" data-speed="0.05">
+                  <div
+                    key={contentProject.id}
+                    className={`pc-content${transition ? ' is-transitioning' : ''}${transition?.type === 'prev' ? ' is-transitioning-prev' : ''}${transition?.type === 'next' ? ' is-transitioning-next' : ''}`}
+                  >
+                    <div className="pc-id">PROJECT {contentProject.id}</div>
+                    <div className="pc-title">{contentProject.title}<br/>{contentProject.line2}</div>
+                    <div className="pc-des">{contentProject.des}</div>
+                    <div className="pc-stack">
+                      {contentProject.stack.map((stackItem) => {
+                        const Icon = stackIcons[stackItem as keyof typeof stackIcons] ?? Puzzle;
+                        return (
+                          <span key={stackItem}>
+                            <Icon size={13} strokeWidth={1.8} />
+                            {stackItem}
+                          </span>
+                        );
+                      })}
+                    </div>
+                    <div className="pc-buttons"><button>Selected Work</button></div>
+                  </div>
                 </div>
               </div>
 
@@ -335,6 +365,13 @@ export const ProjectsSection = memo(() => {
           }
         }
 
+        .pc-content-track {
+          position: absolute;
+          inset: 0;
+          z-index: 2;
+          pointer-events: none;
+        }
+
         .pc-content {
           position: absolute;
           top: 20%;
@@ -344,6 +381,7 @@ export const ProjectsSection = memo(() => {
           z-index: 2;
           color: #fff;
           text-shadow: 0 5px 10px rgba(0,0,0,0.3);
+          pointer-events: auto;
         }
         .pc-content.is-transitioning {
           opacity: 0;
@@ -401,16 +439,14 @@ export const ProjectsSection = memo(() => {
           animation-delay: 0.55s;
         }
         .pc-stack span {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
           font-family: 'Space Mono', monospace;
           font-size: 9px;
           letter-spacing: 0.2em;
           text-transform: uppercase;
-          padding: 6px 14px;
-          border-radius: 100px;
-          border: 1px solid rgba(56,189,248,0.25);
           color: rgba(255,255,255,0.6);
-          background: rgba(56,189,248,0.08);
-          backdrop-filter: blur(8px);
         }
         .pc-buttons {
           margin-top: 28px;
