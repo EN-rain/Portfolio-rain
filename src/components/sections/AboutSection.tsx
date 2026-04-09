@@ -1,5 +1,16 @@
-import profileImage from '../../assets/images/icon.jpg';
-import { MagneticButton } from '../MagneticButton';
+import profileImage from '../../assets/images/hero.png';
+import { Blocks, Box, Braces, Database, Globe, Layers3, Server, Workflow } from 'lucide-react';
+
+const skillIcons = {
+  React: Blocks,
+  TypeScript: Braces,
+  'Node.js': Server,
+  PostgreSQL: Database,
+  Supabase: Layers3,
+  Docker: Box,
+  Python: Workflow,
+  Godot: Globe,
+} as const;
 
 export const AboutSection = () => {
   return (
@@ -46,70 +57,86 @@ export const AboutSection = () => {
             </svg>
           </div>
 
-          <div className="about-shell locked-content relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-12 px-8 pt-20 text-[#151226] lg:flex-row lg:gap-16">
-            <div className="about-copy flex-1 text-left">
-              <div className="tech-font text-reveal text-reveal-fast text-reveal-delay-1 mb-4 flex items-center gap-3 text-[10px] uppercase tracking-[0.5em] text-[#6d28d9]/70">
+          <div className="about-shell locked-content relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-12 px-8 pt-20 text-[#151226]">
+
+            <div className="text-reveal text-reveal-fast text-reveal-delay-1 flex flex-col items-center text-center">
+              <div className="tech-font mb-3 flex items-center gap-3 text-[10px] uppercase tracking-[0.5em] text-[#6d28d9]/70">
                 <span className="h-[1px] w-8 bg-[#a78bfa]/50"></span>
-                <span>Summary</span>
+                <span>About Me</span>
+                <span className="h-[1px] w-8 bg-[#a78bfa]/50"></span>
               </div>
 
-              <h2 className="heading-font text-reveal text-reveal-delay-2 mb-8 text-5xl font-bold leading-[0.95] tracking-tighter md:text-7xl">
-                <span className="block text-[#151226]/92">I BUILD</span>
-                <span className="mt-1 block" style={{ color: '#7c3aed' }}>DIGITAL</span>
-                <span className="mt-1 block text-[#151226]/92">SYSTEMS</span>
+              <h2 className="heading-font text-reveal text-reveal-delay-2 mb-4 text-5xl font-bold leading-[0.95] tracking-tighter md:text-7xl">
+                <span className="text-[#151226]/92">Crafting </span>
+                <span style={{ color: '#7c3aed' }}>Digital</span>
+                <span className="text-[#151226]/92"> Experiences</span>
               </h2>
-
-              <p className="about-summary text-reveal text-reveal-fast text-reveal-delay-3 mb-6 max-w-md text-[15px] font-light leading-[1.9] text-[#5b576f]" style={{ fontFamily: 'Inter, sans-serif' }}>
-                Junior full-stack developer with hands-on experience in React, Node.js, TypeScript, PostgreSQL, and automation workflows. Built and shipped personal and academic projects across AI, web, and game development, and completed a full-stack internship focused on authentication, REST APIs, and process automation.
-              </p>
-
-              <div className="about-tag-list text-reveal text-reveal-fast text-reveal-delay-5 mb-5 flex flex-wrap gap-2">
-                {['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Supabase', 'Docker', 'Python', 'Godot'].map((skill, i) => (
-                  <span
-                    key={i}
-                    className="tech-font cursor-default rounded-full px-4 py-2 text-[9px] transition-all duration-500 hover:scale-105"
-                    style={{
-                      border: '1px solid rgba(124, 58, 237, 0.14)',
-                      background: 'rgba(255, 255, 255, 0.9)',
-                      color: 'rgba(21, 18, 38, 0.72)',
-                      letterSpacing: '0.15em'
-                    }}
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-
-              <MagneticButton className="about-button text-reveal text-reveal-fast text-reveal-delay-5 cursor-hover tech-font inline-flex items-center gap-3 rounded-full border border-[#7c3aed]/15 bg-[#ffffff] px-8 py-4 text-[10px] uppercase tracking-[0.2em] text-[#5b576f] transition-all duration-500 hover:border-[#7c3aed]/35 hover:bg-[#f4f1ff] hover:text-[#151226] hover:shadow-[0_0_30px_rgba(124,58,237,0.12)]">
-                <span>Open To Remote</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M7 17L17 7M17 7H7M17 7V17" />
-                </svg>
-              </MagneticButton>
             </div>
 
-            <div className="about-media relative mt-4 flex w-full flex-1 justify-center lg:mt-0 lg:justify-end">
-              <div
-                className="text-reveal text-reveal-delay-4 relative w-full overflow-hidden"
-                style={{
-                  maxWidth: '320px',
-                  aspectRatio: '1 / 1',
-                  borderRadius: '999px'
-                }}
-              >
-                <img
-                  className="about-image"
-                  src={profileImage}
-                  alt="Developer portrait"
+            <div className="about-core flex w-full flex-col items-center gap-10 lg:flex-row lg:items-start lg:gap-14">
+
+              <div className="about-media text-reveal text-reveal-delay-3 relative flex shrink-0 flex-col items-center gap-5">
+                <div
+                  className="relative overflow-hidden"
                   style={{
-                    display: 'block',
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    objectPosition: 'center'
+                    width: '240px',
+                    height: '300px',
+                    borderRadius: '120px 120px 40px 40px',
+                    border: '2px solid rgba(124, 58, 237, 0.12)',
                   }}
-                />
+                >
+                  <img
+                    className="about-image"
+                    src={profileImage}
+                    alt="Developer portrait"
+                    style={{
+                      display: 'block',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: 'center',
+                    }}
+                  />
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
+                  </span>
+                  <span className="tech-font text-[10px] uppercase tracking-[0.3em] text-[#5b576f]">Open to work</span>
+                </div>
               </div>
+
+              <div className="about-copy scroll-parallax-text flex flex-1 flex-col" data-speed="0.06">
+                <p className="about-summary text-reveal text-reveal-fast text-reveal-delay-4 mb-8 max-w-lg text-[15px] font-light leading-[1.9] text-[#5b576f]" style={{ fontFamily: 'Inter, sans-serif' }}>
+                  Junior full-stack developer with hands-on experience in React, Node.js, TypeScript, PostgreSQL, and automation workflows. Built and shipped personal and academic projects across AI, web, and game development, and completed a full-stack internship focused on authentication, REST APIs, and process automation.
+                </p>
+
+                <div className="about-tag-list text-reveal text-reveal-fast text-reveal-delay-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                  {['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Supabase', 'Docker', 'Python', 'Godot'].map((skill, i) => {
+                    const Icon = skillIcons[skill as keyof typeof skillIcons];
+                    return (
+                      <div
+                        key={i}
+                        className="group flex flex-col items-center gap-2 rounded-xl py-4 transition-all duration-300 hover:scale-105"
+                        style={{
+                          background: 'rgba(124, 58, 237, 0.04)',
+                          border: '1px solid rgba(124, 58, 237, 0.08)',
+                        }}
+                      >
+                        <Icon size={20} strokeWidth={1.4} style={{ color: '#7c3aed' }} />
+                        <span
+                          className="tech-font text-[9px] uppercase"
+                          style={{ color: 'rgba(21, 18, 38, 0.72)', letterSpacing: '0.15em' }}
+                        >
+                          {skill}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -118,15 +145,13 @@ export const AboutSection = () => {
       <style>{`
         @media (min-width: 1025px) {
           .about-shell {
-            gap: 3.25rem !important;
+            gap: 2.5rem !important;
             padding-top: 7.25rem !important;
             padding-bottom: 5.5rem !important;
-            align-items: start !important;
           }
 
-          .about-copy h2 {
-            margin-bottom: 1.5rem !important;
-            font-size: 4.9rem !important;
+          .about-core {
+            align-items: center !important;
           }
 
           .about-summary {
@@ -135,16 +160,7 @@ export const AboutSection = () => {
           }
 
           .about-tag-list {
-            margin-bottom: 1.25rem !important;
-          }
-
-          .about-media {
-            margin-top: 0 !important;
-            align-self: center !important;
-          }
-
-          .about-image {
-            height: 100% !important;
+            grid-template-columns: repeat(4, 1fr) !important;
           }
         }
 
@@ -152,6 +168,16 @@ export const AboutSection = () => {
           .about-shell {
             gap: 1.5rem !important;
             padding-top: 4.25rem !important;
+          }
+
+          .about-core {
+            flex-direction: column !important;
+            align-items: center !important;
+          }
+
+          .about-copy {
+            align-items: center;
+            text-align: center;
           }
         }
 
@@ -161,27 +187,8 @@ export const AboutSection = () => {
             padding: 5.5rem 1.25rem 4.75rem !important;
           }
 
-          .about-copy {
-            width: 100%;
-          }
-
-          .about-summary,
           .about-tag-list {
-            max-width: 100% !important;
-          }
-
-          .about-button {
-            width: 100%;
-            justify-content: center;
-            padding: 1rem 1.1rem !important;
-          }
-
-          .about-media {
-            margin-top: 0 !important;
-          }
-
-          .about-image {
-            height: 100% !important;
+            grid-template-columns: repeat(2, 1fr) !important;
           }
         }
 
@@ -201,14 +208,6 @@ export const AboutSection = () => {
             margin-bottom: 0.8rem !important;
             font-size: 13px !important;
             line-height: 1.6 !important;
-          }
-
-          .about-tag-list > span {
-            padding: 0.55rem 0.8rem !important;
-          }
-
-          .about-image {
-            height: 100% !important;
           }
         }
       `}</style>

@@ -1,3 +1,5 @@
+import { Blocks, Database, Server, Workflow } from 'lucide-react';
+
 const experience = [
   {
     year: '2024',
@@ -8,9 +10,16 @@ const experience = [
   }
 ];
 
+const highlightIcons = {
+  React: Blocks,
+  'Node.js': Server,
+  Supabase: Database,
+  n8n: Workflow,
+} as const;
+
 export const ExperienceSection = () => {
   return (
-    <section className="stack-section mask-shaped-section mask-theme-purple" style={{ zIndex: 50 }}>
+    <section className="stack-section mask-shaped-section mask-theme-purple" style={{ zIndex: 30 }}>
       <div className="clip-gap-outer parallax-content">
         <div className="clip-gap-inner flex items-center justify-center px-6 py-16 text-[#151226]">
           <div className="absolute inset-0" style={{ backgroundColor: '#f7f7fc' }} />
@@ -50,20 +59,22 @@ export const ExperienceSection = () => {
           </div>
 
           <div className="experience-shell locked-content relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col justify-center">
-            <div className="experience-header mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-              <div>
-                <div className="tech-font text-reveal text-reveal-fast text-reveal-delay-1 mb-5 flex items-center gap-3 text-[10px] uppercase tracking-[0.5em] text-[#6b6486]">
-                  <span className="h-[1px] w-8 bg-[#7c3aed]/30"></span>
-                  <span>Experience</span>
+            <div className="scroll-parallax-text" data-speed="0.055">
+              <div className="experience-header mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+                <div>
+                  <div className="tech-font text-reveal text-reveal-fast text-reveal-delay-1 mb-5 flex items-center gap-3 text-[10px] uppercase tracking-[0.5em] text-[#6b6486]">
+                    <span className="h-[1px] w-8 bg-[#7c3aed]/30"></span>
+                    <span>Experience</span>
+                  </div>
+                  <h2 className="heading-font text-reveal text-reveal-delay-2 flex flex-wrap items-baseline gap-x-4 gap-y-1 text-4xl font-bold leading-[0.95] tracking-tight md:text-6xl">
+                    <span className="whitespace-nowrap text-[#151226]/92">WORK</span>
+                    <span className="whitespace-nowrap" style={{ color: '#7c3aed' }}>EXPERIENCE</span>
+                  </h2>
                 </div>
-                <h2 className="heading-font text-reveal text-reveal-delay-2 flex flex-wrap items-baseline gap-x-4 gap-y-1 text-4xl font-bold leading-[0.95] tracking-tight md:text-6xl">
-                  <span className="whitespace-nowrap text-[#151226]/92">WORK</span>
-                  <span className="whitespace-nowrap" style={{ color: '#7c3aed' }}>EXPERIENCE</span>
-                </h2>
               </div>
             </div>
 
-            <div className="relative">
+            <div className="scroll-parallax-text relative" data-speed="0.04">
               <div className="absolute bottom-0 left-[60px] top-0 hidden w-[1px] md:block" style={{ backgroundColor: 'rgba(124, 58, 237, 0.14)' }}></div>
 
               <div className="space-y-5">
@@ -113,12 +124,12 @@ export const ExperienceSection = () => {
                         {item.highlights.map((tag) => (
                           <span
                             key={tag}
-                            className="tech-font rounded-full px-3 py-1.5 text-[8px] uppercase tracking-[0.2em] text-[#6b6486] transition-all duration-500 group-hover:text-[#4d4667]"
-                            style={{
-                              border: '1px solid rgba(124, 58, 237, 0.12)',
-                              background: 'rgba(124, 58, 237, 0.05)'
-                            }}
+                            className="tech-font inline-flex items-center gap-2 text-[8px] uppercase tracking-[0.2em] text-[#6b6486] transition-all duration-500 group-hover:text-[#4d4667]"
                           >
+                            {(() => {
+                              const Icon = highlightIcons[tag as keyof typeof highlightIcons];
+                              return <Icon size={12} strokeWidth={1.8} />;
+                            })()}
                             {tag}
                           </span>
                         ))}

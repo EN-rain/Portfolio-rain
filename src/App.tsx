@@ -20,8 +20,8 @@ function App() {
       <main style={{ position: 'relative', height: '900vh' }}>
         <HomeSection />
         <AboutSection />
-        <ProjectsSection />
         <ExperienceSection />
+        <ProjectsSection />
         <ContactSection />
       </main>
     </>

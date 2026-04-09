@@ -42,10 +42,10 @@ export const HomeSection = () => {
         </div>
 
         <div className="home-section__center locked-content">
-          <div className="home-section__image-wrap parallax-image" data-img-speed="0.02">
+          <div className="home-section__image-wrap parallax-image" data-img-speed="0.07">
             <div className="home-section__image-stack home-section__intro-image">
-              <div className="home-section__image-shadow parallax-shadow" data-shadow-speed="0.06" />
-              <img className="home-section__image parallax-img" src={homeImage} alt="Portrait" data-img-scroll="0.04" />
+              <div className="home-section__image-shadow parallax-shadow" data-shadow-speed="0.16" />
+              <img className="home-section__image parallax-img" src={homeImage} alt="Portrait" data-img-scroll="0.14" />
             </div>
           </div>
         </div>
