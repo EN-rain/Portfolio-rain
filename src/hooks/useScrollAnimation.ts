@@ -477,10 +477,10 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
           if (eElement && nElement) {
             // Initial: Side-by-side (E at -100%, N at 0%)
             // End: Vertical Stack shifted slightly RIGHT (split Y)
-            const splitX_E = -100 + (160 * edProg);
-            const splitX_N = (40 * edProg); 
+            const splitX_E = -100 + (200 * edProg);
+            const splitX_N = (80 * edProg); 
             const splitY_E = -(200 * edProg); // Offset UP
-            const splitY_N = (50 * edProg);  // Offset DOWN
+            const splitY_N = (-100 * edProg);  // Offset DOWN
             
             eElement.style.transform = `translate3d(${splitX_E}%, ${splitY_E}%, 0)`;
             nElement.style.transform = `translate3d(${splitX_N}%, ${splitY_N}%, 0)`;
