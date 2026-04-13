@@ -332,9 +332,9 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
         if (currentScroll > edTransitionStart) {
           const progress = easeInOut((currentScroll - edTransitionStart) / Math.max(1, edTransitionEnd - edTransitionStart));
           // Moving to the RIGHT instead of left, reduced displacement
-          edTranslateX = -50 + (progress * 22); 
-          edTranslateY = -50 - (progress * 28);
-          edScale = 1 - (progress * 0.74);
+          edTranslateX = -50 + (progress * 10); 
+          edTranslateY = -50 - (progress * 15);
+          edScale = 1 - (progress * 0.83);
           edPrimaryOpacity = 1 - (progress * 0.58);
           edPrimaryColor = `rgba(255, 255, 255, ${0.76 - (progress * 0.2)})`;
         }
@@ -477,7 +477,7 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
           if (eElement && nElement) {
             // Initial: Side-by-side (E at -100%, N at 0%)
             // End: Vertical Stack shifted slightly RIGHT (split Y)
-            const splitX_E = -100 + (140 * edProg);
+            const splitX_E = -100 + (160 * edProg);
             const splitX_N = (40 * edProg); 
             const splitY_E = -(100 * edProg); // Offset UP
             const splitY_N = (10 * edProg);  // Offset DOWN
