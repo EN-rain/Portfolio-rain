@@ -406,7 +406,7 @@ export const ProjectsSection = memo(() => {
           will-change: transform, opacity, filter;
         }
         .pc-id {
-          font-family: 'Space Mono', monospace;
+          font-family: 'IBM Plex Mono', monospace;
           font-size: 11px;
           letter-spacing: 0.4em;
           color: #38bdf8;
@@ -414,7 +414,7 @@ export const ProjectsSection = memo(() => {
           animation-delay: 0.2s;
         }
         .pc-title {
-          font-family: 'Syncopate', sans-serif;
+          font-family: 'Sora', sans-serif;
           font-size: clamp(2.2rem, 5vw, 4.5rem);
           font-weight: 800;
           line-height: 1.05;
@@ -442,7 +442,7 @@ export const ProjectsSection = memo(() => {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          font-family: 'Space Mono', monospace;
+          font-family: 'IBM Plex Mono', monospace;
           font-size: 9px;
           letter-spacing: 0.2em;
           text-transform: uppercase;
@@ -458,7 +458,7 @@ export const ProjectsSection = memo(() => {
           border: none;
           padding: 12px 28px;
           border-radius: 6px;
-          font-family: 'Space Mono', monospace;
+          font-family: 'IBM Plex Mono', monospace;
           font-weight: 600;
           font-size: 11px;
           letter-spacing: 0.15em;
@@ -660,7 +660,7 @@ export const ProjectsSection = memo(() => {
           outline-offset: 3px;
         }
         .pc-arrow-label {
-          font-family: 'Space Mono', monospace;
+          font-family: 'IBM Plex Mono', monospace;
           font-size: 10px;
           font-weight: 700;
           letter-spacing: 0.22em;

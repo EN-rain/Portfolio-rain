@@ -48,6 +48,21 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
     const handleResize = () => { vh = window.innerHeight; };
     window.addEventListener('resize', handleResize);
 
+    const backgroundStops = [
+      [255, 255, 255],
+      [2, 2, 2],
+      [255, 255, 255],
+      [255, 255, 255],
+      [2, 2, 2],
+    ] as const;
+
+    const mixChannel = (from: number, to: number, progress: number) => from + ((to - from) * progress);
+    const clamp = (value: number, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+    const easeInOut = (value: number) => {
+      const p = clamp(value);
+      return p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+    };
+
     const handleScroll = () => {
       const currentScroll = lenisRef.current?.scroll ?? (window.pageYOffset || document.documentElement.scrollTop);
       
@@ -65,6 +80,48 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
       const pauseLength = vh * 0.3; // Reduced from 0.5 to 0.3 for less space
       const gapVh = 25; // Reduced from 40 to 25
 
+      const sectionAnchors = [
+        0,
+        pauseLength + transitionLength,
+        pauseLength + transitionLength + pauseLength + transitionLength,
+        2 * (pauseLength + transitionLength) + pauseLength + transitionLength,
+        3 * (pauseLength + transitionLength) + pauseLength + transitionLength,
+      ];
+
+      let backgroundIndex = 0;
+      while (backgroundIndex < sectionAnchors.length - 1 && currentScroll > sectionAnchors[backgroundIndex + 1]) {
+        backgroundIndex += 1;
+      }
+
+      const nextBackgroundIndex = Math.min(backgroundStops.length - 1, backgroundIndex + 1);
+      const currentAnchor = sectionAnchors[backgroundIndex];
+      const nextAnchor = sectionAnchors[nextBackgroundIndex];
+      const anchorSpan = Math.max(1, nextAnchor - currentAnchor);
+      const backgroundProgress = easeInOut((currentScroll - currentAnchor) / anchorSpan);
+      const currentBackground = backgroundStops[backgroundIndex];
+      const nextBackground = backgroundStops[nextBackgroundIndex];
+      const shellBackground = `rgb(${Math.round(mixChannel(currentBackground[0], nextBackground[0], backgroundProgress))}, ${Math.round(mixChannel(currentBackground[1], nextBackground[1], backgroundProgress))}, ${Math.round(mixChannel(currentBackground[2], nextBackground[2], backgroundProgress))})`;
+      const globalEnBackdrop = document.querySelector('.global-en-backdrop') as HTMLElement | null;
+
+      // Hide global EN when section 2 is fully centered
+      const section2EnterEnd = pauseLength + transitionLength;
+      const section2LeaveStart = transitionLength + (pauseLength * 2);
+      if (globalEnBackdrop) {
+        if (currentScroll >= section2EnterEnd && currentScroll < section2LeaveStart) {
+          globalEnBackdrop.style.opacity = '0';
+        } else {
+          globalEnBackdrop.style.opacity = '1';
+        }
+      }
+
+      document.body.style.backgroundColor = shellBackground;
+      document.documentElement.style.backgroundColor = shellBackground;
+      const root = document.getElementById('root');
+      if (root) {
+        root.style.backgroundColor = shellBackground;
+      }
+
+      
       // --- ADJUST SCALE HERE ---
       const minScale = 0.5; // Scale when dropping in or out
       const maxScale = 1.2;  // Scale when perfectly centered (change to 1.3 for zoom effect)
@@ -79,7 +136,7 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
       
       // Ensure first section is visible on initial load
       if (currentScroll < 10 && sections[0]) {
-        (sections[0] as HTMLElement).style.transform = 'translate3d(0vw, 0vh, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1)';
+        (sections[0] as HTMLElement).style.transform = `translate3d(0vw, 0vh, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(${maxScale})`;
         (sections[0] as HTMLElement).style.opacity = '1';
       }
       
@@ -103,15 +160,24 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
 
         if (i === 0) {
           // --- SECTION 1 LOGIC ---
-          const sec2EnterEnd = pauseLength + transitionLength;
-
-          if (currentScroll <= sec2EnterEnd) {
+          if (currentScroll < leaveStart) {
             currentYMoveVh = 0;
+            currentRotation = 0;
+            currentScale = maxScale;
+            currentOpacity = 1;
+          } else if (currentScroll >= leaveStart && currentScroll < leaveEnd) {
+            let progress = (currentScroll - leaveStart) / transitionLength;
+            let smoothProgress = progress < 0.75 ? (progress / 0.75) * (progress / 0.75) : 1;
+            currentYMoveVh = progress * (100 + gapVh);
+            currentRotation = progress * 10;
+            currentScale = maxScale - (smoothProgress * (maxScale - minScale));
+            currentOpacity = 1;
           } else {
             currentYMoveVh = 100 + gapVh;
+            currentRotation = 10;
+            currentScale = minScale;
+            currentOpacity = 1;
           }
-          currentRotation = 0;
-          currentScale = 1;
         } else if (i === 4) {
           // SECTION 5 LOGIC (CONTACT)
           if (currentScroll < section4LeaveStart) {
@@ -195,9 +261,11 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
             currentScale = maxScale;
             currentOpacity = 1;
           } else if (currentScroll >= leaveStart && currentScroll < leaveEnd) {
-            currentYMoveVh = 0;
-            currentRotation = 0;
-            currentScale = maxScale;
+            let progress = (currentScroll - leaveStart) / transitionLength;
+            let smoothProgress = progress < 0.75 ? (progress / 0.75) * (progress / 0.75) : 1;
+            currentYMoveVh = progress * (100 + gapVh);
+            currentRotation = progress * 10;
+            currentScale = maxScale - (smoothProgress * (maxScale - minScale));
             currentOpacity = 1;
           } else {
             currentYMoveVh = 100 + gapVh;
@@ -225,9 +293,11 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
             currentScale = maxScale;
             currentOpacity = 1;
           } else if (currentScroll >= leaveStart && currentScroll < leaveEnd) {
-            currentYMoveVh = 0;
-            currentRotation = 0;
-            currentScale = maxScale;
+            let progress = (currentScroll - leaveStart) / transitionLength;
+            let smoothProgress = progress < 0.75 ? (progress / 0.75) * (progress / 0.75) : 1;
+            currentYMoveVh = progress * (100 + gapVh);
+            currentRotation = progress * 10;
+            currentScale = maxScale - (smoothProgress * (maxScale - minScale));
             currentOpacity = 1;
           } else {
             currentYMoveVh = 100 + gapVh;
@@ -249,8 +319,46 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
           bg.style.transform = `scale(${1 / safeScale}) rotateZ(${-currentRotation}deg) rotateY(${-currentRotationY}deg) rotateX(${-currentRotationX}deg) translate3d(${-currentXMoveVw}vw, ${-currentYMoveVh}vh, 0)`;
         });
 
+        // ED animation values (shared across sections)
+        const edTransitionStart = pauseLength + (transitionLength * 0.2);
+        const edTransitionEnd = pauseLength + transitionLength;
+
+        let edTranslateX = -50;
+        let edTranslateY = -50;
+        let edScale = 1;
+        let edPrimaryOpacity = 1;
+        let edPrimaryColor = 'rgba(255, 255, 255, 0.76)';
+
+        if (currentScroll > edTransitionStart) {
+          const progress = easeInOut((currentScroll - edTransitionStart) / Math.max(1, edTransitionEnd - edTransitionStart));
+          // Moving to the RIGHT instead of left, reduced displacement
+          edTranslateX = -50 + (progress * 22); 
+          edTranslateY = -50 - (progress * 28);
+          edScale = 1 - (progress * 0.74);
+          edPrimaryOpacity = 1 - (progress * 0.58);
+          edPrimaryColor = `rgba(255, 255, 255, ${0.76 - (progress * 0.2)})`;
+        }
+
         // Parallax Layers for Section 1
         if (i === 0) {
+          const edPrimary = sec.querySelector('.home-section__image-bg-text') as HTMLElement | null;
+          const heroPortrait = sec.querySelector('.home-section__intro-image') as HTMLElement | null;
+
+          if (edPrimary) {
+            edPrimary.style.transform = `translate3d(${edTranslateX}%, ${edTranslateY}%, 0) scale(${edScale})`;
+            edPrimary.style.opacity = `${edPrimaryOpacity}`;
+            edPrimary.style.color = edPrimaryColor;
+          }
+
+          if (heroPortrait) {
+            heroPortrait.style.transform = `scale(${edScale})`;
+            heroPortrait.style.opacity = `${edPrimaryOpacity}`;
+          }
+
+          if (globalEnBackdrop) {
+            globalEnBackdrop.style.transform = `translate3d(${edTranslateX}%, ${edTranslateY}%, 0) scale(${edScale})`;
+          }
+
           const parallaxLayers = sec.querySelectorAll('.parallax-layer') as NodeListOf<HTMLElement>;
           
           parallaxLayers.forEach(layer => {
@@ -282,31 +390,42 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
           const floatElements = sec.querySelectorAll('.parallax-float') as NodeListOf<HTMLElement>;
           floatElements.forEach(el => {
             const speed = parseFloat(el.getAttribute('data-float-speed') || '0.1');
-            
-            // Determine direction based on position class
+
             let xDirection = 0;
             let yDirection = 0;
-            
-            if (el.classList.contains('home-section__glyph--left') || 
-                el.classList.contains('home-section__code--left') ||
-                el.classList.contains('home-section__glyph--topleft') ||
-                el.classList.contains('home-section__glyph--bottomleft')) {
-              xDirection = -1; // Move LEFT
-            } else if (el.classList.contains('home-section__glyph--right') || 
-                       el.classList.contains('home-section__code--right') ||
-                       el.classList.contains('home-section__glyph--topright') ||
-                       el.classList.contains('home-section__glyph--bottomright')) {
-              xDirection = 1; // Move RIGHT
+
+            if (el.classList.contains('home-section__code--left')) {
+              xDirection = -0.7;
+              yDirection = 0.2;
+            } else if (el.classList.contains('home-section__code--right')) {
+              xDirection = 0.7;
+              yDirection = -0.2;
+            } else if (el.classList.contains('home-section__glyph--en-1')) {
+              xDirection = -1.25;
+              yDirection = 0.1;
+            } else if (el.classList.contains('home-section__glyph--en-2')) {
+              xDirection = 1.25;
+              yDirection = 0.15;
+            } else if (el.classList.contains('home-section__glyph--en-3')) {
+              xDirection = 0;
+              yDirection = -1.2;
+            } else if (el.classList.contains('home-section__glyph--en-4')) {
+              xDirection = -0.9;
+              yDirection = -0.8;
+            } else if (el.classList.contains('home-section__glyph--en-5')) {
+              xDirection = 0.95;
+              yDirection = -0.85;
+            } else if (el.classList.contains('home-section__glyph--en-6')) {
+              xDirection = -0.85;
+              yDirection = 1.05;
+            } else if (el.classList.contains('home-section__glyph--en-7')) {
+              xDirection = 0.9;
+              yDirection = 1.1;
             }
-            
-            if (el.classList.contains('home-section__glyph--top')) {
-              yDirection = -1; // Move UP faster
-            } else if (el.classList.contains('home-section__glyph--bottom')) {
-              yDirection = 1; // Move DOWN
-            }
-            
-            const yOffset = currentScroll * speed * (1 + yDirection * 0.3);
-            const xOffset = currentScroll * speed * 0.4 * xDirection;
+
+            const spread = currentScroll * speed;
+            const xOffset = spread * 1.15 * xDirection;
+            const yOffset = spread * 1.2 * yDirection;
             el.style.transform = `translate3d(${xOffset}px, ${yOffset}px, 0)`;
             el.style.transition = 'transform 0.1s ease-out';
           });
@@ -344,6 +463,34 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
           }
         }
 
+        // 3rd EN in Section 2 (About) - only shrinks, locked-content handles staying in place
+        if (i === 1) {
+          const eElement = sec.querySelector('.about-section__e') as HTMLElement | null;
+          const nElement = sec.querySelector('.about-section__n') as HTMLElement | null;
+          const aboutEn = sec.querySelector('.about-section__en-text') as HTMLElement | null;
+          
+          // Use the exact same progress as the global backdrop for visual sync
+          const edProg = currentScroll > edTransitionStart 
+            ? easeInOut((currentScroll - edTransitionStart) / Math.max(1, edTransitionEnd - edTransitionStart))
+            : 0;
+
+          if (eElement && nElement) {
+            // Initial: Side-by-side (E at -100%, N at 0%)
+            // End: Vertical Stack shifted slightly RIGHT (split Y)
+            const splitX_E = -100 + (140 * edProg);
+            const splitX_N = (40 * edProg); 
+            const splitY_E = -(100 * edProg); // Offset UP
+            const splitY_N = (10 * edProg);  // Offset DOWN
+            
+            eElement.style.transform = `translate3d(${splitX_E}%, ${splitY_E}%, 0)`;
+            nElement.style.transform = `translate3d(${splitX_N}%, ${splitY_N}%, 0)`;
+          }
+
+          if (aboutEn) {
+            aboutEn.style.transform = `translate3d(${edTranslateX}%, ${edTranslateY}%, 0) scale(${edScale})`;
+          }
+        }
+
         if (inner) {
           inner.style.transform = `translate3d(0, 0, 0)`;
           inner.style.filter = `brightness(1)`;
@@ -351,9 +498,8 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
 
         const lockedContent = sec.querySelectorAll('.locked-content') as NodeListOf<HTMLElement>;
         lockedContent.forEach(content => {
-          // Skip parallax elements in home section - they handle their own transforms
-          if (i === 0 && (content.classList.contains('parallax-image') || 
-                         content.querySelector('.parallax-img'))) {
+          // Skip only the inner parallax image wrapper; the home content shell still needs lock compensation
+          if (i === 0 && content.classList.contains('parallax-image')) {
             return;
           }
           

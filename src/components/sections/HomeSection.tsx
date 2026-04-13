@@ -1,66 +1,105 @@
 import homeImage from '../../assets/images/hero.png';
 
+const codeBlocks = [
+  {
+    className: 'home-section__code--left',
+    floatSpeed: '0.04',
+    lines: [
+      <><em>const</em> hero = <strong>'ED'</strong></>,
+      <><em>theme</em>: <strong>'black'</strong></>,
+      <><em>motion</em>: <strong>'parallax'</strong></>,
+    ],
+  },
+  {
+    className: 'home-section__code--right',
+    floatSpeed: '0.05',
+    lines: [
+      <><em>render</em>() {'=>'} visible</>,
+      <> <em>image</em>: centered</>,
+      <> <em>intro</em>: active</>,
+    ],
+  },
+] as const;
+
+const glyphs = [
+  { className: 'home-section__glyph--en-1', floatSpeed: '0.06', text: '{}' },
+  { className: 'home-section__glyph--en-2', floatSpeed: '0.08', text: '</>' },
+  { className: 'home-section__glyph--en-3', floatSpeed: '0.05', text: '//' },
+  { className: 'home-section__glyph--en-4', floatSpeed: '0.04', text: '()' },
+  { className: 'home-section__glyph--en-5', floatSpeed: '0.06', text: '/*' },
+  { className: 'home-section__glyph--en-6', floatSpeed: '0.05', text: '=>' },
+  { className: 'home-section__glyph--en-7', floatSpeed: '0.07', text: '!=' },
+] as const;
+
 export const HomeSection = () => {
   return (
-    <section className="stack-section" style={{ zIndex: 10, transform: 'translate3d(0, 0, 0)' }}>
-      <div className="parallax-content home-section">
-        {/* Background gradient orb with parallax */}
-        <div className="home-section__orb parallax-layer" data-speed="0.05" data-speed-x="-0.02" />
-        
-        <div className="home-section__grain parallax-layer" data-speed="-0.08" data-speed-x="0.02" />
-        <div className="home-section__vignette parallax-layer" data-speed="-0.05" />
-        <div className="home-section__ring parallax-layer home-section__intro-ring" data-speed="-0.2" data-speed-x="0.05" />
-        <div className="home-section__crosshair parallax-layer home-section__intro-crosshair" data-speed="0.16" data-speed-x="-0.03" />
-        
-        {/* Floating geometric shapes with parallax */}
-        <div className="home-section__shape home-section__shape--1 parallax-layer" data-speed="-0.12" data-speed-x="0.08" />
-        <div className="home-section__shape home-section__shape--2 parallax-layer" data-speed="0.18" data-speed-x="-0.06" />
-        <div className="home-section__shape home-section__shape--3 parallax-layer" data-speed="-0.15" data-speed-x="0.04" />
-        
-        <div className="home-section__circuit home-section__circuit--left parallax-layer home-section__intro-rail-left" data-speed="-0.18" data-speed-x="0.06" />
-        <div className="home-section__circuit home-section__circuit--right parallax-layer home-section__intro-rail-right" data-speed="0.2" data-speed-x="-0.04" />
-        <div className="home-section__glyph home-section__glyph--left parallax-float" data-float-speed="0.06">{'{}'}</div>
-        <div className="home-section__glyph home-section__glyph--right parallax-float" data-float-speed="0.08">{'</>'}</div>
-        
-        {/* Additional glyphs with parallax */}
-        <div className="home-section__glyph home-section__glyph--top parallax-float" data-float-speed="0.05">{'//'}</div>
-        <div className="home-section__glyph home-section__glyph--topleft parallax-float" data-float-speed="0.04">{'()'}</div>
-        <div className="home-section__glyph home-section__glyph--topright parallax-float" data-float-speed="0.06">{'/*'}</div>
-        <div className="home-section__glyph home-section__glyph--bottomleft parallax-float" data-float-speed="0.05">{'=>'}</div>
-        <div className="home-section__glyph home-section__glyph--bottomright parallax-float" data-float-speed="0.07">{'!='}</div>
+    <section className="stack-section mask-shaped-section mask-theme-purple" style={{ zIndex: 10, transform: 'translate3d(0, 0, 0)' }}>
+      <div className="clip-gap-outer parallax-content">
+        <div className="clip-gap-inner" style={{ backgroundColor: '#020202' }}>
+          <div className="home-section">
+            {/* Background gradient orb with parallax */}
+            <div className="home-section__orb parallax-layer" data-speed="0.05" data-speed-x="-0.02" />
+            
+            <div className="home-section__grain parallax-layer" data-speed="-0.08" data-speed-x="0.02" />
+            <div className="home-section__vignette parallax-layer" data-speed="-0.05" />
+            <div className="home-section__ring parallax-layer home-section__intro-ring" data-speed="-0.2" data-speed-x="0.05" />
+            <div className="home-section__crosshair parallax-layer home-section__intro-crosshair" data-speed="0.16" data-speed-x="-0.03" />
+            
+            {/* Floating geometric shapes with parallax */}
+            <div className="home-section__shape home-section__shape--1 parallax-layer" data-speed="-0.12" data-speed-x="0.08" />
+            <div className="home-section__shape home-section__shape--2 parallax-layer" data-speed="0.18" data-speed-x="-0.06" />
+            <div className="home-section__shape home-section__shape--3 parallax-layer" data-speed="-0.15" data-speed-x="0.04" />
+            
+            <div className="home-section__circuit home-section__circuit--left parallax-layer home-section__intro-rail-left" data-speed="-0.18" data-speed-x="0.06" />
+            <div className="home-section__circuit home-section__circuit--right parallax-layer home-section__intro-rail-right" data-speed="0.2" data-speed-x="-0.04" />
 
-        <div className="home-section__code home-section__code--left home-section__intro-copy parallax-float" data-float-speed="0.04">
-          <span className="home-section__code-line code-line-1"><em>const</em> hero = <strong>'ED'</strong></span>
-          <span className="home-section__code-line code-line-2"><em>theme</em>: <strong>'black'</strong></span>
-          <span className="home-section__code-line code-line-3"><em>motion</em>: <strong>'parallax'</strong></span>
-        </div>
+            <div className="home-section__center locked-content">
+              {codeBlocks.map((block) => (
+                <div
+                  key={block.className}
+                  className={`home-section__code ${block.className} home-section__intro-copy parallax-float`}
+                  data-float-speed={block.floatSpeed}
+                >
+                  {block.lines.map((line, index) => (
+                    <span key={`${block.className}-${index + 1}`} className={`home-section__code-line code-line-${index + 1}`}>
+                      {line}
+                    </span>
+                  ))}
+                </div>
+              ))}
 
-        <div className="home-section__code home-section__code--right home-section__intro-copy parallax-float" data-float-speed="0.05">
-          <span className="home-section__code-line code-line-1"><em>render</em>() {'=>'} visible</span>
-          <span className="home-section__code-line code-line-2"><em>image</em>: centered</span>
-          <span className="home-section__code-line code-line-3"><em>intro</em>: active</span>
-        </div>
+              <div className="home-section__image-wrap">
+                <div className="home-section__image-stack home-section__intro-image">
+                  <div className="home-section__image-shadow" />
+                  <span className="home-section__image-bg-text">EN</span>
+                  {/* Glyphs above EN with mix-blend-mode for color inversion */}
+                  {glyphs.map((glyph) => (
+                    <div
+                      key={glyph.className}
+                      className={`home-section__glyph home-section__glyph--en ${glyph.className} parallax-float`}
+                      data-float-speed={glyph.floatSpeed}
+                    >
+                      {glyph.text}
+                    </div>
+                  ))}
+                  <img className="home-section__image parallax-img" src={homeImage} alt="Portrait" data-img-scroll="0.14" />
+                </div>
+              </div>
 
-        <div className="home-section__center locked-content">
-          <div className="home-section__image-wrap parallax-image" data-img-speed="0.07">
-            <div className="home-section__image-stack home-section__intro-image">
-              <div className="home-section__image-shadow parallax-shadow" data-shadow-speed="0.16" />
-              <img className="home-section__image parallax-img" src={homeImage} alt="Portrait" data-img-scroll="0.14" />
+              <div className="home-section__subtext">
+                <p className="home-section__subtext-inner home-section__intro-baseline">
+                  UI engineer building dark, fast, product-facing interfaces.
+                </p>
+              </div>
             </div>
           </div>
         </div>
-
-        <div className="home-section__subtext parallax-text" data-text-speed="0.15">
-          <p className="home-section__subtext-inner home-section__intro-baseline">
-            UI engineer building dark, fast, product-facing interfaces.
-          </p>
-        </div>
-
       </div>
 
       <style>{`
         .home-section {
           position: relative;
+          height: 100%;
           overflow: hidden;
           background:
             #020202;
@@ -196,49 +235,60 @@ export const HomeSection = () => {
 
         .home-section__glyph {
           top: 50%;
-          font-family: 'Space Mono', monospace;
+          font-family: 'IBM Plex Mono', monospace;
           font-size: clamp(2rem, 4vw, 3.5rem);
           letter-spacing: 0.12em;
           color: rgba(255, 255, 255, 0.18);
-          text-shadow: 0 0 20px rgba(255, 255, 255, 0.08);
         }
 
-        .home-section__glyph--left {
+        /* Glyphs positioned above EN text with color inversion */
+        .home-section__glyph--en {
+          position: absolute;
+          z-index: 2;
+          font-family: 'IBM Plex Mono', monospace;
+          font-size: clamp(2rem, 5vw, 4rem);
+          letter-spacing: 0.12em;
+          color: rgba(255, 255, 255, 1);
+          mix-blend-mode: difference;
+          pointer-events: none;
+          will-change: transform;
+        }
+
+        /* Position glyphs using exact original layout */
+        .home-section__glyph--en {
+          top: 50%;
+        }
+
+        .home-section__glyph--en-1 {
           left: 12%;
         }
 
-        .home-section__glyph--right {
+        .home-section__glyph--en-2 {
           right: 11%;
         }
 
-        .home-section__glyph--top {
+        .home-section__glyph--en-3 {
           top: 3%;
           left: 50%;
           transform: translateX(-50%);
         }
 
-        .home-section__glyph--bottom {
-          bottom: 8%;
-          left: 50%;
-          transform: translateX(-50%);
-        }
-
-        .home-section__glyph--topleft {
+        .home-section__glyph--en-4 {
           top: 18%;
           left: 22%;
         }
 
-        .home-section__glyph--topright {
+        .home-section__glyph--en-5 {
           top: 12%;
           right: 18%;
         }
 
-        .home-section__glyph--bottomleft {
+        .home-section__glyph--en-6 {
           bottom: 15%;
           left: 18%;
         }
 
-        .home-section__glyph--bottomright {
+        .home-section__glyph--en-7 {
           bottom: 20%;
           right: 22%;
         }
@@ -247,7 +297,7 @@ export const HomeSection = () => {
           display: flex;
           flex-direction: column;
           gap: 0.3rem;
-          font-family: 'Space Mono', monospace;
+          font-family: 'IBM Plex Mono', monospace;
           font-size: 11px;
           letter-spacing: 0.04em;
           color: rgba(255, 255, 255, 0.42);
@@ -286,43 +336,12 @@ export const HomeSection = () => {
         .code-line-2 { transform: translateX(8px); }
         .code-line-3 { transform: translateX(16px); }
 
-        .home-section__terminal {
-          left: clamp(24px, 6vw, 96px);
-          top: clamp(24px, 6vh, 52px);
-          width: min(280px, calc(100vw - 48px));
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          background: rgba(6, 6, 8, 0.7);
-          box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
-          backdrop-filter: blur(8px);
-        }
-
-        .home-section__terminal-bar {
-          display: flex;
-          gap: 6px;
-          padding: 10px 12px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .home-section__terminal-bar span {
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.22);
-        }
-
-        .home-section__terminal-body {
-          padding: 12px;
-          font-family: 'Space Mono', monospace;
-          font-size: 11px;
-          line-height: 1.8;
-          color: rgba(255, 255, 255, 0.62);
-        }
-
         .home-section__center {
           z-index: 2;
           display: grid;
           place-items: stretch;
           padding: 0;
+          transform-origin: center center;
         }
 
         .home-section__intro-copy,
@@ -406,6 +425,29 @@ export const HomeSection = () => {
 
         .home-section__image-shadow {
           display: none;
+        }
+
+        .home-section__image-bg-text {
+          position: absolute;
+          top: 40%;
+          left: 55%;
+          transform: translate(-50%, -50%);
+          z-index: 1;
+          font-family: 'Sora', sans-serif;
+          font-size: clamp(400px, 150vw, 600px);
+          font-weight: 700;
+          letter-spacing: 0.3em;
+          line-height: 0.82;
+          color: #ffffff;
+          text-shadow:
+            0 0 24px rgba(255, 255, 255, 0.22),
+            0 0 56px rgba(255, 255, 255, 0.14),
+            0 0 120px rgba(255, 255, 255, 0.1),
+            0 0 180px rgba(255, 255, 255, 0.06);
+          pointer-events: none;
+          user-select: none;
+          white-space: nowrap;
+          will-change: transform, opacity, color;
         }
 
         .home-section__image {

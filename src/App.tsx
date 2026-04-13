@@ -18,6 +18,9 @@ function App() {
   return (
     <>
       <main style={{ position: 'relative', height: '900vh' }}>
+        <div aria-hidden="true" className="global-en-backdrop">
+          EN
+        </div>
         <HomeSection />
         <AboutSection />
         <ExperienceSection />

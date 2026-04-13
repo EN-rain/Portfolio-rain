@@ -22,11 +22,12 @@ html {
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #060b18;
+  background: #ffffff;
   color: #e2e8f0;
   overflow-x: hidden;
 }
 
 #root {
   position: relative;
+  background: #ffffff;
 }
