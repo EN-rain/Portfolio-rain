@@ -52,8 +52,8 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
       [255, 255, 255],
       [2, 2, 2],
       [255, 255, 255],
-      [255, 255, 255],
       [2, 2, 2],
+      [255, 255, 255],
     ] as const;
 
     const mixChannel = (from: number, to: number, progress: number) => from + ((to - from) * progress);
@@ -83,9 +83,9 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
       const sectionAnchors = [
         0,
         pauseLength + transitionLength,
-        pauseLength + transitionLength + pauseLength + transitionLength,
-        2 * (pauseLength + transitionLength) + pauseLength + transitionLength,
-        3 * (pauseLength + transitionLength) + pauseLength + transitionLength,
+        2 * (pauseLength + transitionLength),
+        3 * (pauseLength + transitionLength),
+        4 * (pauseLength + transitionLength),
       ];
 
       let backgroundIndex = 0;
@@ -117,28 +117,27 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
 
       // Section 4 (Experience) uses standard timing but has a custom shrink/flip exit animation
       const section4LeaveStart = 3 * (transitionLength + pauseLength) + pauseLength;
-      const section4LeaveEnd = section4LeaveStart + transitionLength;
 
       let section4ProgressSnapshot = 0;
 
       const sections = document.querySelectorAll('.stack-section');
       
-      // Ensure first section is visible on initial load
-      if (currentScroll < 10 && sections[0]) {
-        (sections[0] as HTMLElement).style.transform = `translate3d(0vw, 0vh, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(${maxScale})`;
-        (sections[0] as HTMLElement).style.opacity = '1';
-      }
-      
-      sections.forEach((sec, i) => {
-        const inner = sec.querySelector('.parallax-content') as HTMLElement;
-        const bgImages = sec.querySelectorAll('.bg-image') as NodeListOf<HTMLElement>;
+        // Ensure first section is visible on initial load
+        if (currentScroll < 10 && sections[0]) {
+          (sections[0] as HTMLElement).style.transform = `translate3d(0vw, 0vh, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(${maxScale})`;
+          (sections[0] as HTMLElement).style.opacity = '1';
+        }
         
-        const enterStart = i === 0 ? 0 : ((i - 1) * (transitionLength + pauseLength)) + pauseLength;
-        const enterEnd = i === 0 ? 0 : enterStart + transitionLength;
-        const leaveStart = i * (transitionLength + pauseLength) + pauseLength;
-        const leaveEnd = leaveStart + transitionLength;
+        sections.forEach((sec, i) => {
+          const inner = sec.querySelector('.parallax-content') as HTMLElement;
+          const bgImages = sec.querySelectorAll('.bg-image') as NodeListOf<HTMLElement>;
+          
+          const enterStart = i === 0 ? 0 : ((i - 1) * (transitionLength + pauseLength)) + pauseLength;
+          const enterEnd = i === 0 ? 0 : enterStart + transitionLength;
+          const leaveStart = i * (transitionLength + pauseLength) + pauseLength;
+          const leaveEnd = leaveStart + transitionLength;
 
-        let currentYMoveVh = 0;
+          let currentYMoveVh = 0;
         let currentRotation = 0;
         let currentRotationX = 0;
         let currentRotationY = 0;
@@ -148,7 +147,7 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
         let section4HorizontalProgress = 0;
 
         if (i === 0) {
-          // --- SECTION 1 LOGIC ---
+          // --- SECTION 1 LOGIC (Home) ---
           if (currentScroll < leaveStart) {
             currentYMoveVh = 0;
             currentRotation = 0;
@@ -167,69 +166,6 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
             currentScale = minScale;
             currentOpacity = 1;
           }
-        } else if (i === 4) {
-          // SECTION 5 LOGIC (CONTACT)
-          if (currentScroll < section4LeaveStart) {
-            currentYMoveVh = 100;
-          } else {
-            currentYMoveVh = 0;
-          }
-          currentRotation = 0;
-          currentScale = 1;
-        } else if (i === 3) {
-          // SECTION 4 LOGIC (EXPERIENCE)
-          if (currentScroll < enterStart) {
-            currentYMoveVh = -(100 + gapVh);
-            currentRotation = -10;
-            currentScale = minScale;
-            currentOpacity = 1;
-            lockedContentXVw = 0;
-            section4HorizontalProgress = 0;
-          } else if (currentScroll >= enterStart && currentScroll < enterEnd) {
-            let progress = (currentScroll - enterStart) / transitionLength;
-            let smoothProgress = progress < 0.75 ? (progress / 0.75) * (progress / 0.75) : 1;
-            currentYMoveVh = -(100 + gapVh) + (progress * (100 + gapVh));
-            currentRotation = -10 + (progress * 10);
-            currentScale = minScale + (smoothProgress * (maxScale - minScale));
-            currentOpacity = 1;
-            lockedContentXVw = 0;
-            section4HorizontalProgress = 0;
-          } else if (currentScroll >= enterEnd && currentScroll < section4LeaveStart) {
-            currentYMoveVh = 0;
-            currentRotation = 0;
-            currentScale = maxScale;
-            currentOpacity = 1;
-            lockedContentXVw = 0;
-            section4HorizontalProgress = 0;
-          } else if (currentScroll >= section4LeaveStart && currentScroll < section4LeaveEnd) {
-            let progress = (currentScroll - section4LeaveStart) / transitionLength;
-
-            let pShrink = Math.max(0, Math.min(1, progress / 0.35));
-            let pRotate = Math.max(0, Math.min(1, (progress - 0.15) / 0.40));
-            let pExit = Math.max(0, Math.min(1, (progress - 0.70) / 0.30));
-
-            let sShrink = pShrink < 0.5 ? 2 * pShrink * pShrink : 1 - Math.pow(-2 * pShrink + 2, 2) / 2;
-            let sRotate = pRotate < 0.5 ? 2 * pRotate * pRotate : 1 - Math.pow(-2 * pRotate + 2, 2) / 2;
-            let sExit = pExit < 0.5 ? 2 * pExit * pExit : 1 - Math.pow(-2 * pExit + 2, 2) / 2;
-
-            currentScale = maxScale - (sShrink * (maxScale * 0.8));
-            currentYMoveVh = (sShrink * 30) + (sExit * (100 + gapVh - 30));
-            currentRotationY = sRotate * 70;
-            currentOpacity = 1 - sExit;
-
-            currentRotation = 0;
-            lockedContentXVw = 0;
-            section4HorizontalProgress = 1;
-          } else {
-            currentYMoveVh = 100 + gapVh;
-            currentRotation = 0;
-            currentRotationY = 70;
-            currentScale = maxScale - (maxScale * 0.8);
-            currentOpacity = 0;
-            lockedContentXVw = 0;
-            section4HorizontalProgress = 1;
-          }
-          section4ProgressSnapshot = section4HorizontalProgress;
         } else if (i === 1) {
           // SECTION 2 LOGIC (About) — enters from TOP (slides down)
           if (currentScroll < enterStart) {
@@ -262,13 +198,14 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
             currentScale = minScale;
             currentOpacity = 1;
           }
-        } else {
-          // SECTION 3 LOGIC (Projects) — enters from TOP
+        } else if (i === 2) {
+          // SECTION 3 LOGIC (Experience)
           if (currentScroll < enterStart) {
             currentYMoveVh = -(100 + gapVh);
             currentRotation = -10;
             currentScale = minScale;
             currentOpacity = 1;
+            section4HorizontalProgress = 0;
           } else if (currentScroll >= enterStart && currentScroll < enterEnd) {
             let progress = (currentScroll - enterStart) / transitionLength;
             let smoothProgress = progress < 0.75 ? (progress / 0.75) * (progress / 0.75) : 1;
@@ -276,11 +213,13 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
             currentRotation = -10 + (progress * 10);
             currentScale = minScale + (smoothProgress * (maxScale - minScale));
             currentOpacity = 1;
+            section4HorizontalProgress = 0;
           } else if (currentScroll >= enterEnd && currentScroll < leaveStart) {
             currentYMoveVh = 0;
             currentRotation = 0;
             currentScale = maxScale;
             currentOpacity = 1;
+            section4HorizontalProgress = (currentScroll - enterEnd) / (leaveStart - enterEnd);
           } else if (currentScroll >= leaveStart && currentScroll < leaveEnd) {
             let progress = (currentScroll - leaveStart) / transitionLength;
             let smoothProgress = progress < 0.75 ? (progress / 0.75) * (progress / 0.75) : 1;
@@ -288,12 +227,79 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
             currentRotation = progress * 10;
             currentScale = maxScale - (smoothProgress * (maxScale - minScale));
             currentOpacity = 1;
+            section4HorizontalProgress = 1;
           } else {
             currentYMoveVh = 100 + gapVh;
             currentRotation = 10;
             currentScale = minScale;
             currentOpacity = 1;
+            section4HorizontalProgress = 1;
           }
+          section4ProgressSnapshot = section4HorizontalProgress;
+        } else if (i === 3) {
+          // SECTION 4 LOGIC (Projects)
+          if (currentScroll < enterStart) {
+            currentYMoveVh = -(100 + gapVh);
+            currentRotation = -10;
+            currentScale = minScale;
+            currentOpacity = 1;
+            lockedContentXVw = 0;
+          } else if (currentScroll >= enterStart && currentScroll < enterEnd) {
+            let progress = (currentScroll - enterStart) / transitionLength;
+            let smoothProgress = progress < 0.75 ? (progress / 0.75) * (progress / 0.75) : 1;
+            currentYMoveVh = -(100 + gapVh) + (progress * (100 + gapVh));
+            currentRotation = -10 + (progress * 10);
+            currentScale = minScale + (smoothProgress * (maxScale - minScale));
+            currentOpacity = 1;
+            lockedContentXVw = 0;
+          } else if (currentScroll >= enterEnd && currentScroll < leaveStart) {
+            currentYMoveVh = 0;
+            currentRotation = 0;
+            currentScale = maxScale;
+            currentOpacity = 1;
+            lockedContentXVw = 0;
+          } else if (currentScroll >= leaveStart && currentScroll < leaveEnd) {
+            let progress = (currentScroll - leaveStart) / transitionLength;
+
+            let pShrink = Math.max(0, Math.min(1, progress / 0.35));
+            let pRotate = Math.max(0, Math.min(1, (progress - 0.15) / 0.40));
+            let pExit = Math.max(0, Math.min(1, (progress - 0.70) / 0.30));
+
+            let sShrink = pShrink < 0.5 ? 2 * pShrink * pShrink : 1 - Math.pow(-2 * pShrink + 2, 2) / 2;
+            let sRotate = pRotate < 0.5 ? 2 * pRotate * pRotate : 1 - Math.pow(-2 * pRotate + 2, 2) / 2;
+            let sExit = pExit < 0.5 ? 2 * pExit * pExit : 1 - Math.pow(-2 * pExit + 2, 2) / 2;
+
+            currentScale = maxScale - (sShrink * (maxScale * 0.8));
+            currentYMoveVh = (sShrink * 30) + (sExit * (100 + gapVh - 30));
+            currentRotationY = sRotate * 70;
+            currentOpacity = 1 - sExit;
+
+            currentRotation = 0;
+            lockedContentXVw = 0;
+          } else {
+            currentYMoveVh = 100 + gapVh;
+            currentRotation = 0;
+            currentRotationY = 70;
+            currentScale = maxScale - (maxScale * 0.8);
+            currentOpacity = 0;
+            lockedContentXVw = 0;
+          }
+        } else if (i === 4) {
+          // SECTION 5 LOGIC (Contact)
+          const contactRevealStart = 3 * (transitionLength + pauseLength) + pauseLength; // Matches ProjectsSection leaveStart
+          if (currentScroll < contactRevealStart) {
+            currentYMoveVh = 0;
+            currentOpacity = 0;
+          } else if (currentScroll >= contactRevealStart && currentScroll < contactRevealStart + transitionLength) {
+            // Reveal behind ProjectsSection as it flips
+            currentYMoveVh = 0;
+            currentOpacity = 1;
+          } else {
+            currentYMoveVh = 0;
+            currentOpacity = 1;
+          }
+          currentRotation = 0;
+          currentScale = 1;
         }
 
         let currentXMoveVw = 0;
@@ -359,19 +365,19 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
           edPrimaryColor = `rgba(255, 255, 255, ${0.76 - (progress * 0.2)})`;
 
           // HomeSection E letter - separate position
-          homeLetterEX = progress * 52.5;    // E end X
-          homeLetterEY = progress * -20;   // E end Y
+          homeLetterEX = progress * 24;    // E end X
+          homeLetterEY = progress * -30;   // E end Y
           // HomeSection N letter - separate position
-          homeLetterNX = progress * -45;    // N end X
+          homeLetterNX = progress * -68;    // N end X
           homeLetterNY = progress * -10;   // N end Y
           homeEnScale = 1 - (progress * 0.83);
 
           // Global EN backdrop - separate animation
           globalEnTranslateX = -50 + (progress * 18);
           globalEnTranslateY = -50 - (progress * 15);
-          letterEX = progress * 34;
+          letterEX = progress * -1;
           letterEY = progress * -16;
-          letterNX = progress * -60;
+          letterNX = progress * -86.7;
           letterNY = progress * 1;
           globalEnScale = 1 - (progress * 0.83);
         }
@@ -593,8 +599,9 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
       const contactIcon = document.getElementById('contact-icon') as HTMLElement;
       const contactTexts = document.querySelectorAll('.contact-text') as NodeListOf<HTMLElement>;
       const contactAnimDuration = transitionLength * 0.6;
+      const contactEnterStart = 4 * (transitionLength + pauseLength);
 
-      if (currentScroll < section4LeaveEnd) {
+      if (currentScroll < contactEnterStart) {
         if (contactIcon) {
           contactIcon.style.transform = `rotateY(90deg)`;
           contactIcon.style.opacity = '0';
@@ -603,8 +610,8 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
           el.style.opacity = '0';
           el.style.transform = 'translate(0,0)';
         });
-      } else if (currentScroll >= section4LeaveEnd && currentScroll < section4LeaveEnd + contactAnimDuration) {
-        const p = (currentScroll - section4LeaveEnd) / contactAnimDuration;
+      } else if (currentScroll >= contactEnterStart && currentScroll < contactEnterStart + contactAnimDuration) {
+        const p = (currentScroll - contactEnterStart) / contactAnimDuration;
         const eased = 1 - Math.pow(1 - p, 3);
         if (contactIcon) {
           contactIcon.style.transform = `rotateY(${90 - eased * 90}deg)`;

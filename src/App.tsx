@@ -17,7 +17,7 @@ function App() {
 
   return (
     <>
-      <main style={{ position: 'relative', height: '900vh' }}>
+      <main style={{ position: 'relative', height: '1050vh' }}>
         <div aria-hidden="true" className="global-en-backdrop">
           <span className="letter-e">E</span>
           <span className="letter-n">N</span>
