@@ -4,56 +4,10 @@ export const AboutSection = () => {
       <div className="clip-gap-outer parallax-content">
         <div className="clip-gap-inner flex flex-col items-center justify-center pb-12">
           <div className="absolute inset-0" style={{ backgroundColor: '#f7f7fc' }}></div>
-
-          <div className="about-section__en-wrap locked-content">
-            <div className="about-section__en-text">
-              <span className="about-section__e">E</span>
-              <span className="about-section__n">N</span>
-            </div>
-          </div>
         </div>
       </div>
 
       <style>{`
-        .about-section__en-wrap {
-          position: absolute;
-          inset: 0;
-          z-index: 0;
-          pointer-events: none;
-          transform-origin: center center;
-        }
-
-      .about-section__en-text {
-        position: absolute;
-        top: 46%;
-        left: 49.2%;
-        z-index: 0;
-        font-family: 'Sora', sans-serif;
-        font-size: clamp(400px, 150vw, 600px);
-        font-weight: 700;
-        letter-spacing: 0;
-        line-height: 0.82;
-        color: #000000;
-        transform: translate(-50%, -50%);
-        pointer-events: none;
-        user-select: none;
-        white-space: nowrap;
-        will-change: transform;
-        display: block;
-      }
-
-      .about-section__e {
-        position: absolute;
-        left: 50%;
-        will-change: transform;
-      }
-
-      .about-section__n {
-        position: absolute;
-        left: 50%;
-        will-change: transform;
-      }
-
         @media (min-width: 1025px) {
           .about-shell {
             gap: 2.5rem !important;

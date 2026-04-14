@@ -198,7 +198,7 @@ export const ProjectsSection = memo(() => {
   }, []);
 
   return (
-    <section className="stack-section mask-shaped-section" style={{ zIndex: 50, '--mask-color': '#6c2bd9', '--mask-shadow': '#6c2bd98c' } as CSSProperties}>
+    <section className="stack-section mask-shaped-section" style={{ zIndex: 130, '--mask-color': '#6c2bd9', '--mask-shadow': '#6c2bd98c' } as CSSProperties}>
       <div className="clip-gap-outer parallax-content">
         <div className="clip-gap-inner" style={{ position: 'absolute', inset: 0, backgroundColor: '#0a1020' }}>
           <div

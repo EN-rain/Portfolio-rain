@@ -2,7 +2,7 @@ import icon from '../../assets/images/icon.jpg';
 
 export const ContactSection = () => {
   return (
-    <section className="stack-section" style={{ zIndex: 45 }}>
+    <section className="stack-section" style={{ zIndex: 125 }}>
       <div
         className="parallax-content relative flex flex-col items-center justify-center overflow-hidden px-6 text-white"
         style={{ backgroundColor: '#050308' }}

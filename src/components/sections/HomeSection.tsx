@@ -33,7 +33,7 @@ const glyphs = [
 
 export const HomeSection = () => {
   return (
-    <section className="stack-section mask-shaped-section mask-theme-purple" style={{ zIndex: 10, transform: 'translate3d(0, 0, 0)' }}>
+    <section className="stack-section mask-shaped-section mask-theme-purple" style={{ zIndex: 110, transform: 'translate3d(0, 0, 0)' }}>
       <div className="clip-gap-outer parallax-content">
         <div className="clip-gap-inner" style={{ backgroundColor: '#020202' }}>
           <div className="home-section">
@@ -71,7 +71,10 @@ export const HomeSection = () => {
               <div className="home-section__image-wrap">
                 <div className="home-section__image-stack home-section__intro-image">
                   <div className="home-section__image-shadow" />
-                  <span className="home-section__image-bg-text">EN</span>
+                  <span className="home-section__image-bg-text">
+                    <span className="home-letter-e">E</span>
+                    <span className="home-letter-n">N</span>
+                  </span>
                   {/* Glyphs above EN with mix-blend-mode for color inversion */}
                   {glyphs.map((glyph) => (
                     <div
@@ -439,15 +442,20 @@ export const HomeSection = () => {
           letter-spacing: 0.3em;
           line-height: 0.82;
           color: #ffffff;
+          pointer-events: none;
+          user-select: none;
+          white-space: nowrap;
+          will-change: transform, opacity, color;
+        }
+
+        .home-letter-e,
+        .home-letter-n {
+          display: inline-block;
           text-shadow:
             0 0 24px rgba(255, 255, 255, 0.22),
             0 0 56px rgba(255, 255, 255, 0.14),
             0 0 120px rgba(255, 255, 255, 0.1),
             0 0 180px rgba(255, 255, 255, 0.06);
-          pointer-events: none;
-          user-select: none;
-          white-space: nowrap;
-          will-change: transform, opacity, color;
         }
 
         .home-section__image {

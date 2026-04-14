@@ -77,8 +77,8 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
       if (progressEl) progressEl.style.width = `${scrollProgress}%`;
 
       const transitionLength = vh;
-      const pauseLength = vh * 0.3; // Reduced from 0.5 to 0.3 for less space
-      const gapVh = 25; // Reduced from 40 to 25
+      const pauseLength = vh * 1.2; 
+      const gapVh = 25; 
 
       const sectionAnchors = [
         0,
@@ -102,17 +102,6 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
       const nextBackground = backgroundStops[nextBackgroundIndex];
       const shellBackground = `rgb(${Math.round(mixChannel(currentBackground[0], nextBackground[0], backgroundProgress))}, ${Math.round(mixChannel(currentBackground[1], nextBackground[1], backgroundProgress))}, ${Math.round(mixChannel(currentBackground[2], nextBackground[2], backgroundProgress))})`;
       const globalEnBackdrop = document.querySelector('.global-en-backdrop') as HTMLElement | null;
-
-      // Hide global EN when section 2 is fully centered
-      const section2EnterEnd = pauseLength + transitionLength;
-      const section2LeaveStart = transitionLength + (pauseLength * 2);
-      if (globalEnBackdrop) {
-        if (currentScroll >= section2EnterEnd && currentScroll < section2LeaveStart) {
-          globalEnBackdrop.style.opacity = '0';
-        } else {
-          globalEnBackdrop.style.opacity = '1';
-        }
-      }
 
       document.body.style.backgroundColor = shellBackground;
       document.documentElement.style.backgroundColor = shellBackground;
@@ -323,20 +312,68 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
         const edTransitionStart = pauseLength + (transitionLength * 0.2);
         const edTransitionEnd = pauseLength + transitionLength;
 
+        if (globalEnBackdrop) {
+          // Section 2 (About) range where we want the blending to be active
+          const section2Start = pauseLength;
+          const section2End = (pauseLength + transitionLength) * 2;
+
+          if (currentScroll >= section2Start && currentScroll < section2End) {
+            globalEnBackdrop.style.mixBlendMode = 'difference';
+          } else {
+            globalEnBackdrop.style.mixBlendMode = 'normal';
+          }
+
+          // Always show global EN above sections
+          globalEnBackdrop.style.opacity = '1';
+        }
+
         let edTranslateX = -50;
         let edTranslateY = -50;
         let edScale = 1;
         let edPrimaryOpacity = 1;
         let edPrimaryColor = 'rgba(255, 255, 255, 0.76)';
 
+        // Separate positions for HomeSection EN letters
+        let homeLetterEX = 0;
+        let homeLetterEY = 0;
+        let homeLetterNX = 0;
+        let homeLetterNY = 0;
+        let homeEnScale = 1;
+
+        // Separate positions for global EN backdrop E and N letters
+        let letterEX = 0;
+        let letterEY = 0;
+        let letterNX = 0;
+        let letterNY = 0;
+        let globalEnScale = 1;
+        let globalEnTranslateX = -50;
+        let globalEnTranslateY = -50;
+
         if (currentScroll > edTransitionStart) {
           const progress = easeInOut((currentScroll - edTransitionStart) / Math.max(1, edTransitionEnd - edTransitionStart));
-          // Moving to the RIGHT instead of left, reduced displacement
-          edTranslateX = -50 + (progress * 10); 
-          edTranslateY = -50 - (progress * 15);
+          // HomeSection EN animation - container
+          edTranslateX = -50 + (progress * 10);
+          edTranslateY = -50 - (progress * 10);
           edScale = 1 - (progress * 0.83);
           edPrimaryOpacity = 1 - (progress * 0.58);
           edPrimaryColor = `rgba(255, 255, 255, ${0.76 - (progress * 0.2)})`;
+
+          // HomeSection E letter - separate position
+          homeLetterEX = progress * 52.5;    // E end X
+          homeLetterEY = progress * -20;   // E end Y
+          // HomeSection N letter - separate position
+          homeLetterNX = progress * -45;    // N end X
+          homeLetterNY = progress * -10;   // N end Y
+          homeEnScale = 1 - (progress * 0.83);
+
+          // Global EN backdrop - separate animation
+          globalEnTranslateX = -50 + (progress * 18);
+          globalEnTranslateY = -50 - (progress * 15);
+          letterEX = progress * 34;
+          letterEY = progress * -16;
+          letterNX = progress * -60;
+          letterNY = progress * 1;
+          globalEnScale = 1 - (progress * 0.83);
         }
 
         // Parallax Layers for Section 1
@@ -345,9 +382,19 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
           const heroPortrait = sec.querySelector('.home-section__intro-image') as HTMLElement | null;
 
           if (edPrimary) {
-            edPrimary.style.transform = `translate3d(${edTranslateX}%, ${edTranslateY}%, 0) scale(${edScale})`;
+            // Apply transform to container for position
+            edPrimary.style.transform = `translate3d(${edTranslateX}%, ${edTranslateY}%, 0)`;
             edPrimary.style.opacity = `${edPrimaryOpacity}`;
             edPrimary.style.color = edPrimaryColor;
+            // Apply position and scale separately to each letter
+            const homeLetterE = edPrimary.querySelector('.home-letter-e') as HTMLElement | null;
+            const homeLetterN = edPrimary.querySelector('.home-letter-n') as HTMLElement | null;
+            if (homeLetterE) {
+              homeLetterE.style.transform = `translate3d(${homeLetterEX}%, ${homeLetterEY}%, 0) scale(${homeEnScale})`;
+            }
+            if (homeLetterN) {
+              homeLetterN.style.transform = `translate3d(${homeLetterNX}%, ${homeLetterNY}%, 0) scale(${homeEnScale})`;
+            }
           }
 
           if (heroPortrait) {
@@ -356,7 +403,17 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
           }
 
           if (globalEnBackdrop) {
-            globalEnBackdrop.style.transform = `translate3d(${edTranslateX}%, ${edTranslateY}%, 0) scale(${edScale})`;
+            // Apply transform to container for position
+            globalEnBackdrop.style.transform = `translate3d(${globalEnTranslateX}%, ${globalEnTranslateY}%, 0)`;
+            // Apply position and scale separately to each letter
+            const letterE = globalEnBackdrop.querySelector('.letter-e') as HTMLElement | null;
+            const letterN = globalEnBackdrop.querySelector('.letter-n') as HTMLElement | null;
+            if (letterE) {
+              letterE.style.transform = `translate3d(${letterEX}%, ${letterEY}%, 0) scale(${globalEnScale})`;
+            }
+            if (letterN) {
+              letterN.style.transform = `translate3d(${letterNX}%, ${letterNY}%, 0) scale(${globalEnScale})`;
+            }
           }
 
           const parallaxLayers = sec.querySelectorAll('.parallax-layer') as NodeListOf<HTMLElement>;
@@ -463,32 +520,9 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
           }
         }
 
-        // 3rd EN in Section 2 (About) - only shrinks, locked-content handles staying in place
+        // ED animation values (shared across sections)
         if (i === 1) {
-          const eElement = sec.querySelector('.about-section__e') as HTMLElement | null;
-          const nElement = sec.querySelector('.about-section__n') as HTMLElement | null;
-          const aboutEn = sec.querySelector('.about-section__en-text') as HTMLElement | null;
-          
-          // Use the exact same progress as the global backdrop for visual sync
-          const edProg = currentScroll > edTransitionStart 
-            ? easeInOut((currentScroll - edTransitionStart) / Math.max(1, edTransitionEnd - edTransitionStart))
-            : 0;
-
-          if (eElement && nElement) {
-            // Initial: Side-by-side (E at -100%, N at 0%)
-            // End: Vertical Stack shifted slightly RIGHT (split Y)
-            const splitX_E = -100 + (200 * edProg);
-            const splitX_N = (80 * edProg); 
-            const splitY_E = -(200 * edProg); // Offset UP
-            const splitY_N = (-100 * edProg);  // Offset DOWN
-            
-            eElement.style.transform = `translate3d(${splitX_E}%, ${splitY_E}%, 0)`;
-            nElement.style.transform = `translate3d(${splitX_N}%, ${splitY_N}%, 0)`;
-          }
-
-          if (aboutEn) {
-            aboutEn.style.transform = `translate3d(${edTranslateX}%, ${edTranslateY}%, 0) scale(${edScale})`;
-          }
+          // Section 2 (About) uses the global EN backdrop
         }
 
         if (inner) {
