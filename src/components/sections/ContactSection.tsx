@@ -2,10 +2,10 @@ import icon from '../../assets/images/icon.jpg';
 
 export const ContactSection = () => {
   return (
-    <section className="stack-section" style={{ zIndex: 130 }}>
+    <section id="contact" className="stack-section" style={{ zIndex: 400 }}>
       <div
-        className="parallax-content relative flex flex-col items-center justify-center overflow-hidden px-6 text-white"
-        style={{ backgroundColor: '#050308' }}
+        className="parallax-content relative flex flex-col items-center justify-center overflow-hidden px-6 text-[#151226]"
+        style={{ backgroundColor: '#ffffff' }}
       >
         <div className="absolute inset-0" style={{ pointerEvents: 'none' }}>
           <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1920 1080">
@@ -61,7 +61,7 @@ export const ContactSection = () => {
                 letterSpacing: '-0.05em',
                 fontWeight: 800,
                 textTransform: 'uppercase',
-                color: '#f5f3ff'
+                color: '#151226'
               }}
             >
               Let&apos;s build
@@ -76,7 +76,7 @@ export const ContactSection = () => {
                 maxWidth: '500px',
                 fontSize: '15px',
                 lineHeight: 1.85,
-                color: 'rgba(245, 243, 255, 0.72)'
+                color: 'rgba(21, 18, 38, 0.72)'
               }}
             >
               Open to junior full-stack and associate engineering roles, especially teams working on product systems, AI tools, internal platforms, or automation-heavy workflows.
@@ -137,7 +137,7 @@ export const ContactSection = () => {
               >
                 <div
                   style={{
-                    color: '#f5f3ff',
+                    color: '#151226',
                     fontSize: '16px',
                     lineHeight: 1.5,
                     fontWeight: 600
@@ -192,7 +192,7 @@ export const ContactSection = () => {
                     target={item.href.startsWith('http') ? '_blank' : undefined}
                     rel={item.href.startsWith('http') ? 'noreferrer' : undefined}
                     style={{
-                      color: '#f5f3ff',
+                      color: '#151226',
                       textDecoration: 'none',
                       fontSize: '15px',
                       lineHeight: 1.55,
@@ -202,7 +202,7 @@ export const ContactSection = () => {
                     {item.value}
                   </a>
                 ) : (
-                  <div style={{ color: '#f5f3ff', fontSize: '15px', lineHeight: 1.55 }}>{item.value}</div>
+                  <div style={{ color: '#151226', fontSize: '15px', lineHeight: 1.55 }}>{item.value}</div>
                 )}
               </div>
             ))}

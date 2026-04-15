@@ -33,7 +33,7 @@ const glyphs = [
 
 export const HomeSection = () => {
   return (
-    <section className="stack-section mask-shaped-section mask-theme-purple" style={{ zIndex: 110, transform: 'translate3d(0, 0, 0)' }}>
+    <section id="home" className="stack-section mask-shaped-section mask-theme-purple" style={{ zIndex: 300, transform: 'translate3d(0, 0, 0)' }}>
       <div className="clip-gap-outer parallax-content">
         <div className="clip-gap-inner" style={{ backgroundColor: '#020202' }}>
           <div className="home-section">

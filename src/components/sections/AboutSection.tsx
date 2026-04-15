@@ -2,7 +2,7 @@ import heroImage from '../../assets/images/hero.png';
 
 export const AboutSection = () => {
   return (
-    <section className="stack-section mask-shaped-section mask-theme-purple" style={{ zIndex: 20 }}>
+    <section id="about" className="stack-section mask-shaped-section mask-theme-purple" style={{ zIndex: 20 }}>
       <div className="clip-gap-outer parallax-content">
         <div className="clip-gap-inner">
           <div className="absolute inset-0" style={{ backgroundColor: '#f7f7fc' }}></div>

@@ -1,5 +1,4 @@
-export { HomeSection } from './HomeSection';
-export { AboutSection } from './AboutSection';
-export { ProjectsSection } from './ProjectsSection';
-export { ExperienceSection } from './ExperienceSection';
-export { ContactSection } from './ContactSection';
+export * from './HomeSection';
+export * from './AboutSection';
+export * from './WorksSection';
+export * from './ContactSection';
