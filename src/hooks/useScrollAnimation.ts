@@ -1,3 +1,10 @@
+// Re-export from modular structure
+export { useScrollAnimation } from './scroll/useScrollAnimation';
+export type { DomCache, ScrollContext, SectionAnimationState, LenisInstance, LenisOptions } from './scroll/types';
+export { clamp, easeInOut, mixChannel, backgroundStops, getSectionAnchors, smoothProgress } from './scroll/utils';
+
+// Legacy support - original implementation kept for reference
+/*
 import { useEffect, useRef, useCallback } from 'react';
 
 export const useScrollAnimation = (onSectionChange: (index: number) => void) => {
@@ -286,8 +293,21 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
         if (cachedBackdrop) {
           const section2Start = pauseLength;
           const section2End = (pauseLength + transitionLength) * 2;
+          const section3EnterStart = pauseLength + transitionLength + pauseLength;
+          const section3SettleEnd = section3EnterStart + (transitionLength * 0.8);
+
           cachedBackdrop.style.mixBlendMode = (currentScroll >= section2Start && currentScroll < section2End) ? 'difference' : 'normal';
-          cachedBackdrop.style.opacity = '1';
+          
+          // Hide immediately after it settles in section 3
+          if (currentScroll >= section3SettleEnd) {
+            cachedBackdrop.style.opacity = '0';
+            cachedBackdrop.style.visibility = 'hidden';
+            window.dispatchEvent(new CustomEvent('en-reveal', { detail: { visible: true } }));
+          } else {
+            cachedBackdrop.style.opacity = '1';
+            cachedBackdrop.style.visibility = 'visible';
+            window.dispatchEvent(new CustomEvent('en-reveal', { detail: { visible: false } }));
+          }
         }
 
         let edTranslateX = -50, edTranslateY = -50, edScale = 1, edPrimaryOpacity = 1;
@@ -314,9 +334,9 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
             const progress3 = easeInOut(clamp((currentScroll - section3EnterStart) / Math.max(1, section3SettleEnd - section3EnterStart)));
             globalEnTranslateX += (progress3 * -10);
             globalEnTranslateY += (progress3 * 35);
-            letterEX += (progress3 * 11);
+            letterEX += (progress3 * 10.45);
             letterEY += (progress3 * -28.8);
-            letterNX += (progress3 * 12.5);
+            letterNX += (progress3 * 12);
             letterNY += (progress3 * -45.8);
             globalEnScale = Math.max(0.01, globalEnScale - (progress3 * 0.07));
           }
@@ -512,3 +532,4 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
     };
   }, [onSectionChange, cacheDom]);
 };
+*/
