@@ -38,26 +38,26 @@ export const HomeSection = () => {
         <div className="clip-gap-inner" style={{ backgroundColor: '#020202' }}>
           <div className="home-section">
             {/* Background gradient orb with parallax */}
-            <div className="home-section__orb parallax-layer" data-speed="0.05" data-speed-x="-0.02" />
+            <div className="home-section__orb parallax-layer mobile-hide" data-speed="0.05" data-speed-x="-0.02" />
             
-            <div className="home-section__grain parallax-layer" data-speed="-0.08" data-speed-x="0.02" />
-            <div className="home-section__vignette parallax-layer" data-speed="-0.05" />
-            <div className="home-section__ring parallax-layer home-section__intro-ring" data-speed="-0.2" data-speed-x="0.05" />
-            <div className="home-section__crosshair parallax-layer home-section__intro-crosshair" data-speed="0.16" data-speed-x="-0.03" />
+            <div className="home-section__grain parallax-layer mobile-hide" data-speed="-0.08" data-speed-x="0.02" />
+            <div className="home-section__vignette parallax-layer mobile-hide" data-speed="-0.05" />
+            <div className="home-section__ring parallax-layer home-section__intro-ring mobile-hide" data-speed="-0.2" data-speed-x="0.05" />
+            <div className="home-section__crosshair parallax-layer home-section__intro-crosshair mobile-hide" data-speed="0.16" data-speed-x="-0.03" />
             
             {/* Floating geometric shapes with parallax */}
-            <div className="home-section__shape home-section__shape--1 parallax-layer" data-speed="-0.12" data-speed-x="0.08" />
-            <div className="home-section__shape home-section__shape--2 parallax-layer" data-speed="0.18" data-speed-x="-0.06" />
-            <div className="home-section__shape home-section__shape--3 parallax-layer" data-speed="-0.15" data-speed-x="0.04" />
+            <div className="home-section__shape home-section__shape--1 parallax-layer mobile-hide" data-speed="-0.12" data-speed-x="0.08" />
+            <div className="home-section__shape home-section__shape--2 parallax-layer mobile-hide" data-speed="0.18" data-speed-x="-0.06" />
+            <div className="home-section__shape home-section__shape--3 parallax-layer mobile-hide" data-speed="-0.15" data-speed-x="0.04" />
             
-            <div className="home-section__circuit home-section__circuit--left parallax-layer home-section__intro-rail-left" data-speed="-0.18" data-speed-x="0.06" />
-            <div className="home-section__circuit home-section__circuit--right parallax-layer home-section__intro-rail-right" data-speed="0.2" data-speed-x="-0.04" />
+            <div className="home-section__circuit home-section__circuit--left parallax-layer home-section__intro-rail-left mobile-hide" data-speed="-0.18" data-speed-x="0.06" />
+            <div className="home-section__circuit home-section__circuit--right parallax-layer home-section__intro-rail-right mobile-hide" data-speed="0.2" data-speed-x="-0.04" />
 
             <div className="home-section__center locked-content">
               {codeBlocks.map((block) => (
                 <div
                   key={block.className}
-                  className={`home-section__code ${block.className} home-section__intro-copy parallax-float`}
+                  className={`home-section__code ${block.className} home-section__intro-copy parallax-float mobile-hide`}
                   data-float-speed={block.floatSpeed}
                 >
                   {block.lines.map((line, index) => (
@@ -71,7 +71,7 @@ export const HomeSection = () => {
               <div className="home-section__image-wrap">
                 <div className="home-section__image-stack home-section__intro-image">
                   <div className="home-section__image-shadow" />
-                  <span className="home-section__image-bg-text">
+                  <span className="home-section__image-bg-text mobile-hide">
                     <span className="home-letter-e">E</span>
                     <span className="home-letter-n">N</span>
                   </span>
@@ -79,7 +79,7 @@ export const HomeSection = () => {
                   {glyphs.map((glyph) => (
                     <div
                       key={glyph.className}
-                      className={`home-section__glyph home-section__glyph--en ${glyph.className} parallax-float`}
+                      className={`home-section__glyph home-section__glyph--en ${glyph.className} parallax-float mobile-hide`}
                       data-float-speed={glyph.floatSpeed}
                     >
                       {glyph.text}
@@ -531,26 +531,81 @@ export const HomeSection = () => {
           }
         }
 
-        @media (max-width: 640px) {
-          .home-section__glyph,
+        @media (max-width: 768px) {
+          .home-section {
+            display: block !important;
+            padding: 10px 0 40px !important; /* Extremely tight top padding */
+            padding-top: 0 !important;
+            min-height: 80vh !important; /* Allow it to be shorter if content is compact */
+            height: auto !important;
+            background: #000000 !important;
+            position: relative !important;
+            overflow: hidden !important;
+          }
+
+          .home-section__center {
+             padding-top: 20px !important; /* Move content way up */
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            width: 100% !important;
+            height: auto !important;
+            gap: 20px !important;
+            position: relative !important;
+            z-index: 10 !important;
+          }
+
+          .home-section__intro-copy:not(.home-section__code) {
+             position: relative !important;
+             top: auto !important;
+             left: auto !important;
+             text-align: center !important;
+             width: 100% !important;
+             padding: 0 24px !important;
+             order: -1 !important;
+             margin-bottom: 0 !important;
+          }
+
+          /* Hide complex code and glyphs on mobile to prevent bad spacing */
           .home-section__code,
-          .home-section__circuit {
-            display: none;
-          }
-
-          .home-section__subtext {
-            bottom: 98px;
-            padding: 0 1rem;
-          }
-
-          .home-section__subtext-inner {
-            max-width: 300px;
-            font-size: 12px;
+          .home-section__glyph,
+          .home-section__orb,
+          .home-section__shape {
+            display: none !important;
           }
 
           .home-section__image-wrap {
-            width: 100%;
-            height: 100%;
+            position: relative !important;
+            width: 220px !important;
+            height: 310px !important;
+            margin: 10px auto !important;
+          }
+
+          .home-section__image {
+            border-radius: 8px !important;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6) !important;
+          }
+
+          .home-section__image-bg-text {
+            font-size: 45vw !important;
+            opacity: 0.1 !important;
+            display: block !important;
+          }
+
+          .home-section__subtext {
+            position: relative !important;
+            width: 100% !important;
+            padding: 10px 24px 0 !important;
+            text-align: center !important;
+            display: block !important;
+            inset: auto !important;
+          }
+
+          .home-section__subtext-inner {
+            font-size: 13px !important;
+            line-height: 1.6 !important;
+            color: rgba(255, 255, 255, 0.4) !important;
+            max-width: 260px !important;
           }
         }
       `}</style>

@@ -149,41 +149,72 @@ export const ExperienceSection = () => {
       <style>{`
         @media (max-width: 768px) {
           .experience-shell {
-            padding-top: 5.5rem;
-            padding-bottom: 1.5rem;
+            display: flex !important;
+            flex-direction: column !important;
+            padding: 100px 24px 60px !important;
+            height: auto !important;
+            min-height: 100vh !important;
+            background: #f7f7fc !important;
+            opacity: 1 !important;
+            transform: none !important;
+            position: relative !important;
           }
 
           .experience-header {
-            margin-bottom: 1.5rem !important;
-            gap: 1rem !important;
-          }
-
-          .experience-card {
-            padding: 1rem !important;
-            gap: 0.9rem !important;
-          }
-
-          .experience-card h3 {
-            font-size: 1.1rem !important;
-          }
-
-          .experience-card p {
-            margin-bottom: 1rem !important;
-          }
-
-        }
-
-        @media (max-width: 480px) {
-          .experience-shell {
-            padding-top: 5rem;
+            margin-bottom: 2.5rem !important;
+            text-align: center !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
           }
 
           .experience-header h2 {
-            font-size: 2.25rem !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 0.5rem !important;
+            font-size: 32px !important;
+            line-height: 1.2 !important;
           }
 
-          .experience-card .tech-font.text-lg {
-            letter-spacing: 0.18em !important;
+          .space-y-5 {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 20px !important;
+            width: 100% !important;
+          }
+
+          .experience-card {
+            padding: 24px !important;
+            gap: 16px !important;
+            opacity: 1 !important;
+            transform: none !important;
+            position: relative !important;
+            background: rgba(255, 255, 255, 0.8) !important;
+            border: 1px solid rgba(124, 58, 237, 0.1) !important;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05) !important;
+          }
+
+          .experience-card h3 {
+            font-size: 20px !important;
+            line-height: 1.3 !important;
+          }
+
+          .experience-card p {
+            font-size: 14px !important;
+            margin-bottom: 1rem !important;
+            line-height: 1.6 !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .experience-header h2 {
+            font-size: 2rem !important;
+            margin-top: 10px !important;
+          }
+
+          .experience-card {
+            padding: 20px !important;
           }
         }
       `}</style>

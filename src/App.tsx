@@ -1,5 +1,4 @@
-
-  import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { useScrollAnimation } from './hooks/useScrollAnimation';
 import {
   HomeSection,
@@ -102,7 +101,7 @@ function App() {
         </button>
       </nav>
       <main style={{ position: 'relative', height: '900vh' }}>
-        <div aria-hidden="true" className="global-en-backdrop">
+        <div aria-hidden="true" className="global-en-backdrop mobile-hide">
           <span className="letter-e">E</span>
           <span className="letter-n">N</span>
         </div>

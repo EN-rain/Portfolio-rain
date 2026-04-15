@@ -114,24 +114,20 @@ export const WorksSection = memo(() => {
     <section id="works" className="stack-section mask-shaped-section works-combined-section" style={{ zIndex: 140, '--mask-color': '#6c2bd9' } as CSSProperties}>
       <div className="clip-gap-outer parallax-content h-full w-full">
         <div className="clip-gap-inner absolute inset-0 bg-black overflow-hidden">
-          <div ref={scrollContainerRef} className="works-scroll-container h-full w-full overflow-x-auto overflow-y-hidden locked-content bg-black flex">
+          <div ref={scrollContainerRef} className="works-scroll-container h-full w-full overflow-y-auto overflow-x-hidden locked-content bg-black flex flex-col">
             
             {/* Experience Part */}
-            <div className="experience-part relative min-w-screen h-full flex flex-col justify-center px-6 py-32 flex-shrink-0">
+            <div className="experience-part relative min-h-screen w-full flex flex-col justify-center px-6 md:px-12 flex-shrink-0">
               <div className="absolute inset-0 opacity-20 pointer-events-none">
                  <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1920 1080">
                   <ellipse cx="350" cy="400" rx="280" ry="180" fill="none" stroke="#7c3aed" strokeWidth="0.5" opacity="0.3" />
                   <ellipse cx="1550" cy="650" rx="320" ry="200" fill="none" stroke="#a78bfa" strokeWidth="0.5" opacity="0.3" />
                 </svg>
               </div>
-              <div className="relative z-10 mx-auto w-full max-w-6xl">
-                <div className="experience-header mb-14">
-                  <div className="tech-font mb-5 flex items-center gap-3 text-[10px] uppercase tracking-[0.5em] text-[#6b6486]">
-                    <span className="h-[1px] w-8 bg-[#7c3aed]/30"></span>
-                    <span>History</span>
-                  </div>
+              <div className="relative z-10 mx-auto w-full max-w-7xl">
+                <div className="experience-header mb-5">
                   <h2 className="heading-font text-4xl font-bold leading-[0.95] tracking-tight text-white md:text-6xl">
-                    WORK <span className="text-[#7c3aed]">EXPERI<span className="text-white transition-opacity duration-0" style={{ opacity: enOpacity }}>EN</span></span>
+                    WORK <span className="text-[#7c3aed]">EXPERI<span className="text-white transition-opacity duration-0" style={{ opacity: enOpacity }}>EN</span>CE</span>
                   </h2>
                 </div>
                 <div className="space-y-6">
@@ -162,10 +158,18 @@ export const WorksSection = memo(() => {
             </div>
 
             {/* Projects Part */}
-            <div className="projects-wrapper relative min-w-screen h-full flex-shrink-0">
-              <div className="projects-part relative h-full flex flex-col justify-center px-6 md:px-12">
+            <div className="projects-wrapper relative min-h-screen w-full flex-shrink-0 overflow-hidden">
+              <div className="projects-part relative min-h-screen flex flex-col justify-center px-6 md:px-12 w-full max-w-full">
                 
-                <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:h-[550px] w-full max-w-7xl mx-auto">
+                {/* Projects Header */}
+                <div className="relative z-10 mx-auto w-full max-w-7xl mb-5">
+                  <h2 className="heading-font text-4xl font-bold leading-[0.95] tracking-tight text-white md:text-6xl">
+                    PERSONAL <span className="text-[#7c3aed]">PROJE<span className="text-white transition-opacity duration-0" style={{ opacity: enOpacity }}>CT</span>S</span>
+                  </h2>
+                </div>
+
+                {/* Desktop Projects Structure */}
+                <div className="hidden lg:grid lg:grid-cols-5 gap-6 lg:h-[500px] w-full max-w-7xl mx-auto items-project-container">
                   {/* Main Gallery Display */}
                   <div className="lg:col-span-4 h-full relative group overflow-hidden rounded-[20px] border border-white/10 bg-black/50">
                     <AnimatePresence mode="wait">
@@ -232,7 +236,7 @@ export const WorksSection = memo(() => {
                   </div>
 
                   {/* Side Gallery (Thumbnails) */}
-                  <div className="lg:col-span-1 lg:h-full flex flex-col gap-4 overflow-y-auto custom-scrollbar pr-2">
+                  <div className="lg:col-span-1 lg:h-full flex flex-col gap-4 overflow-y-auto custom-scrollbar pr-2 relative">
                     <AnimatePresence mode='popLayout'>
                       {sideProjects.map((project) => (
                         <motion.div 
@@ -242,14 +246,14 @@ export const WorksSection = memo(() => {
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, scale: 0.8 }}
                           onClick={() => setSelectedId(project.id)}
-                          className="cursor-pointer group relative w-full aspect-[16/10] lg:h-[160px] flex-shrink-0 overflow-hidden rounded-[15px] border border-white/10 hover:border-[#7c3aed]/50 transition-all duration-500"
+                          className="cursor-pointer group relative w-full aspect-[16/10] lg:h-[160px] flex-shrink-0 overflow-hidden rounded-[15px] border border-white/10 hover:border-[#7c3aed]/50 transition-[border-color,transform] duration-500"
                         >
                           <img 
                             src={project.img} 
                             alt={project.title}
-                            className="w-full h-full object-cover opacity-40 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" 
+                            className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" 
                           />
-                          <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-300" />
+                          <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-300" />
                           <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black via-black/80 to-transparent transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                             <p className="tech-font text-[10px] text-white/90 uppercase tracking-widest truncate">{project.title}</p>
                             <p className="tech-font text-[8px] text-white/50 uppercase tracking-[0.2em] mt-1">{project.category}</p>
@@ -260,6 +264,51 @@ export const WorksSection = memo(() => {
                   </div>
                 </div>
 
+                {/* Mobile Projects Structure */}
+                <div className="lg:hidden flex flex-col gap-12 w-full">
+                  {projects.map((project) => (
+                    <div key={project.id} className="w-full flex flex-col gap-6">
+                      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[16px] border border-white/5">
+                        <img 
+                          src={project.img} 
+                          alt={project.title}
+                          className="w-full h-full object-cover opacity-70"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+                        <div className="absolute top-4 left-4 flex gap-2">
+                          <span className="tech-font text-[8px] text-white bg-black/60 backdrop-blur-md uppercase tracking-wider px-2 py-1 rounded-sm border border-white/10">
+                            {project.category}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col px-1">
+                        <h3 className="heading-font text-2xl font-bold text-white mb-2 tracking-tight">
+                          {project.title} <span className="text-[#7c3aed]">{project.line2}</span>
+                        </h3>
+                        <p className="text-white/60 text-sm leading-relaxed mb-5 font-light">
+                          {project.des}
+                        </p>
+                        
+                        <div className="flex flex-wrap gap-3 mb-6">
+                           {project.stack.map(s => {
+                              const Icon = stackIcons[s as keyof typeof stackIcons] ?? Puzzle;
+                              return (
+                                <span key={s} className="tech-font flex items-center gap-1.5 text-[8px] uppercase tracking-widest text-[#7c3aed]/80">
+                                  <Icon size={10} />{s}
+                                </span>
+                              );
+                           })}
+                        </div>
+
+                        <button className="w-full border border-white/10 bg-white/5 text-white py-4 rounded-xl tech-font text-[10px] font-bold uppercase tracking-widest active:bg-[#7c3aed] active:border-[#7c3aed] transition-colors">
+                          Project Details
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
               </div>
             </div>
           </div>
@@ -267,11 +316,47 @@ export const WorksSection = memo(() => {
       </div>
       <style>{`
         .works-scroll-container::-webkit-scrollbar { display: none; }
-        .works-scroll-container { -ms-overflow-style: none; scrollbar-width: none; scroll-behavior: smooth; overscroll-behavior-x: contain; }
+        .works-scroll-container { -ms-overflow-style: none; scrollbar-width: none; scroll-behavior: smooth; overscroll-behavior-y: contain; }
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(124, 58, 237, 0.3); border-radius: 10px; transition: background 0.3s; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(124, 58, 237, 0.6); }
+        .projects-part { width: 100%; }
+
+        @media (max-width: 768px) {
+          .works-scroll-container {
+            display: flex !important;
+            flex-direction: column !important;
+            height: auto !important;
+            background: #000000 !important;
+            padding: 80px 0 40px !important;
+            overflow: visible !important;
+          }
+          
+          .projects-part, .projects-wrapper {
+            position: relative !important;
+            padding: 40px 24px 80px !important; /* Increased spacing between projects */
+            display: block !important;
+            width: 100% !important;
+          }
+
+          .experience-part {
+            padding: 20px 24px 60px !important; /* Increased spacing at bottom of experience */
+            min-height: auto !important;
+          }
+
+          .experience-header h2, .projects-part h2 {
+            font-size: 32px !important;
+            margin-bottom: 40px !important;
+            line-height: 1.1 !important;
+            letter-spacing: -0.01em !important;
+          }
+
+          /* Global background text scale */
+          .tech-font.text-\[14vw\] {
+            font-size: 10vw !important;
+          }
+        }
       `}</style>
     </section>
   );

@@ -80,10 +80,10 @@ const animateSection0Parallax = (
       const progress3 = easeInOut(clamp((currentScroll - section3EnterStart) / Math.max(1, section3SettleEnd - section3EnterStart)));
       globalEnTranslateX += progress3 * -10;
       globalEnTranslateY += progress3 * 35;
-      letterEX += progress3 * -5.8;
-      letterEY += progress3 * -29.5;
-      letterNX += progress3 * -0.5;
-      letterNY += progress3 * -46.5;
+      letterEX += progress3 * -1.4;
+      letterEY += progress3 * -30;
+      letterNX += progress3 * 3;
+      letterNY += progress3 * -47;
       globalEnScale = Math.max(0.01, globalEnScale - progress3 * 0.07);
     }
   }

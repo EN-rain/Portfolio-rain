@@ -160,10 +160,10 @@ export const ContactSection = () => {
             }}
           >
             {[
-              { label: 'Email', value: 'alex.rivera@email.com', href: 'mailto:alex.rivera@email.com' },
-              { label: 'GitHub', value: 'github.com/alexrivera', href: 'https://github.com/alexrivera' },
-              { label: 'LinkedIn', value: 'linkedin.com/in/alexrivera', href: 'https://linkedin.com/in/alexrivera' },
-              { label: 'Location', value: 'Metro Manila, PH', href: undefined }
+              { label: 'Email', value: 'nieves.edriancit2011@email.com', href: 'nieves.edriancit2011@email.com' },
+              { label: 'GitHub', value: 'github.com/EN-rain', href: 'https://github.com/EN-rain' },
+              { label: 'LinkedIn', value: 'linkedin.com/in/en-rain', href: 'https://linkedin.com/in/en-rain' },
+              { label: 'Location', value: 'Leon, Iloilo', href: undefined }
             ].map((item) => (
               <div
                 key={item.label}

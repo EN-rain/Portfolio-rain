@@ -47,12 +47,12 @@ export const animateSection2 = (
 
     if (worksContainer) {
       if (currentScroll < scrollStart) {
-        worksContainer.scrollLeft = 0;
+        worksContainer.scrollTop = 0;
       } else if (currentScroll >= scrollStart && currentScroll < leaveStart) {
-        const scrollRange = worksContainer.scrollWidth - worksContainer.clientWidth;
-        worksContainer.scrollLeft = ((currentScroll - scrollStart) / (leaveStart - scrollStart)) * scrollRange;
+        const scrollRange = worksContainer.scrollHeight - worksContainer.clientHeight;
+        worksContainer.scrollTop = ((currentScroll - scrollStart) / (leaveStart - scrollStart)) * scrollRange;
       } else if (currentScroll >= leaveStart) {
-        worksContainer.scrollLeft = worksContainer.scrollWidth - worksContainer.clientWidth;
+        worksContainer.scrollTop = worksContainer.scrollHeight - worksContainer.clientHeight;
       }
     }
   } else if (currentScroll >= leaveStart && currentScroll < leaveEnd) {
@@ -66,7 +66,7 @@ export const animateSection2 = (
       currentRotation = 0;
       currentScale = maxScale;
       currentOpacity = 1;
-      if (worksContainer) worksContainer.scrollLeft = worksContainer.scrollWidth - worksContainer.clientWidth;
+      if (worksContainer) worksContainer.scrollTop = worksContainer.scrollHeight - worksContainer.clientHeight;
       return { currentYMoveVh, currentRotation, currentRotationX, currentRotationY, currentScale, currentOpacity, lockedContentXVw: 0 };
     }
     
@@ -77,7 +77,7 @@ export const animateSection2 = (
       currentRotationY = 70;
       currentScale = maxScale - maxScale * 0.8;
       currentOpacity = 0;
-      if (worksContainer) worksContainer.scrollLeft = worksContainer.scrollWidth - worksContainer.clientWidth;
+      if (worksContainer) worksContainer.scrollTop = worksContainer.scrollHeight - worksContainer.clientHeight;
       return { currentYMoveVh, currentRotation, currentRotationX, currentRotationY, currentScale, currentOpacity, lockedContentXVw: 0 };
     }
 
@@ -96,7 +96,7 @@ export const animateSection2 = (
     currentOpacity = 1;
     currentRotation = 0;
     if (worksContainer) {
-      worksContainer.scrollLeft = worksContainer.scrollWidth - worksContainer.clientWidth;
+      worksContainer.scrollTop = worksContainer.scrollHeight - worksContainer.clientHeight;
     }
   } else {
     currentYMoveVh = 100 + gapVh;

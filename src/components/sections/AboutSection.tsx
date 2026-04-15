@@ -8,8 +8,11 @@ export const AboutSection = () => {
           <div className="absolute inset-0" style={{ backgroundColor: '#f7f7fc' }}></div>
 
           <div className="about-shell locked-content">
-            <div className="about-image-wrap">
-              <img src={heroImage} alt="Profile" className="about-image" />
+            <div className="about-image-container relative">
+              <div className="about-image-wrap">
+                <img src={heroImage} alt="Profile" className="about-image" />
+              </div>
+              
               <div className="about-skills-box">
                 <span className="about-skill-tag">React</span>
                 <span className="about-skill-tag">TypeScript</span>
@@ -206,51 +209,124 @@ export const AboutSection = () => {
           margin-bottom: 1.5rem;
         }
 
-        @media (max-width: 1024px) {
+        @media (max-width: 768px) {
           .about-shell {
-            flex-direction: column;
-            gap: 2rem;
-            padding: 3rem 2rem;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            padding: 80px 24px 60px !important;
+            height: auto !important;
+            min-height: 100vh !important;
+            background: #f7f7fc !important;
+            gap: 20px !important;
+            opacity: 1 !important;
+            transform: none !important;
+            overflow-y: auto !important;
+          }
+
+          .about-image-container {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            width: 100% !important;
+            gap: 20px !important;
+            position: relative !important;
           }
 
           .about-image-wrap {
-            width: 240px;
-            height: 300px;
+            width: 180px !important;
+            height: 180px !important;
+            border-radius: 50% !important;
+            margin: 0 !important;
+            flex: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+            position: relative !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+            order: 1 !important;
+          }
+
+          .about-image {
+             border-radius: 50% !important;
+          }
+
+          .about-skills-box {
+            position: relative !important;
+            display: flex !important;
+            flex-wrap: wrap !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            width: 100% !important;
+            height: auto !important;
+            margin: 0 !important;
+            inset: auto !important;
+            transform: none !important;
+            opacity: 1 !important;
+            order: 2 !important;
           }
 
           .about-content {
-            text-align: center;
-            max-width: 100%;
-          }
-
-        @media (max-width: 768px) {
-          .about-shell {
-            padding: 2rem 1.5rem;
+            width: 100% !important;
+            text-align: center !important;
+            padding: 0 !important;
+            opacity: 1 !important;
+            transform: none !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 0 !important;
+            order: 2 !important; /* Stack after container */
           }
 
           .about-title {
-            font-size: 2rem;
+            font-size: 14px !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.2em !important;
+            color: #7c3aed !important;
+            margin: 20px 0 10px 0 !important; /* Space after skills box */
+            transform: none !important;
+            opacity: 1 !important;
           }
 
+          .about-name {
+            font-size: 32px !important;
+            line-height: 1.1 !important;
+            margin: 0 0 20px 0 !important;
+            color: #11081a !important;
+            transform: none !important;
+            opacity: 1 !important;
+            white-space: normal !important;
+            text-transform: uppercase !important;
+            text-align: center !important;
+          }
+
+          .about-name br { display: none !important; }
+
           .about-text {
-            font-size: 0.9rem;
+            font-size: 14px !important;
+            line-height: 1.6 !important;
+            color: #4a4a5a !important;
+            text-align: center !important;
+            margin: 0 auto !important;
+            max-width: 320px !important;
+            transform: none !important;
+            opacity: 1 !important;
           }
         }
 
         @media (max-width: 480px) {
           .about-image-wrap {
-            width: 180px;
-            height: 220px;
+            width: 180px !important;
+            height: 180px !important;
           }
 
-          .about-title {
-            font-size: 1.5rem;
+          .about-name {
+            font-size: 32px !important;
           }
 
           .about-text {
-            font-size: 0.85rem;
+            font-size: 15px !important;
           }
-
         }
       `}</style>
     </section>

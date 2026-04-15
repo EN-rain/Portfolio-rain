@@ -70,7 +70,7 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
       // Section detection
       const newActiveIndex = currentScroll < sectionUnit * 0.5 ? 0
         : currentScroll < sectionUnit * 1.5 ? 1
-        : currentScroll < sectionUnit * 2.5 ? 2 : 3;
+        : currentScroll < sectionUnit * 2.8 ? 2 : 3;
       onSectionChange(newActiveIndex);
 
       const { progressEl, root, globalEnBackdrop: cachedBackdrop, sections, contactIcon, contactTexts } = domCacheRef.current;

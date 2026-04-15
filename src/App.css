@@ -461,71 +461,77 @@ main {
     display: none !important;
   }
 
-  .clip-gap-inner,
-  .mask-shaped-section .clip-gap-inner {
-    -webkit-mask-image: none;
-    mask-image: none;
-    clip-path: none;
-  }
-
-  .clip-gap-outer,
-  .clip-gap-inner {
-    clip-path: none;
-  }
-
-  main {
-    height: 900vh;
-  }
-}
-
-/* Social Links Responsive */
-@media (max-width: 768px) {
-  .social-links {
-    bottom: 12px !important;
-    left: 12px !important;
-    gap: 8px !important;
-  }
-  
-  .social-links a {
-    width: 32px !important;
-    height: 32px !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .social-links {
+  /* Don't hide these on mobile if you want content. EN-rain wants them fixed. */
+  .mobile-hide {
     display: none !important;
   }
 
   .global-en-backdrop {
-    letter-spacing: 0.22em;
+    display: none !important;
   }
 
-  .portfolio-title {
-    font-size: 2rem;
-    letter-spacing: 0.32em;
+  /* Ensure animated elements are visible if animations are reduced/disabled */
+  .text-reveal, 
+  .text-reveal-fast,
+  .about-image-wrap,
+  .about-skills-box,
+  .about-title,
+  .about-name,
+  .about-text,
+  .contact-media-card,
+  .home-section__intro-copy,
+  .home-section__intro-image,
+  .home-section__intro-baseline {
+    opacity: 1 !important;
+    animation: none !important;
+    transform: none !important;
+    visibility: visible !important;
   }
 
-  .loading-elements {
-    width: min(240px, calc(100vw - 48px));
+  .stack-section {
+    position: relative !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    opacity: 1 !important;
+    z-index: 1 !important;
+    top: auto !important;
+    left: auto !important;
   }
 
-  .loading-screen.shrinking .portfolio-title {
-    left: 18px;
-    font-size: 0.78rem;
-    letter-spacing: 0.16em;
+  /* Force home/works background if they should be dark */
+  #home, .home-section, #works, .works-combined-section {
+    background: #000000 !important;
   }
 
-  .navbar-buttons {
-    right: 16px;
-    gap: 12px;
+  .parallax-content, .parallax-layer, .locked-content, .clip-gap-outer, .clip-gap-inner {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    transform: none !important;
+    background: transparent !important;
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    clip-path: none !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+    opacity: 1 !important;
   }
-}
 
-@media (max-width: 768px) {
-  .social-links {
-    bottom: 20px !important;
-    left: 20px !important;
+  main {
+    height: auto !important;
+    overflow: visible !important;
+    display: block !important;
+    background: #ffffff !important;
+    position: relative !important;
   }
 }
 
@@ -539,13 +545,13 @@ main {
 /* Fixed Centered Navbar */
 .fixed-navbar {
   position: fixed;
-  top: 30px;
+  top: 10px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10000;
   display: flex;
   gap: 30px;
-  padding: 12px 30px;
+  padding: 8px 30px;
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -561,7 +567,7 @@ main {
 
 .fixed-navbar.scrolling {
   gap: 14px;
-  padding: 10px 20px;
+  padding: 8px 20px;
   background: rgba(0, 0, 0, 0.82);
   border-color: rgba(167, 139, 250, 0.15);
 }
@@ -665,9 +671,46 @@ main {
   display: none !important;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .fixed-navbar {
-    gap: 15px;
-    padding: 10px 20px;
+    gap: 15px !important;
+    padding: 6px 14px !important;
+    top: 10px !important;
+    background: rgba(0, 0, 0, 0.4) !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+
+  /* Dot-only mode on mobile */
+  .link-text {
+    display: none !important;
+  }
+
+  .link-dot {
+    position: relative !important;
+    opacity: 0.6 !important;
+    transform: scale(0.9) !important;
+    width: 6px !important;
+    height: 6px !important;
+  }
+  
+  .navbar-link.active .link-dot {
+    opacity: 1 !important;
+    transform: scale(1.1) !important;
+  }
+
+  .stack-section {
+    padding-top: 60px !important; /* Ensure content clears navbar */
+    min-height: calc(100vh - 60px) !important;
+  }
+  
+  .heading-font {
+    line-height: 1.1 !important;
+    letter-spacing: -0.01em !important;
+    gap: 0.4rem !important; /* Fix disjointed headers on mobile */
+  }
+
+  .global-en-backdrop {
+    display: none !important;
   }
 }
