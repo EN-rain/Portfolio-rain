@@ -7,6 +7,12 @@
   --text-dark: #11081a;
 }
 
+html {
+  scroll-behavior: auto;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   background-color: var(--bg-color);
@@ -15,6 +21,7 @@ body {
   -webkit-font-smoothing: auto;
   -moz-osx-font-smoothing: auto;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 .locked-content {
@@ -74,12 +81,15 @@ main {
   background: transparent;
   transform: translate3d(0, -100%, 0) scale(1.2);
   transform-origin: center center;
-  will-change: transform;
+  will-change: transform, opacity;
   -webkit-transform: translate3d(0, -100%, 0) scale(1.2);
   -webkit-transform-origin: center center;
   outline: 1px solid transparent;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
 }
 
 .parallax-content {
@@ -681,22 +691,27 @@ main {
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
   }
 
-  /* Dot-only mode on mobile */
+  /* Text-only mode on mobile (remove shrink and dots animation) */
   .link-text {
-    display: none !important;
+    display: inline-block !important;
+    max-width: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    margin: 0 !important;
+    pointer-events: auto !important;
   }
 
   .link-dot {
-    position: relative !important;
-    opacity: 0.6 !important;
-    transform: scale(0.9) !important;
-    width: 6px !important;
-    height: 6px !important;
+    display: none !important;
   }
   
-  .navbar-link.active .link-dot {
-    opacity: 1 !important;
-    transform: scale(1.1) !important;
+  .navbar-link.active .link-text {
+    color: var(--accent) !important;
+  }
+
+  .fixed-navbar.scrolling {
+    gap: 15px !important;
+    padding: 6px 14px !important;
   }
 
   .stack-section {

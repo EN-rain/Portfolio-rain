@@ -1,13 +1,14 @@
 import { smoothProgress } from '../utils';
-import type { ScrollContext, SectionAnimationState } from '../types';
+import type { ScrollContext, SectionAnimationState, SectionCache } from '../types';
 
 const minScale = 0.5;
 const maxScale = 1.2;
 
 export const animateSection2 = (
-  sec: Element,
+  _sec: Element,
   currentScroll: number,
-  ctx: ScrollContext
+  ctx: ScrollContext,
+  cache: SectionCache
 ): SectionAnimationState => {
   const { transitionLength, pauseLength, gapVh } = ctx;
   const enterStart = pauseLength + transitionLength + pauseLength;
@@ -15,7 +16,7 @@ export const animateSection2 = (
   const leaveStart = 2 * (pauseLength + transitionLength) + pauseLength;
   const leaveEnd = leaveStart + transitionLength;
 
-  const worksContainer = sec.querySelector('.works-scroll-container') as HTMLElement | null;
+  const worksContainer = cache.worksScrollContainer;
 
   let currentYMoveVh = 0;
   let currentRotation = 0;
@@ -84,9 +85,9 @@ export const animateSection2 = (
     // Actual animation range
     const progress = (currentScroll - (leaveStart + buffer)) / effectiveTransitionLength;
     // Slowed down the individual phases by increasing their progress duration
-    const pShrink = Math.max(0, Math.min(1, progress / 0.50));
-    const pRotate = Math.max(0, Math.min(1, (progress - 0.10) / 0.60));
-    const pExit = Math.max(0, Math.min(1, (progress - 0.50) / 0.50));
+    const pShrink = Math.max(0, Math.min(1, progress / 0.8));
+    const pRotate = Math.max(0, Math.min(1, (progress - 0.10) / 0.80));
+    const pExit = Math.max(0, Math.min(1, (progress - 0.50) / 0.70));
     const sShrink = pShrink < 0.5 ? 2 * pShrink * pShrink : 1 - Math.pow(-2 * pShrink + 2, 2) / 2;
     const sRotate = pRotate < 0.5 ? 2 * pRotate * pRotate : 1 - Math.pow(-2 * pRotate + 2, 2) / 2;
     const sExit = pExit < 0.5 ? 2 * pExit * pExit : 1 - Math.pow(-2 * pExit + 2, 2) / 2;

@@ -1,16 +1,17 @@
 import { clamp, easeInOut, smoothProgress } from '../utils';
-import type { ScrollContext, SectionAnimationState } from '../types';
+import type { ScrollContext, SectionAnimationState, SectionCache } from '../types';
 
 const minScale = 0.5;
 const maxScale = 1.2;
 
 export const animateSection0 = (
-  sec: Element,
+  _sec: Element,
   currentScroll: number,
   ctx: ScrollContext,
-  cachedBackdrop: HTMLElement | null
+  cachedBackdrop: HTMLElement | null,
+  cache: SectionCache
 ): SectionAnimationState => {
-  const { transitionLength, pauseLength, gapVh } = ctx;
+  const { transitionLength, pauseLength, gapVh, sectionUnit } = ctx;
   const leaveStart = pauseLength;
   const leaveEnd = leaveStart + transitionLength;
 
@@ -18,8 +19,6 @@ export const animateSection0 = (
   let currentRotation = 0;
   let currentScale = maxScale;
   let currentOpacity = 1;
-  let currentRotationX = 0;
-  let currentRotationY = 0;
 
   if (currentScroll < leaveStart) {
     currentYMoveVh = 0;
@@ -40,17 +39,19 @@ export const animateSection0 = (
     currentOpacity = 1;
   }
 
-  // Parallax and backdrop animations
-  animateSection0Parallax(sec, currentScroll, ctx, cachedBackdrop);
+  // Parallax and backdrop animations - only run if logically visible
+  if (currentScroll < sectionUnit * 1.5) {
+    animateSection0Parallax(currentScroll, ctx, cachedBackdrop, cache);
+  }
 
-  return { currentYMoveVh, currentRotation, currentRotationX, currentRotationY, currentScale, currentOpacity, lockedContentXVw: 0 };
+  return { currentYMoveVh, currentRotation, currentRotationX: 0, currentRotationY: 0, currentScale, currentOpacity, lockedContentXVw: 0 };
 };
 
 const animateSection0Parallax = (
-  sec: Element,
   currentScroll: number,
   ctx: ScrollContext,
-  cachedBackdrop: HTMLElement | null
+  cachedBackdrop: HTMLElement | null,
+  cache: SectionCache
 ): void => {
   const { transitionLength, pauseLength } = ctx;
   const edTransitionStart = pauseLength + transitionLength * 0.2;
@@ -58,7 +59,7 @@ const animateSection0Parallax = (
 
   // EN text animation
   let edTranslateX = -50, edTranslateY = -50, edScale = 1, edPrimaryOpacity = 1;
-  let edPrimaryColor = 'rgba(255, 255, 255, 0.76)';
+  let edPrimaryColor = 'rgba(255, 255, 255, 1)';
   let homeLetterEX = 0, homeLetterEY = 0, homeLetterNX = 0, homeLetterNY = 0, homeEnScale = 1;
   let letterEX = 0, letterEY = 0, letterNX = 0, letterNY = 0, globalEnScale = 1;
   let globalEnTranslateX = -50, globalEnTranslateY = -50;
@@ -93,8 +94,8 @@ const animateSection0Parallax = (
     edTranslateX = -50 + progress * 10;
     edTranslateY = -50 - progress * 10;
     edScale = 1 - progress * 0.83;
-    edPrimaryOpacity = 1 - progress * 0.58;
-    edPrimaryColor = `rgba(255, 255, 255, ${0.76 - progress * 0.2})`;
+    edPrimaryOpacity = 1 - progress * 0.5;
+    edPrimaryColor = `rgba(255, 255, 255, ${1 - progress * 0.2})`;
     homeLetterEX = progress * 24;
     homeLetterEY = progress * -30;
     homeLetterNX = progress * -68;
@@ -102,10 +103,9 @@ const animateSection0Parallax = (
     homeEnScale = 1 - progress * 0.83;
   }
 
-  const edPrimary = sec.querySelector('.home-section__image-bg-text') as HTMLElement | null;
-  const heroPortrait = sec.querySelector('.home-section__intro-image') as HTMLElement | null;
+  const { edPrimaryElements, heroPortrait } = cache;
 
-  if (edPrimary) {
+  edPrimaryElements.forEach(edPrimary => {
     edPrimary.style.transform = `translate3d(${edTranslateX}%, ${edTranslateY}%, 0)`;
     edPrimary.style.opacity = `${edPrimaryOpacity}`;
     edPrimary.style.color = edPrimaryColor;
@@ -113,7 +113,7 @@ const animateSection0Parallax = (
     const homeLetterN = edPrimary.querySelector('.home-letter-n') as HTMLElement | null;
     if (homeLetterE) homeLetterE.style.transform = `translate3d(${homeLetterEX}%, ${homeLetterEY}%, 0) scale(${homeEnScale})`;
     if (homeLetterN) homeLetterN.style.transform = `translate3d(${homeLetterNX}%, ${homeLetterNY}%, 0) scale(${homeEnScale})`;
-  }
+  });
 
   if (heroPortrait) {
     heroPortrait.style.transform = `scale(${edScale})`;
@@ -129,7 +129,7 @@ const animateSection0Parallax = (
   }
 
   // Parallax layers
-  const parallaxLayers = sec.querySelectorAll('.parallax-layer') as NodeListOf<HTMLElement>;
+  const { parallaxLayers } = cache;
   const parallaxIntensity = 0.5;
   parallaxLayers.forEach(layer => {
     const speedY = parseFloat(layer.getAttribute('data-speed') || '0');
@@ -138,20 +138,20 @@ const animateSection0Parallax = (
   });
 
   // Text parallax
-  const textElements = sec.querySelectorAll('.parallax-text') as NodeListOf<HTMLElement>;
+  const { textElements } = cache;
   textElements.forEach(el => {
     el.style.transform = `translate3d(0, ${currentScroll * parseFloat(el.getAttribute('data-text-speed') || '0.2')}px, 0)`;
   });
 
   // Code lines parallax
-  const codeLines = sec.querySelectorAll('.home-section__code-line') as NodeListOf<HTMLElement>;
+  const { codeLines } = cache;
   const codeYOffset = currentScroll * 0.12;
   codeLines.forEach(line => {
     line.style.transform = `translate3d(0, ${codeYOffset}px, 0)`;
   });
 
   // Float elements
-  const floatElements = sec.querySelectorAll('.parallax-float') as NodeListOf<HTMLElement>;
+  const { floatElements } = cache;
   floatElements.forEach(el => {
     const speed = parseFloat(el.getAttribute('data-float-speed') || '0.1');
     let xDirection = 0, yDirection = 0;
@@ -170,19 +170,38 @@ const animateSection0Parallax = (
   });
 
   // Image parallax
-  const imageWrap = sec.querySelector('.parallax-image') as HTMLElement;
-  const imgElement = sec.querySelector('.parallax-img') as HTMLElement;
-  if (imageWrap && imgElement) {
-    const yOffsetWrap = currentScroll * parseFloat(imageWrap.getAttribute('data-img-speed') || '0.02');
-    const yOffsetImg = currentScroll * parseFloat(imgElement.getAttribute('data-img-scroll') || '0.04');
-    imageWrap.style.transform = `translate3d(0, ${yOffsetWrap}px, 0)`;
-    imgElement.style.transform = `translate3d(0, ${yOffsetImg - yOffsetWrap}px, 0)`;
-  } else if (imageWrap) {
-    imageWrap.style.transform = `translate3d(0, ${currentScroll * parseFloat(imageWrap.getAttribute('data-img-speed') || '0.02')}px, 0)`;
+  const { imageWrap, parallaxImg: imgElement } = cache;
+  const isMobile = window.innerWidth <= 768;
+
+  if (isMobile) {
+    if (imageWrap) {
+      const mobileSpeed = parseFloat(imageWrap.getAttribute('data-speed-mobile') || '0.15');
+      imageWrap.style.transform = `translate3d(0, ${currentScroll * mobileSpeed}px, 0)`;
+    }
+    if (imgElement) {
+      const imgMobileSpeed = parseFloat(imgElement.getAttribute('data-img-scroll-mobile') || '0.25');
+      imgElement.style.transform = `translate3d(0, ${currentScroll * imgMobileSpeed}px, 0)`;
+    }
+    
+    // Subtext mobile parallax
+    const subtext = Array.from(cache.textElements).find(el => el.classList.contains('home-section__subtext')) as HTMLElement | null;
+    if (subtext) {
+      const subtextSpeed = parseFloat(subtext.getAttribute('data-speed-mobile') || '0.08');
+      subtext.style.transform = `translate3d(0, ${currentScroll * subtextSpeed}px, 0)`;
+    }
+  } else {
+    if (imageWrap && imgElement) {
+      const yOffsetWrap = currentScroll * parseFloat(imageWrap.getAttribute('data-img-speed') || '0.02');
+      const yOffsetImg = currentScroll * parseFloat(imgElement.getAttribute('data-img-scroll') || '0.04');
+      imageWrap.style.transform = `translate3d(0, ${yOffsetWrap}px, 0)`;
+      imgElement.style.transform = `translate3d(0, ${yOffsetImg - yOffsetWrap}px, 0)`;
+    } else if (imageWrap) {
+      imageWrap.style.transform = `translate3d(0, ${currentScroll * parseFloat(imageWrap.getAttribute('data-img-speed') || '0.02')}px, 0)`;
+    }
   }
 
   // Image shadow parallax
-  const imageShadow = sec.querySelector('.parallax-shadow') as HTMLElement;
+  const { imageShadow } = cache;
   if (imageShadow) {
     const shadowSpeed = currentScroll * parseFloat(imageShadow.getAttribute('data-shadow-speed') || '0.06');
     imageShadow.style.transform = `translate3d(${shadowSpeed * 0.2}px, ${shadowSpeed}px, 0)`;

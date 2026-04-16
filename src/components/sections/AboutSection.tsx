@@ -136,9 +136,8 @@ export const AboutSection = () => {
 
         .about-skills-box {
           position: absolute;
-          bottom: -150px;
+          bottom: -10%;
           left: 50%;
-          transform: translateX(-50%);
           width: 350px;
           height: 130px;
           display: flex;

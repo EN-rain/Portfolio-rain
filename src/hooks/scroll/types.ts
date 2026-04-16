@@ -1,5 +1,27 @@
+export interface SectionCache {
+  parallaxContent: HTMLElement | null;
+  lockedContent: NodeListOf<HTMLElement>;
+  textParallaxBlocks: NodeListOf<HTMLElement>;
+  frameOverlay: HTMLElement | null;
+  clipInner: HTMLElement | null;
+  clipOuter: HTMLElement | null;
+  bgImages: NodeListOf<HTMLElement>;
+  // For specific sections (cached globally to be safe)
+  edPrimaryElements: NodeListOf<HTMLElement>;
+  heroPortrait: HTMLElement | null;
+  parallaxLayers: NodeListOf<HTMLElement>;
+  textElements: NodeListOf<HTMLElement>;
+  codeLines: NodeListOf<HTMLElement>;
+  floatElements: NodeListOf<HTMLElement>;
+  imageWrap: HTMLElement | null;
+  imageShadow: HTMLElement | null;
+  worksScrollContainer: HTMLElement | null;
+  parallaxImg: HTMLElement | null;
+}
+
 export interface DomCache {
   sections: NodeListOf<Element> | null;
+  sectionCaches: SectionCache[];
   globalEnBackdrop: HTMLElement | null;
   progressEl: HTMLElement | null;
   root: HTMLElement | null;
@@ -42,7 +64,14 @@ declare global {
 }
 
 export interface LenisOptions {
-  duration: number;
-  easing: (t: number) => number;
-  smoothWheel: boolean;
+  duration?: number;
+  easing?: (t: number) => number;
+  orientation?: 'vertical' | 'horizontal';
+  gestureOrientation?: 'vertical' | 'horizontal' | 'both';
+  smoothWheel?: boolean;
+  smoothTouch?: boolean;
+  touchMultiplier?: number;
+  lerp?: number;
+  wheelMultiplier?: number;
+  infinite?: boolean;
 }

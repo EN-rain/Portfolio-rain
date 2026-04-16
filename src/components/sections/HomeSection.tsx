@@ -68,7 +68,7 @@ export const HomeSection = () => {
                 </div>
               ))}
 
-              <div className="home-section__image-wrap">
+              <div className="home-section__image-wrap" data-speed-mobile="0.15">
                 <div className="home-section__image-stack home-section__intro-image">
                   <div className="home-section__image-shadow" />
                   <span className="home-section__image-bg-text mobile-hide">
@@ -85,11 +85,11 @@ export const HomeSection = () => {
                       {glyph.text}
                     </div>
                   ))}
-                  <img className="home-section__image parallax-img" src={homeImage} alt="Portrait" data-img-scroll="0.14" />
+                  <img className="home-section__image parallax-img" src={homeImage} alt="Portrait" data-img-scroll="0.14" data-img-scroll-mobile="0.25" />
                 </div>
               </div>
 
-              <div className="home-section__subtext">
+              <div className="home-section__subtext" data-speed-mobile="0.08">
                 <p className="home-section__subtext-inner home-section__intro-baseline">
                   UI engineer building dark, fast, product-facing interfaces.
                 </p>
@@ -442,6 +442,7 @@ export const HomeSection = () => {
           letter-spacing: 0.3em;
           line-height: 0.82;
           color: #ffffff;
+          opacity: 1;
           pointer-events: none;
           user-select: none;
           white-space: nowrap;
@@ -468,7 +469,7 @@ export const HomeSection = () => {
           object-position: center center;
           mix-blend-mode: normal;
           filter: contrast(1.12) brightness(1.04);
-          box-shadow: 0 18px 60px rgba(0, 0, 0, 0.45);
+          box-shadow: none;
           user-select: none;
           pointer-events: none;
           will-change: transform;
@@ -583,13 +584,21 @@ export const HomeSection = () => {
 
           .home-section__image {
             border-radius: 8px !important;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6) !important;
+            box-shadow: none !important;
           }
 
           .home-section__image-bg-text {
             font-size: 45vw !important;
-            opacity: 0.1 !important;
-            display: block !important;
+            opacity: 1 !important;
+            color: #ffffff !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            width: 100vw !important;
+            letter-spacing: 0 !important;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4)) !important;
           }
 
           .home-section__subtext {
