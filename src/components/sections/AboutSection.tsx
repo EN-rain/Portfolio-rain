@@ -204,6 +204,9 @@ export const AboutSection = () => {
           font-size: 6.5rem;
           display: inline-block;
           line-height: 0.8;
+          opacity: 0;
+          pointer-events: none;
+          user-select: none;
         }
 
         .about-text {
