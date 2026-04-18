@@ -24,7 +24,7 @@ function App() {
       }
       scrollTimeoutRef.current = setTimeout(() => {
         setIsScrolling(false);
-      }, 400); // Increased timeout for smoother transition back
+      }, 1500); // Increased timeout to match Lenis duration (1.4s)
     };
 
     // Use wheel and touchmove for more immediate response in some browsers
@@ -52,20 +52,23 @@ function App() {
 
   const navigationValues = useMemo(() => {
     const transitionLength = vh;
-    const pauseLength = vh * 1;
+    const pauseLength = vh;
+    const sectionUnit = transitionLength + pauseLength;
 
     return {
       home: 0,
-      about: transitionLength + pauseLength,
-      works: 2 * (transitionLength + pauseLength),
-      contact: 900 * vh, // Go to the absolute end of the 900vh scroll container
+      about: sectionUnit,
+      works: 2 * sectionUnit,
+      contact: 3 * sectionUnit,
     };
   }, [vh]);
 
   const scrollToSection = useCallback((section: 'home' | 'about' | 'works' | 'contact') => {
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const target = isMobile ? `#${section}` : navigationValues[section];
+    
     // Force immediate scroll to the calculated target
-    setIsScrolling(true); // Manually trigger scrolling state
-    window.dispatchEvent(new CustomEvent('lenis-scroll', { detail: navigationValues[section] }));
+    window.dispatchEvent(new CustomEvent('lenis-scroll', { detail: target }));
   }, [navigationValues]);
 
   return (

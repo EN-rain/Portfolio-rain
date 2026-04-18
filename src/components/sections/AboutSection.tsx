@@ -1,8 +1,10 @@
 import heroImage from '../../assets/images/hero.png';
+import { useMobileReveal } from '../../hooks/useMobileReveal';
 
 export const AboutSection = () => {
+  const revealRef = useMobileReveal<HTMLElement>();
   return (
-    <section id="about" className="stack-section mask-shaped-section mask-theme-purple" style={{ zIndex: 20 }}>
+    <section ref={revealRef} id="about" className="stack-section mask-shaped-section mask-theme-purple" style={{ zIndex: 20 }}>
       <div className="clip-gap-outer parallax-content">
         <div className="clip-gap-inner">
           <div className="absolute inset-0" style={{ backgroundColor: '#f7f7fc' }}></div>
@@ -12,7 +14,26 @@ export const AboutSection = () => {
               <div className="about-image-wrap">
                 <img src={heroImage} alt="Profile" className="about-image" />
               </div>
+            </div>
+
+            <div className="about-content">
+              <div className="about-label tech-font">A bit about me</div>
+              <h2 className="about-title">Hello, I'm</h2>
+              <h3 className="about-name"><span className="about-name-e">E</span>drian<br /><span className="about-name-n">N</span>ieves</h3>
               
+              <div className="about-text-wrapper">
+                <p className="about-text">
+                  I'm a UI engineer passionate about building dark, fast, product-facing interfaces.
+                  With a keen eye for detail and a love for smooth animations, I create experiences
+                  that feel both intuitive and delightful.
+                </p>
+                <p className="about-text">
+                  My expertise spans modern frontend technologies, responsive design, and
+                  performance optimization. I believe great UI is invisible &mdash; it gets out of the
+                  way and lets users accomplish their goals effortlessly.
+                </p>
+              </div>
+
               <div className="about-skills-box">
                 <span className="about-skill-tag">React</span>
                 <span className="about-skill-tag">TypeScript</span>
@@ -20,21 +41,6 @@ export const AboutSection = () => {
                 <span className="about-skill-tag">CSS</span>
                 <span className="about-skill-tag">Figma</span>
               </div>
-            </div>
-
-            <div className="about-content">
-              <h2 className="about-title">Hello, I'm</h2>
-              <h3 className="about-name"><span className="about-name-e">E</span>drian<br /><span className="about-name-n">N</span>ieves</h3>
-              <p className="about-text">
-                I'm a UI engineer passionate about building dark, fast, product-facing interfaces.
-                With a keen eye for detail and a love for smooth animations, I create experiences
-                that feel both intuitive and delightful.
-                <br/>
-                <br/>
-                My expertise spans modern frontend technologies, responsive design, and
-                performance optimization. I believe great UI is invisible &mdash; it gets out of the
-                way and lets users accomplish their goals effortlessly.
-              </p>
             </div>
           </div>
         </div>
@@ -56,11 +62,11 @@ export const AboutSection = () => {
         @keyframes slideFromBottom {
           from {
             opacity: 0;
-            transform: translateX(-50%) translateY(50px);
+            transform: translateY(30px);
           }
           to {
             opacity: 1;
-            transform: translateX(-50%) translateY(0);
+            transform: translateY(0);
           }
         }
 
@@ -71,7 +77,7 @@ export const AboutSection = () => {
           }
           to {
             opacity: 1;
-            transform: translateY(30px);
+            transform: translateY(0);
           }
         }
 
@@ -109,9 +115,12 @@ export const AboutSection = () => {
           z-index: 1;
         }
 
+        .about-image-container {
+          flex: 0 0 auto;
+        }
+
         .about-image-wrap {
           position: relative;
-          flex: 0 0 auto;
           transform: translateY(-60px);
           width: 320px;
           height: 400px;
@@ -130,46 +139,21 @@ export const AboutSection = () => {
           object-position: center;
         }
 
-        .about-skills-box {
-          position: absolute;
-          bottom: -10%;
-          left: 50%;
-          width: 350px;
-          height: 130px;
-          display: flex;
-          flex-wrap: wrap;
-          align-items: center;
-          justify-content: center;
-          gap: 6px;
-          line-height: 1.2;
-          z-index: 10;
-          animation: slideFromBottom 0.8s ease-out forwards;
-          animation-delay: 0.6s;
-          opacity: 0;
-        }
-
-        .about-skill-tag {
-          padding: 4px 10px;
-          background: rgba(167, 139, 250, 0.15);
-          border: 1px solid rgba(167, 139, 250, 0.4);
-          border-radius: 12px;
-          font-family: 'IBM Plex Mono', monospace;
-          font-size: 0.65rem;
-          color: #6b4fa8;
-          text-transform: uppercase;
-          letter-spacing: 0.03em;
-          line-height: 1;
-        }
-
         .about-content {
           flex: 1;
           max-width: 600px;
           padding: 0;
         }
 
-        .about-content > * {
-          margin-left: 0;
-          padding-left: 0;
+        .about-label {
+          font-size: 10px;
+          letter-spacing: 0.3em;
+          text-transform: uppercase;
+          color: #7c3aed;
+          margin-bottom: 1.5rem;
+          opacity: 0;
+          animation: slideFromTop 0.8s ease-out forwards;
+          animation-delay: 0.25s;
         }
 
         .about-title {
@@ -177,12 +161,12 @@ export const AboutSection = () => {
           font-size: 2.5rem;
           font-weight: 700;
           color: #11081a;
-          transform: translateY(30px);
           text-transform: uppercase;
           letter-spacing: 0.05em;
           animation: slideFromTop 0.8s ease-out forwards;
           animation-delay: 0.3s;
           opacity: 0;
+          margin: 0;
         }
 
         .about-name {
@@ -190,7 +174,7 @@ export const AboutSection = () => {
           font-size: 3rem;
           font-weight: 600;
           color: #000000;
-          margin-top: 1rem;
+          margin-top: 0.5rem;
           margin-left: -0.2rem;
           line-height: 1.1;
           animation: slideFromRight 0.8s ease-out forwards;
@@ -211,132 +195,94 @@ export const AboutSection = () => {
 
         .about-text {
           font-family: 'Space Grotesk', sans-serif;
-          font-size: 1.2rem;
+          font-size: 1.1rem;
           line-height: 1.8;
           animation: slideTextFromBottom 0.8s ease-out forwards;
           animation-delay: 0.5s;
           opacity: 0;
           color: #4a4a5a;
-          margin-bottom: 1.5rem;
+          margin-top: 1.5rem;
+          margin-bottom: 0;
+        }
+
+        .about-skills-box {
+          margin-top: 2rem;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          animation: slideFromBottom 0.8s ease-out forwards;
+          animation-delay: 0.6s;
+          opacity: 0;
+        }
+
+        .about-skill-tag {
+          padding: 6px 14px;
+          background: rgba(167, 139, 250, 0.1);
+          border: 1px solid rgba(167, 139, 250, 0.2);
+          border-radius: 100px;
+          font-family: 'IBM Plex Mono', monospace;
+          font-size: 0.7rem;
+          color: #6b4fa8;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
         }
 
         @media (max-width: 768px) {
           .about-shell {
-            display: flex !important;
             flex-direction: column !important;
-            align-items: center !important;
-            justify-content: flex-start !important;
             padding: 80px 24px 60px !important;
             height: auto !important;
             min-height: 100vh !important;
-            background: #f7f7fc !important;
-            gap: 20px !important;
-            opacity: 1 !important;
-            transform: none !important;
-            overflow-y: auto !important;
-          }
-
-          .about-image-container {
-            display: flex !important;
-            flex-direction: column !important;
+            gap: 40px !important;
             align-items: center !important;
-            width: 100% !important;
-            gap: 20px !important;
-            position: relative !important;
+            text-align: center !important;
           }
 
           .about-image-wrap {
             width: 180px !important;
             height: 180px !important;
             border-radius: 50% !important;
-            margin: 0 !important;
-            flex: none !important;
-            opacity: 1 !important;
             transform: none !important;
-            position: relative !important;
+            margin: 0 auto !important;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
-            order: 1 !important;
           }
 
-          .about-image {
-             border-radius: 50% !important;
-          }
-
-          .about-skills-box {
-            position: relative !important;
-            display: flex !important;
-            flex-wrap: wrap !important;
-            justify-content: center !important;
-            gap: 8px !important;
-            width: 100% !important;
-            height: auto !important;
-            margin: 0 !important;
-            inset: auto !important;
-            transform: none !important;
-            opacity: 1 !important;
-            order: 2 !important;
-          }
+          .about-image { border-radius: 50% !important; }
 
           .about-content {
             width: 100% !important;
-            text-align: center !important;
-            padding: 0 !important;
-            opacity: 1 !important;
-            transform: none !important;
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 0 !important;
-            order: 2 !important; /* Stack after container */
+            max-width: 100% !important;
           }
 
-          .about-title {
-            font-size: 14px !important;
-            font-weight: 700 !important;
-            letter-spacing: 0.2em !important;
-            color: #7c3aed !important;
-            margin: 20px 0 10px 0 !important; /* Space after skills box */
-            transform: none !important;
-            opacity: 1 !important;
+          .about-label {
+            display: block !important;
+            margin-bottom: 0.5rem !important;
           }
+
+          .about-title { display: none !important; }
 
           .about-name {
             font-size: 32px !important;
-            line-height: 1.1 !important;
-            margin: 0 0 20px 0 !important;
-            color: #11081a !important;
-            transform: none !important;
-            opacity: 1 !important;
-            white-space: normal !important;
+            text-align: center !important;
+            margin: 0 auto 1.5rem !important;
             text-transform: uppercase !important;
-            text-align: center !important;
           }
 
-          .about-name br { display: none !important; }
-
-          .about-text {
-            font-size: 14px !important;
-            line-height: 1.6 !important;
-            color: #4a4a5a !important;
-            text-align: center !important;
-            margin: 0 auto !important;
-            max-width: 320px !important;
-            transform: none !important;
+          .about-name-e, .about-name-n {
+            font-size: 1em !important;
             opacity: 1 !important;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .about-image-wrap {
-            width: 180px !important;
-            height: 180px !important;
-          }
-
-          .about-name {
-            font-size: 32px !important;
           }
 
           .about-text {
             font-size: 15px !important;
+            line-height: 1.6 !important;
+            text-align: center !important;
+            margin-top: 1rem !important;
+          }
+
+          .about-skills-box {
+            justify-content: center !important;
+            margin-top: 2rem !important;
           }
         }
       `}</style>

@@ -69,9 +69,37 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
       const { transitionLength, pauseLength, sectionUnit } = ctx;
 
       // Section detection
-      const newActiveIndex = currentScroll < sectionUnit * 0.5 ? 0
+      let newActiveIndex = currentScroll < sectionUnit * 0.5 ? 0
         : currentScroll < sectionUnit * 1.5 ? 1
-        : currentScroll < sectionUnit * 2.8 ? 2 : 3;
+        : currentScroll < sectionUnit * 2.5 ? 2 : 3;
+
+      if (domCacheRef.current.sections) {
+        const sectionsArray = Array.from(domCacheRef.current.sections);
+        const navbarHeight = document.querySelector('.fixed-navbar')?.getBoundingClientRect().height ?? 0;
+        const probeY = Math.min(window.innerHeight - 1, Math.max(1, navbarHeight + 8));
+
+        const activeByProbeIndex = sectionsArray.findIndex((sec) => {
+          const rect = sec.getBoundingClientRect();
+          return rect.top <= probeY && rect.bottom > probeY;
+        });
+
+        if (activeByProbeIndex >= 0) {
+          newActiveIndex = activeByProbeIndex;
+        } else {
+          const viewportMiddle = window.innerHeight / 2;
+
+          let minDistance = Infinity;
+          sectionsArray.forEach((sec, idx) => {
+            const rect = sec.getBoundingClientRect();
+            const distance = Math.abs(rect.top + rect.height / 2 - viewportMiddle);
+            if (distance < minDistance) {
+              minDistance = distance;
+              newActiveIndex = idx;
+            }
+          });
+        }
+      }
+      
       onSectionChange(newActiveIndex);
 
       const { progressEl, root, globalEnBackdrop: cachedBackdrop, experienceEnSpan, sections, sectionCaches, contactIcon, contactTexts } = domCacheRef.current;

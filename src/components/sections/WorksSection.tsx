@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect, memo, useMemo, type CSSProperties } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Blocks, Database, Server, Workflow, AudioLines, Bot, Brain, Gamepad2, MessageSquareMore, Mic, Puzzle } from 'lucide-react';
+import { useMobileReveal } from '../../hooks/useMobileReveal';
 import imgNeon from '../../assets/images/projects/optimized/desktop_workspace.jpg';
 import imgSignal from '../../assets/images/projects/optimized/electronic_office_dualscreen.jpg';
 import imgAtlas from '../../assets/images/projects/optimized/minimalist_monitors.jpg';
@@ -87,6 +88,8 @@ export const WorksSection = memo(() => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [enOpacity, setEnOpacity] = useState(0);
   const [selectedId, setSelectedId] = useState<string>(projects[0].id);
+  const experienceRef = useMobileReveal<HTMLDivElement>();
+  const projectsRef = useMobileReveal<HTMLDivElement>();
 
   const selectedProject = useMemo(() => {
     const found = projects.find(p => p.id === selectedId);
@@ -117,7 +120,7 @@ export const WorksSection = memo(() => {
           <div ref={scrollContainerRef} className="works-scroll-container h-full w-full overflow-y-auto overflow-x-hidden locked-content bg-black flex flex-col">
             
             {/* Experience Part */}
-            <div className="experience-part relative min-h-screen w-full flex flex-col justify-center px-6 md:px-12 flex-shrink-0">
+            <div ref={experienceRef} className="experience-part relative min-h-screen w-full flex flex-col justify-center px-6 md:px-12 flex-shrink-0">
               <div className="absolute inset-0 opacity-20 pointer-events-none">
                  <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1920 1080">
                   <ellipse cx="350" cy="400" rx="280" ry="180" fill="none" stroke="#7c3aed" strokeWidth="0.5" opacity="0.3" />
@@ -125,9 +128,9 @@ export const WorksSection = memo(() => {
                 </svg>
               </div>
               <div className="relative z-10 mx-auto w-full max-w-7xl">
-                <div className="experience-header mb-5">
-                  <h2 className="heading-font text-4xl font-bold leading-[0.95] tracking-tight text-white md:text-6xl">
-                    WORK <span className="text-[#7c3aed]">EXPERI<span data-en-target="experience-en" className="text-white" style={{ opacity: enOpacity }}>EN</span>CE</span>
+                <div className="experience-header mb-8 md:mb-12">
+                  <h2 className="heading-font text-[28px] font-bold leading-[1.1] tracking-tight text-white md:text-6xl lg:text-7xl">
+                    WORK <span className="text-[#7c3aed] whitespace-nowrap">EXPERI<span data-en-target="experience-en" className="text-white" style={{ opacity: enOpacity }}>EN</span>CE</span>
                   </h2>
                 </div>
                 <div className="space-y-6">
@@ -158,13 +161,13 @@ export const WorksSection = memo(() => {
             </div>
 
             {/* Projects Part */}
-            <div className="projects-wrapper relative min-h-screen w-full flex-shrink-0 overflow-hidden">
+            <div ref={projectsRef} className="projects-wrapper relative min-h-screen w-full flex-shrink-0 overflow-hidden">
               <div className="projects-part relative min-h-screen flex flex-col justify-center px-6 md:px-12 w-full max-w-full">
                 
                 {/* Projects Header */}
-                <div className="relative z-10 mx-auto w-full max-w-7xl mb-5">
-                  <h2 className="heading-font text-4xl font-bold leading-[0.95] tracking-tight text-white md:text-6xl">
-                    PERSONAL <span className="text-[#7c3aed]">PROJE<span className="text-white transition-opacity duration-0" style={{ opacity: enOpacity }}>CT</span>S</span>
+                <div className="relative z-10 mx-auto w-full max-w-7xl mb-8 md:mb-12">
+                  <h2 className="heading-font text-[28px] font-bold leading-[1.1] tracking-tight text-white md:text-6xl lg:text-7xl uppercase">
+                    PERSONAL <span className="text-[#7c3aed] whitespace-nowrap">PROJE<span data-en-target="projects-ct" className="text-white transition-opacity duration-0" style={{ opacity: enOpacity }}>CT</span>S</span>
                   </h2>
                 </div>
 
@@ -265,9 +268,9 @@ export const WorksSection = memo(() => {
                 </div>
 
                 {/* Mobile Projects Structure */}
-                <div className="lg:hidden flex flex-col gap-12 w-full">
+                <div className="lg:hidden flex flex-col gap-10 w-full">
                   {projects.map((project) => (
-                    <div key={project.id} className="w-full flex flex-col gap-6">
+                    <div key={project.id} className="w-full flex flex-col gap-5">
                       <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[16px] border border-white/5">
                         <img 
                           src={project.img} 
@@ -286,7 +289,7 @@ export const WorksSection = memo(() => {
                         <h3 className="heading-font text-2xl font-bold text-white mb-2 tracking-tight">
                           {project.title} <span className="text-[#7c3aed]">{project.line2}</span>
                         </h3>
-                        <p className="text-white/60 text-sm leading-relaxed mb-5 font-light">
+                        <p className="text-white/60 text-sm leading-relaxed mb-4 font-light">
                           {project.des}
                         </p>
                         
@@ -329,32 +332,36 @@ export const WorksSection = memo(() => {
             flex-direction: column !important;
             height: auto !important;
             background: #000000 !important;
-            padding: 80px 0 40px !important;
+            padding: 60px 0 20px !important;
             overflow: visible !important;
           }
           
           .projects-part, .projects-wrapper {
             position: relative !important;
-            padding: 40px 24px 80px !important; /* Increased spacing between projects */
+            padding: 30px 24px 40px !important; 
             display: block !important;
             width: 100% !important;
           }
 
           .experience-part {
-            padding: 20px 24px 60px !important; /* Increased spacing at bottom of experience */
+            padding: 20px 24px 40px !important; 
             min-height: auto !important;
           }
 
           .experience-header h2, .projects-part h2 {
-            font-size: 32px !important;
-            margin-bottom: 40px !important;
-            line-height: 1.1 !important;
-            letter-spacing: -0.01em !important;
+            font-size: 22px !important;
+            margin-bottom: 25px !important;
+            line-height: 1.2 !important;
+            letter-spacing: -0.03em !important;
+            white-space: normal !important;
           }
 
-          /* Global background text scale */
-          .tech-font.text-\[14vw\] {
-            font-size: 10vw !important;
+          .experience-header, .projects-part .max-w-7xl {
+             margin-bottom: 20px !important;
+          }
+
+          .lg\\:hidden.flex-col {
+            gap: 40px !important;
           }
         }
       `}</style>

@@ -481,14 +481,6 @@ main {
   }
 
   /* Ensure animated elements are visible if animations are reduced/disabled */
-  .text-reveal, 
-  .text-reveal-fast,
-  .about-image-wrap,
-  .about-skills-box,
-  .about-title,
-  .about-name,
-  .about-text,
-  .contact-media-card,
   .home-section__intro-copy,
   .home-section__intro-image,
   .home-section__intro-baseline {
@@ -496,6 +488,12 @@ main {
     animation: none !important;
     transform: none !important;
     visibility: visible !important;
+  }
+
+  /* Works header: ensure EN/CT are visible on mobile */
+  #works [data-en-target="experience-en"],
+  #works [data-en-target="projects-ct"] {
+    opacity: 1 !important;
   }
 
   .stack-section {
@@ -728,4 +726,5 @@ main {
   .global-en-backdrop {
     display: none !important;
   }
+
 }

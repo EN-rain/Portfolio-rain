@@ -1,8 +1,11 @@
 import icon from '../../assets/images/icon.jpg';
+import { useMobileReveal } from '../../hooks/useMobileReveal';
+import { Mail, Github, Linkedin } from 'lucide-react';
 
 export const ContactSection = () => {
+  const revealRef = useMobileReveal<HTMLElement>();
   return (
-    <section id="contact" className="stack-section" style={{ zIndex: 120 }}>
+    <section ref={revealRef} id="contact" className="stack-section" style={{ zIndex: 120 }}>
       <div
         className="parallax-content relative flex flex-col items-center justify-center overflow-hidden px-6 text-[#151226]"
         style={{ backgroundColor: '#ffffff' }}
@@ -39,14 +42,14 @@ export const ContactSection = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.9rem',
-                marginBottom: '1rem',
+                marginBottom: '1.75rem',
                 fontSize: '10px',
                 letterSpacing: '0.34em',
                 textTransform: 'uppercase',
-                color: 'rgba(167, 139, 250, 0.82)'
+                color: 'rgba(124, 58, 237, 0.82)'
               }}
             >
-              <span style={{ width: '42px', height: '1px', backgroundColor: '#a78bfa', opacity: 0.85 }} />
+              <span style={{ width: '42px', height: '1px', backgroundColor: '#7c3aed', opacity: 0.85 }} />
               Contact
             </div>
 
@@ -66,20 +69,20 @@ export const ContactSection = () => {
             >
               Let&apos;s build
               <br />
-              <span style={{ color: '#a78bfa' }}>something useful.</span>
+              <span style={{ color: '#7c3aed' }}>something useful.</span>
             </h2>
 
             <p
               className="text-reveal text-reveal-fast text-reveal-delay-3"
               style={{
-                margin: '1rem 0 0',
+                margin: '1.5rem 0 0',
                 maxWidth: '500px',
                 fontSize: '15px',
                 lineHeight: 1.85,
                 color: 'rgba(21, 18, 38, 0.72)'
               }}
             >
-              Open to junior full-stack and associate engineering roles, especially teams working on product systems, AI tools, internal platforms, or automation-heavy workflows.
+              Junior full-stack & associate engineer. Specialized in product systems, AI tools, internal platforms, and automation.
             </p>
           </div>
 
@@ -94,11 +97,11 @@ export const ContactSection = () => {
               <div
                 className="tech-font contact-text"
                 style={{
-                  marginBottom: '0.5rem',
+                  marginBottom: '1rem',
                   fontSize: '9px',
                   letterSpacing: '0.28em',
                   textTransform: 'uppercase',
-                  color: 'rgba(167, 139, 250, 0.8)'
+                  color: 'rgba(124, 58, 237, 0.8)'
                 }}
               >
                 Available for remote roles
@@ -110,7 +113,7 @@ export const ContactSection = () => {
                   position: 'relative',
                   overflow: 'hidden',
                   borderRadius: '16px',
-                  border: '1px solid rgba(167, 139, 250, 0.16)',
+                  border: '1px solid rgba(124, 58, 237, 0.16)',
                   backgroundColor: '#0a0712'
                 }}
               >
@@ -131,7 +134,7 @@ export const ContactSection = () => {
               <div
                 className="contact-text"
                 style={{
-                  marginTop: '0.7rem',
+                  marginTop: '1.25rem',
                   padding: '0.1rem 0.2rem 0.2rem'
                 }}
               >
@@ -143,7 +146,7 @@ export const ContactSection = () => {
                     fontWeight: 600
                   }}
                 >
-                  React, Node.js, TypeScript, APIs, automation, and product-focused implementation.
+                  React, Node.js, TypeScript, APIs, automation, and product implementation.
                 </div>
               </div>
             </div>
@@ -154,58 +157,73 @@ export const ContactSection = () => {
             data-speed="0.025"
             style={{
               width: '100%',
-              display: 'grid',
-              gridTemplateColumns: '1fr',
-              gap: '1rem'
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '1.25rem'
             }}
           >
-            {[
-              { label: 'Email', value: 'nieves.edriancit2011@email.com', href: 'nieves.edriancit2011@email.com' },
-              { label: 'GitHub', value: 'github.com/EN-rain', href: 'https://github.com/EN-rain' },
-              { label: 'LinkedIn', value: 'linkedin.com/in/en-rain', href: 'https://linkedin.com/in/en-rain' },
-              { label: 'Location', value: 'Leon, Iloilo', href: undefined }
-            ].map((item) => (
-              <div
-                key={item.label}
-                className="contact-text"
-                style={{
-                  borderBottom: '1px solid rgba(167, 139, 250, 0.14)',
-                  padding: '0.85rem 0',
-                  textAlign: 'left'
-                }}
-              >
-                <div
-                  className="tech-font"
-                  style={{
-                    marginBottom: '0.45rem',
-                    fontSize: '9px',
-                    letterSpacing: '0.24em',
-                    textTransform: 'uppercase',
-                    color: 'rgba(167, 139, 250, 0.8)'
-                  }}
-                >
-                  {item.label}
-                </div>
-                {item.href ? (
-                  <a
-                    href={item.href}
-                    target={item.href.startsWith('http') ? '_blank' : undefined}
-                    rel={item.href.startsWith('http') ? 'noreferrer' : undefined}
-                    style={{
-                      color: '#151226',
-                      textDecoration: 'none',
-                      fontSize: '15px',
-                      lineHeight: 1.55,
-                      wordBreak: 'break-word'
-                    }}
-                  >
-                    {item.value}
-                  </a>
-                ) : (
-                  <div style={{ color: '#151226', fontSize: '15px', lineHeight: 1.55 }}>{item.value}</div>
-                )}
-              </div>
-            ))}
+            <a
+              className="contact-text"
+              href="mailto:nieves.edriancit2011@email.com"
+              aria-label="Email"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '52px',
+                height: '52px',
+                borderRadius: '16px',
+                border: '1px solid rgba(124, 58, 237, 0.18)',
+                backgroundColor: 'rgba(124, 58, 237, 0.06)',
+                color: '#151226',
+                textDecoration: 'none'
+              }}
+            >
+              <Mail size={22} />
+            </a>
+            <a
+              className="contact-text"
+              href="https://github.com/EN-rain"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="GitHub"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '52px',
+                height: '52px',
+                borderRadius: '16px',
+                border: '1px solid rgba(124, 58, 237, 0.18)',
+                backgroundColor: 'rgba(124, 58, 237, 0.06)',
+                color: '#151226',
+                textDecoration: 'none'
+              }}
+            >
+              <Github size={22} />
+            </a>
+            <a
+              className="contact-text"
+              href="https://linkedin.com/in/en-rain"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '52px',
+                height: '52px',
+                borderRadius: '16px',
+                border: '1px solid rgba(124, 58, 237, 0.18)',
+                backgroundColor: 'rgba(124, 58, 237, 0.06)',
+                color: '#151226',
+                textDecoration: 'none'
+              }}
+            >
+              <Linkedin size={22} />
+            </a>
           </div>
         </div>
       </div>
@@ -214,9 +232,10 @@ export const ContactSection = () => {
         @media (max-width: 900px) {
           .contact-shell {
             grid-template-columns: 1fr !important;
-            gap: 1rem !important;
-            padding-top: 4.75rem !important;
-            padding-bottom: 1rem !important;
+            gap: 3rem !important;
+            padding-top: 6rem !important;
+            padding-bottom: 4rem !important;
+            height: auto !important;
           }
 
           .contact-copy,
@@ -231,55 +250,63 @@ export const ContactSection = () => {
         }
 
         @media (max-width: 768px) {
-          .contact-grid {
-            grid-template-columns: 1fr !important;
-            gap: 0.75rem !important;
+          .contact-shell {
+            display: flex !important;
+            flex-direction: column !important;
+            padding: 140px 24px 60px !important; 
+            height: auto !important;
+            min-height: 100vh !important;
+            gap: 40px !important;
+            justify-content: flex-start !important;
+            align-items: center !important;
           }
 
-          .contact-media-card {
+          .contact-copy,
+          .contact-media,
+          .contact-grid {
             width: 100% !important;
+            max-width: 440px !important;
+            margin: 0 auto !important;
+          }
+
+          .contact-grid {
+            gap: 0 !important;
+            border-top: 1px solid rgba(124, 58, 237, 0.1) !important;
+          }
+
+          .contact-grid > div {
+            padding: 1.25rem 0 !important;
+            border-bottom: 1px solid rgba(124, 58, 237, 0.1) !important;
           }
 
           .contact-image {
-            height: 220px !important;
+            height: 240px !important;
+          }
+
+          .contact-copy h2 {
+            font-size: 38px !important;
+            line-height: 1 !important;
           }
         }
 
         @media (max-width: 480px) {
           .contact-shell {
-            gap: 0.7rem !important;
-            padding-top: 4.5rem !important;
-            padding-bottom: 0.75rem !important;
+            padding-top: 90px !important;
+            gap: 35px !important;
           }
 
           .contact-copy h2 {
-            font-size: 2rem !important;
-            line-height: 1 !important;
+            font-size: 32px !important;
           }
 
           .contact-copy p {
-            margin-top: 0.8rem !important;
-            font-size: 12px !important;
-            line-height: 1.5 !important;
-          }
-
-          .contact-grid {
-            grid-template-columns: 1fr !important;
-            gap: 0.6rem !important;
-          }
-
-          .contact-grid > div {
-            padding: 0.8rem 0 !important;
-          }
-
-          .contact-grid a,
-          .contact-grid div:not(.tech-font) {
-            font-size: 13px !important;
-            line-height: 1.4 !important;
+            font-size: 14px !important;
+            line-height: 1.6 !important;
+            color: rgba(21, 18, 38, 0.6) !important;
           }
 
           .contact-image {
-            height: 180px !important;
+            height: 200px !important;
           }
         }
       `}</style>

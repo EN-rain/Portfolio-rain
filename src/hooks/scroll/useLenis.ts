@@ -29,7 +29,7 @@ export const useLenis = () => {
     rafIdRef.current = requestAnimationFrame(raf);
 
     // Handle custom scroll events from navigation
-    const handleLenisScroll = (e: CustomEvent<number>) => {
+    const handleLenisScroll = (e: CustomEvent<number | string>) => {
       lenis.scrollTo(e.detail);
     };
     window.addEventListener('lenis-scroll', handleLenisScroll as EventListener);
