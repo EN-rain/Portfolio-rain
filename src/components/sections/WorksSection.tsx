@@ -127,7 +127,7 @@ export const WorksSection = memo(() => {
               <div className="relative z-10 mx-auto w-full max-w-7xl">
                 <div className="experience-header mb-5">
                   <h2 className="heading-font text-4xl font-bold leading-[0.95] tracking-tight text-white md:text-6xl">
-                    WORK <span className="text-[#7c3aed]">EXPERI<span className="text-white transition-opacity duration-0" style={{ opacity: enOpacity }}>EN</span>CE</span>
+                    WORK <span className="text-[#7c3aed]">EXPERI<span data-en-target="experience-en" className="text-white" style={{ opacity: enOpacity }}>EN</span>CE</span>
                   </h2>
                 </div>
                 <div className="space-y-6">

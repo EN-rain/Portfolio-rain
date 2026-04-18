@@ -4,10 +4,8 @@ import { useDomCache } from './useDomCache';
 import { updateBackground } from './backgroundAnimation';
 import { animateBackdrop } from './backdropAnimation';
 import { animateContact } from './contactAnimation';
-import { animateSection0, animateSection1, animateSection2, animateSection3 } from './sectionAnimations';
+import { animateSection0, animateSection1, animateSection2, animateSection3, invalidateEnTargetCache } from './sectionAnimations';
 import type { ScrollContext, SectionAnimationState } from './types';
-
-const MAX_SCALE = 1.2;
 
 export const useScrollAnimation = (onSectionChange: (index: number) => void) => {
   const lenisRef = useLenis();
@@ -21,6 +19,7 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
     const handleResize = () => {
       vhRef.current = window.innerHeight;
       cacheDom();
+      invalidateEnTargetCache();
     };
     window.addEventListener('resize', handleResize, { passive: true });
 
@@ -75,7 +74,7 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
         : currentScroll < sectionUnit * 2.8 ? 2 : 3;
       onSectionChange(newActiveIndex);
 
-      const { progressEl, root, globalEnBackdrop: cachedBackdrop, sections, sectionCaches, contactIcon, contactTexts } = domCacheRef.current;
+      const { progressEl, root, globalEnBackdrop: cachedBackdrop, experienceEnSpan, sections, sectionCaches, contactIcon, contactTexts } = domCacheRef.current;
 
       // Update progress bar
       if (progressEl) {
@@ -96,7 +95,7 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
 
         switch (i) {
           case 0:
-            state = animateSection0(secEl, currentScroll, ctx, cachedBackdrop, cache);
+            state = animateSection0(secEl, currentScroll, ctx, cachedBackdrop, experienceEnSpan, cache);
             break;
           case 1:
             state = animateSection1(secEl, currentScroll, ctx);

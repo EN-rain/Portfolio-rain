@@ -23,6 +23,7 @@ export interface DomCache {
   sections: NodeListOf<Element> | null;
   sectionCaches: SectionCache[];
   globalEnBackdrop: HTMLElement | null;
+  experienceEnSpan: HTMLElement | null;
   progressEl: HTMLElement | null;
   root: HTMLElement | null;
   contactIcon: HTMLElement | null;

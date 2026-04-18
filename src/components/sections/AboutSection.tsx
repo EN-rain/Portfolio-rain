@@ -24,11 +24,7 @@ export const AboutSection = () => {
 
             <div className="about-content">
               <h2 className="about-title">Hello, I'm</h2>
-              <h3 className="about-name">
-                &nbsp;drian
-                <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;ieves
-              </h3>
+              <h3 className="about-name"><span className="about-name-e">E</span>drian<br /><span className="about-name-n">N</span>ieves</h3>
               <p className="about-text">
                 I'm a UI engineer passionate about building dark, fast, product-facing interfaces.
                 With a keen eye for detail and a love for smooth animations, I create experiences
@@ -86,7 +82,7 @@ export const AboutSection = () => {
           }
           to {
             opacity: 1;
-            transform: translateX(45px) translateY(35px);
+            transform: translateX(0) translateY(0);
           }
         }
 
@@ -168,6 +164,12 @@ export const AboutSection = () => {
         .about-content {
           flex: 1;
           max-width: 600px;
+          padding: 0;
+        }
+
+        .about-content > * {
+          margin-left: 0;
+          padding-left: 0;
         }
 
         .about-title {
@@ -184,17 +186,24 @@ export const AboutSection = () => {
         }
 
         .about-name {
-          transform: translateY(35px) translateX(45px);
           font-family: 'Sora', sans-serif;
           font-size: 3rem;
           font-weight: 600;
           color: #000000;
-          margin-bottom: 1.5rem;
-          text-transform: lowercase;
-          line-height: 1.75;
+          margin-top: 1rem;
+          margin-left: -0.2rem;
+          line-height: 1.1;
           animation: slideFromRight 0.8s ease-out forwards;
           animation-delay: 0.4s;
           opacity: 0;
+          display: inline-block;
+          text-align: left;
+        }
+        .about-name-e,
+        .about-name-n{
+          font-size: 6.5rem;
+          display: inline-block;
+          line-height: 0.8;
         }
 
         .about-text {

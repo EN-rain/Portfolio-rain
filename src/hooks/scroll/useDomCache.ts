@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react';
-import type { DomCache } from './types';
+import type { DomCache, SectionCache } from './types';
 
 export const useDomCache = () => {
   const domCacheRef = useRef<DomCache>({} as DomCache);
@@ -31,6 +31,7 @@ export const useDomCache = () => {
       sections,
       sectionCaches,
       globalEnBackdrop: document.querySelector('.global-en-backdrop') as HTMLElement | null,
+      experienceEnSpan: document.querySelector('[data-en-target="experience-en"]') as HTMLElement | null,
       progressEl: document.getElementById('section-progress'),
       root: document.getElementById('root'),
       contactIcon: document.getElementById('contact-icon') as HTMLElement | null,
