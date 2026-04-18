@@ -14,10 +14,17 @@ export const AboutSection = () => {
               <div className="about-image-wrap">
                 <img src={heroImage} alt="Profile" className="about-image" />
               </div>
+
+              <div className="about-skills-box about-skills-box--desktop">
+                <span className="about-skill-tag">React</span>
+                <span className="about-skill-tag">TypeScript</span>
+                <span className="about-skill-tag">Node.js</span>
+                <span className="about-skill-tag">CSS</span>
+                <span className="about-skill-tag">Figma</span>
+              </div>
             </div>
 
             <div className="about-content">
-              <div className="about-label tech-font">A bit about me</div>
               <h2 className="about-title">Hello, I'm</h2>
               <h3 className="about-name"><span className="about-name-e">E</span>drian<br /><span className="about-name-n">N</span>ieves</h3>
               
@@ -34,7 +41,7 @@ export const AboutSection = () => {
                 </p>
               </div>
 
-              <div className="about-skills-box">
+              <div className="about-skills-box about-skills-box--mobile">
                 <span className="about-skill-tag">React</span>
                 <span className="about-skill-tag">TypeScript</span>
                 <span className="about-skill-tag">Node.js</span>
@@ -145,17 +152,6 @@ export const AboutSection = () => {
           padding: 0;
         }
 
-        .about-label {
-          font-size: 10px;
-          letter-spacing: 0.3em;
-          text-transform: uppercase;
-          color: #7c3aed;
-          margin-bottom: 1.5rem;
-          opacity: 0;
-          animation: slideFromTop 0.8s ease-out forwards;
-          animation-delay: 0.25s;
-        }
-
         .about-title {
           font-family: 'Sora', sans-serif;
           font-size: 2.5rem;
@@ -215,6 +211,14 @@ export const AboutSection = () => {
           opacity: 0;
         }
 
+        .about-skills-box.about-skills-box--desktop {
+          display: flex;
+        }
+
+        .about-skills-box.about-skills-box--mobile {
+          display: none;
+        }
+
         .about-skill-tag {
           padding: 6px 14px;
           background: rgba(167, 139, 250, 0.1);
@@ -254,11 +258,6 @@ export const AboutSection = () => {
             max-width: 100% !important;
           }
 
-          .about-label {
-            display: block !important;
-            margin-bottom: 0.5rem !important;
-          }
-
           .about-title { display: none !important; }
 
           .about-name {
@@ -283,6 +282,14 @@ export const AboutSection = () => {
           .about-skills-box {
             justify-content: center !important;
             margin-top: 2rem !important;
+          }
+
+          .about-skills-box--desktop {
+            display: none !important;
+          }
+
+          .about-skills-box--mobile {
+            display: flex !important;
           }
         }
       `}</style>

@@ -49,7 +49,6 @@ export const ContactSection = () => {
                 color: 'rgba(124, 58, 237, 0.82)'
               }}
             >
-              <span style={{ width: '42px', height: '1px', backgroundColor: '#7c3aed', opacity: 0.85 }} />
               Contact
             </div>
 
@@ -67,9 +66,9 @@ export const ContactSection = () => {
                 color: '#151226'
               }}
             >
-              Let&apos;s build
+              Let&apos;s create
               <br />
-              <span style={{ color: '#7c3aed' }}>something useful.</span>
+              <span style={{ color: '#7c3aed' }}>something great.</span>
             </h2>
 
             <p
@@ -82,7 +81,7 @@ export const ContactSection = () => {
                 color: 'rgba(21, 18, 38, 0.72)'
               }}
             >
-              Junior full-stack & associate engineer. Specialized in product systems, AI tools, internal platforms, and automation.
+              Junior Full-stack Engineer focused on building functional, high-performance web applications with modern technologies.
             </p>
           </div>
 
@@ -94,19 +93,6 @@ export const ContactSection = () => {
                 padding: 0
               }}
             >
-              <div
-                className="tech-font contact-text"
-                style={{
-                  marginBottom: '1rem',
-                  fontSize: '9px',
-                  letterSpacing: '0.28em',
-                  textTransform: 'uppercase',
-                  color: 'rgba(124, 58, 237, 0.8)'
-                }}
-              >
-                Available for remote roles
-              </div>
-
               <div
                 id="contact-icon"
                 style={{
@@ -129,25 +115,6 @@ export const ContactSection = () => {
                     objectPosition: 'center'
                   }}
                 />
-              </div>
-
-              <div
-                className="contact-text"
-                style={{
-                  marginTop: '1.25rem',
-                  padding: '0.1rem 0.2rem 0.2rem'
-                }}
-              >
-                <div
-                  style={{
-                    color: '#151226',
-                    fontSize: '16px',
-                    lineHeight: 1.5,
-                    fontWeight: 600
-                  }}
-                >
-                  React, Node.js, TypeScript, APIs, automation, and product implementation.
-                </div>
               </div>
             </div>
           </div>

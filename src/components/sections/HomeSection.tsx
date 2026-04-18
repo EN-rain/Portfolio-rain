@@ -91,7 +91,7 @@ export const HomeSection = () => {
 
               <div className="home-section__subtext" data-speed-mobile="0.08">
                 <p className="home-section__subtext-inner home-section__intro-baseline">
-                  UI engineer building dark, fast, product-facing interfaces.
+                  I don't just write code. I build things that works.
                 </p>
               </div>
             </div>
