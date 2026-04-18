@@ -30,7 +30,8 @@ export const useLenis = () => {
 
     // Handle custom scroll events from navigation
     const handleLenisScroll = (e: CustomEvent<number | string>) => {
-      lenis.scrollTo(e.detail);
+      const target = typeof e.detail === 'string' ? e.detail : (e.detail as number);
+      lenis.scrollTo(target as any);
     };
     window.addEventListener('lenis-scroll', handleLenisScroll as EventListener);
     (lenis as any)._customHandler = handleLenisScroll;
