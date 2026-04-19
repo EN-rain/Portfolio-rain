@@ -1,6 +1,6 @@
 import icon from '../../assets/images/icon.jpg';
 import { useMobileReveal } from '../../hooks/useMobileReveal';
-import { Mail, Github, Linkedin } from 'lucide-react';
+import { Mail, Github, Linkedin, MapPin } from 'lucide-react';
 
 export const ContactSection = () => {
   const revealRef = useMobileReveal<HTMLElement>();
@@ -66,9 +66,9 @@ export const ContactSection = () => {
                 color: '#151226'
               }}
             >
-              Let&apos;s create
+              Let&apos;s talk
               <br />
-              <span style={{ color: '#7c3aed' }}>something great.</span>
+              <span style={{ color: '#7c3aed' }}>about your project.</span>
             </h2>
 
             <p
@@ -130,67 +130,145 @@ export const ContactSection = () => {
               gap: '1.25rem'
             }}
           >
-            <a
-              className="contact-text"
-              href="mailto:nieves.edriancit2011@email.com"
-              aria-label="Email"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '52px',
-                height: '52px',
-                borderRadius: '16px',
-                border: '1px solid rgba(124, 58, 237, 0.18)',
-                backgroundColor: 'rgba(124, 58, 237, 0.06)',
-                color: '#151226',
-                textDecoration: 'none'
-              }}
-            >
-              <Mail size={22} />
-            </a>
-            <a
-              className="contact-text"
-              href="https://github.com/EN-rain"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="GitHub"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '52px',
-                height: '52px',
-                borderRadius: '16px',
-                border: '1px solid rgba(124, 58, 237, 0.18)',
-                backgroundColor: 'rgba(124, 58, 237, 0.06)',
-                color: '#151226',
-                textDecoration: 'none'
-              }}
-            >
-              <Github size={22} />
-            </a>
-            <a
-              className="contact-text"
-              href="https://linkedin.com/in/en-rain"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="LinkedIn"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '52px',
-                height: '52px',
-                borderRadius: '16px',
-                border: '1px solid rgba(124, 58, 237, 0.18)',
-                backgroundColor: 'rgba(124, 58, 237, 0.06)',
-                color: '#151226',
-                textDecoration: 'none'
-              }}
-            >
-              <Linkedin size={22} />
-            </a>
+            <div className="hidden md:flex" style={{ width: '100%', maxWidth: '360px', flexDirection: 'column', gap: '0.85rem' }}>
+              <div className="text-reveal text-reveal-fast text-reveal-delay-3" style={{ width: '100%', display: 'inline-flex', justifyContent: 'flex-end', gap: '0.5rem', alignItems: 'center', padding: '0 16px', boxSizing: 'border-box', color: 'rgba(21, 18, 38, 0.62)', fontSize: '12px', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+                <MapPin size={14} />
+                <span>Leon City, Philippines</span>
+              </div>
+              <a
+                className="contact-text"
+                href="mailto:nieves.edriancit2011@email.com"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '1rem',
+                  padding: '14px 16px',
+                  borderRadius: '16px',
+                  border: 'none',
+                  backgroundColor: 'transparent',
+                  color: '#151226',
+                  textDecoration: 'none'
+                }}
+              >
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.75rem', fontSize: '12px', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+                  <Mail size={18} /> Email
+                </span>
+                <span style={{ fontSize: '12px', color: 'rgba(21, 18, 38, 0.62)' }}>nieves.edriancit2011@email.com</span>
+              </a>
+
+              <a
+                className="contact-text"
+                href="https://github.com/EN-rain"
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '1rem',
+                  padding: '14px 16px',
+                  borderRadius: '16px',
+                  border: 'none',
+                  backgroundColor: 'transparent',
+                  color: '#151226',
+                  textDecoration: 'none'
+                }}
+              >
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.75rem', fontSize: '12px', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+                  <Github size={18} /> GitHub
+                </span>
+                <span style={{ fontSize: '12px', color: 'rgba(21, 18, 38, 0.62)' }}>@EN-rain</span>
+              </a>
+
+              <a
+                className="contact-text"
+                href="https://linkedin.com/in/en-rain"
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '1rem',
+                  padding: '14px 16px',
+                  borderRadius: '16px',
+                  border: 'none',
+                  backgroundColor: 'transparent',
+                  color: '#151226',
+                  textDecoration: 'none'
+                }}
+              >
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.75rem', fontSize: '12px', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+                  <Linkedin size={18} /> LinkedIn
+                </span>
+                <span style={{ fontSize: '12px', color: 'rgba(21, 18, 38, 0.62)' }}>in/en-rain</span>
+              </a>
+            </div>
+
+            <div className="md:hidden" style={{ justifyContent: 'center', alignItems: 'center', gap: '1.25rem', width: '100%' }}>
+              <a
+                className="contact-text"
+                href="mailto:nieves.edriancit2011@email.com"
+                aria-label="Email"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '52px',
+                  height: '52px',
+                  borderRadius: '16px',
+                  border: '1px solid rgba(124, 58, 237, 0.18)',
+                  backgroundColor: 'rgba(124, 58, 237, 0.06)',
+                  color: '#151226',
+                  textDecoration: 'none'
+                }}
+              >
+                <Mail size={22} />
+              </a>
+              <a
+                className="contact-text"
+                href="https://github.com/EN-rain"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="GitHub"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '52px',
+                  height: '52px',
+                  borderRadius: '16px',
+                  border: '1px solid rgba(124, 58, 237, 0.18)',
+                  backgroundColor: 'rgba(124, 58, 237, 0.06)',
+                  color: '#151226',
+                  textDecoration: 'none'
+                }}
+              >
+                <Github size={22} />
+              </a>
+              <a
+                className="contact-text"
+                href="https://linkedin.com/in/en-rain"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="LinkedIn"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '52px',
+                  height: '52px',
+                  borderRadius: '16px',
+                  border: '1px solid rgba(124, 58, 237, 0.18)',
+                  backgroundColor: 'rgba(124, 58, 237, 0.06)',
+                  color: '#151226',
+                  textDecoration: 'none'
+                }}
+              >
+                <Linkedin size={22} />
+              </a>
+            </div>
           </div>
         </div>
       </div>
