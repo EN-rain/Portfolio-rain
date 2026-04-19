@@ -1,8 +1,47 @@
 import heroImage from '../../assets/images/hero.png';
 import { useMobileReveal } from '../../hooks/useMobileReveal';
+import { experience, projects } from '../../data/works';
+import jsIcon from '../../assets/icons/tech/javascript-original.svg';
+import reactIcon from '../../assets/icons/tech/react-original.svg';
+import tsIcon from '../../assets/icons/tech/typescript-original.svg';
+import nodeIcon from '../../assets/icons/tech/nodejs-original.svg';
+import expressIcon from '../../assets/icons/tech/express-original.svg';
+import supabaseIcon from '../../assets/icons/tech/supabase-original.svg';
+import postgresIcon from '../../assets/icons/tech/postgresql-original.svg';
+import tailwindIcon from '../../assets/icons/tech/tailwindcss-original.svg';
+import cssIcon from '../../assets/icons/tech/css3-original.svg';
+import figmaIcon from '../../assets/icons/tech/figma-original.svg';
 
 export const AboutSection = () => {
   const revealRef = useMobileReveal<HTMLElement>();
+  const jobStackSkills = [
+    'JavaScript',
+    'React',
+    'TypeScript',
+    'Node.js',
+    'Express.js',
+    'Supabase',
+    'PostgreSQL',
+    'Tailwind CSS',
+    'CSS',
+    'Figma',
+  ] as const;
+
+  const availableSkills = new Set([...experience.flatMap(e => e.highlights ?? []), ...projects.flatMap(p => p.stack ?? [])]);
+  const techStackSkills = jobStackSkills.filter(s => s === 'JavaScript' || s === 'CSS' || s === 'Figma' || availableSkills.has(s));
+
+  const skillIcons = {
+    JavaScript: jsIcon,
+    React: reactIcon,
+    TypeScript: tsIcon,
+    'Node.js': nodeIcon,
+    'Express.js': expressIcon,
+    Supabase: supabaseIcon,
+    PostgreSQL: postgresIcon,
+    'Tailwind CSS': tailwindIcon,
+    CSS: cssIcon,
+    Figma: figmaIcon,
+  } as const;
   return (
     <section ref={revealRef} id="about" className="stack-section mask-shaped-section mask-theme-purple" style={{ zIndex: 20 }}>
       <div className="clip-gap-outer parallax-content">
@@ -16,37 +55,45 @@ export const AboutSection = () => {
               </div>
 
               <div className="about-skills-box about-skills-box--desktop">
-                <span className="about-skill-tag">React</span>
-                <span className="about-skill-tag">TypeScript</span>
-                <span className="about-skill-tag">Node.js</span>
-                <span className="about-skill-tag">CSS</span>
-                <span className="about-skill-tag">Figma</span>
+                {techStackSkills.map(s => (
+                  <span key={s} className="about-skill-tag">
+                    <img
+                      className="about-skill-icon"
+                      src={skillIcons[s as keyof typeof skillIcons]}
+                      alt=""
+                      aria-hidden="true"
+                    />
+                    {s}
+                  </span>
+                ))}
               </div>
             </div>
 
             <div className="about-content">
-              <h2 className="about-title">Hello, I'm</h2>
+              <h2 className="about-title">Hello!, I'm</h2>
               <h3 className="about-name"><span className="about-name-e">E</span>drian<br /><span className="about-name-n">N</span>ieves</h3>
               
               <div className="about-text-wrapper">
                 <p className="about-text">
-                  I'm a UI engineer passionate about building dark, fast, product-facing interfaces.
-                  With a keen eye for detail and a love for smooth animations, I create experiences
-                  that feel both intuitive and delightful.
+                  A Full-Stack Developer based in Leon City, Philippines. I got into development because I like building things that actually solve problems, not just things that look good in a repo.
                 </p>
                 <p className="about-text">
-                  My expertise spans modern frontend technologies, responsive design, and
-                  performance optimization. I believe great UI is invisible &mdash; it gets out of the
-                  way and lets users accomplish their goals effortlessly.
+                  From 2FA dashboards to automated reporting pipelines, I build end-to-end and own every part of it. Open to full-time work, project based and part time.
                 </p>
               </div>
 
               <div className="about-skills-box about-skills-box--mobile">
-                <span className="about-skill-tag">React</span>
-                <span className="about-skill-tag">TypeScript</span>
-                <span className="about-skill-tag">Node.js</span>
-                <span className="about-skill-tag">CSS</span>
-                <span className="about-skill-tag">Figma</span>
+                {techStackSkills.map(s => (
+                  <span key={s} className="about-skill-tag">
+                    <img
+                      className="about-skill-icon"
+                      src={skillIcons[s as keyof typeof skillIcons]}
+                      alt=""
+                      aria-hidden="true"
+                    />
+                    {s}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
@@ -124,6 +171,9 @@ export const AboutSection = () => {
 
         .about-image-container {
           flex: 0 0 auto;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
 
         .about-image-wrap {
@@ -133,7 +183,6 @@ export const AboutSection = () => {
           height: 400px;
           border-radius: 16px;
           overflow: visible;
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
           animation: slideFromLeft 0.8s ease-out forwards;
           animation-delay: 0.2s;
           opacity: 0;
@@ -206,6 +255,8 @@ export const AboutSection = () => {
           display: flex;
           flex-wrap: wrap;
           gap: 8px;
+          justify-content: center;
+          align-content: center;
           animation: slideFromBottom 0.8s ease-out forwards;
           animation-delay: 0.6s;
           opacity: 0;
@@ -213,6 +264,10 @@ export const AboutSection = () => {
 
         .about-skills-box.about-skills-box--desktop {
           display: flex;
+          margin-top: -28px;
+          width: 400px;
+          padding: 0 calc(400px * 0.05);
+          box-sizing: content-box;
         }
 
         .about-skills-box.about-skills-box--mobile {
@@ -220,15 +275,30 @@ export const AboutSection = () => {
         }
 
         .about-skill-tag {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
           padding: 6px 14px;
-          background: rgba(167, 139, 250, 0.1);
-          border: 1px solid rgba(167, 139, 250, 0.2);
           border-radius: 100px;
           font-family: 'IBM Plex Mono', monospace;
           font-size: 0.7rem;
           color: #6b4fa8;
           text-transform: uppercase;
           letter-spacing: 0.05em;
+        }
+
+        .about-skill-icon {
+          width: 14px;
+          height: 14px;
+          display: block;
+          flex: 0 0 auto;
+        }
+
+        .about-location-icon {
+          display: inline-block;
+          vertical-align: middle;
+          margin: 0 6px;
+          transform: translateY(-1px);
         }
 
         @media (max-width: 768px) {
@@ -248,7 +318,6 @@ export const AboutSection = () => {
             border-radius: 50% !important;
             transform: none !important;
             margin: 0 auto !important;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
           }
 
           .about-image { border-radius: 50% !important; }
