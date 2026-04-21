@@ -1,4 +1,4 @@
-import heroImage from '../../assets/images/hero.png';
+import heroImage from '../../assets/images/hero2.png';
 import { useMobileReveal } from '../../hooks/useMobileReveal';
 import { experience, projects } from '../../data/works';
 import jsIcon from '../../assets/icons/tech/javascript-original.svg';

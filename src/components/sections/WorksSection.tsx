@@ -227,12 +227,23 @@ export const WorksSection = memo(() => {
                           onClick={() => setSelectedId(project.id)}
                           className="cursor-pointer group relative w-full aspect-[16/10] lg:h-[145px] flex-shrink-0 overflow-hidden rounded-[15px] border border-white/10 hover:border-[#7c3aed]/50 transition-[border-color,transform] duration-500"
                         >
-                          <img 
-                            src={project.img} 
-                            alt={project.title}
-                            className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" 
-                          />
+                          {project.img ? (
+                            <img 
+                              src={project.img} 
+                              alt={project.title}
+                              className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" 
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-black" />
+                          )}
                           <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-300" />
+                          {!project.img && project.status && (
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                              <div className="heading-font text-[18px] tracking-[0.22em] text-white/12 uppercase text-center px-3">
+                                {project.status}
+                              </div>
+                            </div>
+                          )}
                           <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black via-black/80 to-transparent transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                             <p className="tech-font text-[10px] text-white/90 uppercase tracking-widest truncate">{project.title}</p>
                           </div>

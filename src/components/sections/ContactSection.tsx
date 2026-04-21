@@ -36,22 +36,6 @@ export const ContactSection = () => {
 
         <div className="contact-shell locked-content relative z-10 mx-auto grid h-full w-full max-w-6xl grid-cols-[minmax(0,0.9fr)_minmax(320px,380px)_minmax(0,0.9fr)] items-center gap-8 py-12">
           <div className="contact-text contact-copy scroll-parallax-text" data-speed="0.04" style={{ width: '100%', textAlign: 'left' }}>
-            <div
-              className="tech-font text-reveal text-reveal-fast text-reveal-delay-1"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.9rem',
-                marginBottom: '1.75rem',
-                fontSize: '10px',
-                letterSpacing: '0.34em',
-                textTransform: 'uppercase',
-                color: 'rgba(124, 58, 237, 0.82)'
-              }}
-            >
-              Contact
-            </div>
-
             <h2
               className="text-reveal text-reveal-delay-2"
               style={{
