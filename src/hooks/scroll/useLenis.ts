@@ -36,11 +36,19 @@ export const useLenis = () => {
     window.addEventListener('lenis-scroll', handleLenisScroll as EventListener);
     (lenis as any)._customHandler = handleLenisScroll;
 
+    // Pause/resume Lenis (used when project overlay is open)
+    const handleStop = () => lenis.stop();
+    const handleStart = () => lenis.start();
+    window.addEventListener('lenis-stop', handleStop);
+    window.addEventListener('lenis-start', handleStart);
+
     return () => {
       if (rafIdRef.current) {
         cancelAnimationFrame(rafIdRef.current);
       }
       window.removeEventListener('lenis-scroll', handleLenisScroll as EventListener);
+      window.removeEventListener('lenis-stop', handleStop);
+      window.removeEventListener('lenis-start', handleStart);
       lenis.destroy();
       lenisRef.current = null;
     };

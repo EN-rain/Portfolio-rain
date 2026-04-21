@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect, memo, type CSSProperties } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Blocks, Database, Server, Workflow, AudioLines, Bot, Brain, Gamepad2, MessageSquareMore, Mic, Puzzle } from 'lucide-react';
 import { useMobileReveal } from '../../hooks/useMobileReveal';
@@ -50,6 +51,24 @@ export const WorksSection = memo(() => {
     window.addEventListener('en-reveal', handleEnReveal as EventListener);
     return () => window.removeEventListener('en-reveal', handleEnReveal as EventListener);
   }, []);
+
+  // Lock body scroll and pause Lenis when a project is expanded
+  useEffect(() => {
+    if (selectedId) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      window.dispatchEvent(new Event('lenis-stop'));
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      window.dispatchEvent(new Event('lenis-start'));
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      window.dispatchEvent(new Event('lenis-start'));
+    };
+  }, [selectedId]);
 
   return (
     <section id="works" className="stack-section mask-shaped-section works-combined-section" style={{ zIndex: 140, '--mask-color': '#6c2bd9' } as CSSProperties}>
@@ -115,7 +134,6 @@ export const WorksSection = memo(() => {
                     {projects.map((project) => (
                       <motion.div
                         key={project.id}
-                        layoutId={`project-card-${project.id}`}
                         onClick={() => setSelectedId(project.id)}
                         className="project-card group cursor-pointer"
                         whileHover={{ scale: 1.03 }}
@@ -146,94 +164,8 @@ export const WorksSection = memo(() => {
                     ))}
                   </div>
 
-                  {/* Expanded Project Overlay — scoped to projects area */}
-                  <AnimatePresence>
-                    {selectedId && (() => {
-                      const proj = projects.find(p => p.id === selectedId);
-                      if (!proj) return null;
-                      return (
-                        <motion.div
-                          className="project-expanded-backdrop"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                          onClick={() => setSelectedId('')}
-                        >
-                          <motion.div
-                            layoutId={`project-card-${selectedId}`}
-                            className="project-expanded-card"
-                            onClick={(e) => e.stopPropagation()}
-                            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                          >
-                            <button
-                              className="project-close-btn"
-                              onClick={() => setSelectedId('')}
-                              aria-label="Close project"
-                            >
-                              ✕
-                            </button>
-                            <div className="project-expanded-image">
-                              {proj.img ? (
-                                <img src={proj.img} alt={proj.title} className="w-full h-full object-cover" />
-                              ) : (
-                                <div className="w-full h-full bg-gradient-to-br from-[#1a1a2e] to-[#0a0a0a] flex items-center justify-center">
-                                  {proj.status && (
-                                    <span className="heading-font text-[28px] tracking-[0.22em] text-white/10 uppercase">{proj.status}</span>
-                                  )}
-                                </div>
-                              )}
-                              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-                            </div>
-                            <div className="project-expanded-content">
-                              <div className="tech-font text-[11px] font-bold text-[#7c3aed] mb-2">{proj.year}</div>
-                              <h3 className="heading-font text-2xl md:text-3xl font-bold text-white mb-1 leading-tight">
-                                {proj.title}
-                              </h3>
-                              <p className="tech-font text-[10px] text-[#7c3aed]/70 uppercase tracking-widest mb-4">{proj.line2}</p>
-                              <p className="text-white/70 text-[12px] md:text-[13px] leading-relaxed mb-5 font-light max-w-2xl">
-                                {proj.des}
-                              </p>
-                              {(proj.hoursSpent || proj.timeline) && (
-                                <div className="mb-5">
-                                  {proj.hoursSpent && (
-                                    <div className="tech-font text-[10px] uppercase tracking-widest text-white/60 mb-3">
-                                      Time spent: <span className="text-white/80">{proj.hoursSpent}</span>
-                                    </div>
-                                  )}
-                                  {proj.timeline && proj.timeline.length > 0 && (
-                                    <div className="space-y-2">
-                                      {proj.timeline.map((t) => (
-                                        <div key={t.label} className="flex gap-3">
-                                          <div className="tech-font text-[9px] uppercase tracking-widest text-[#7c3aed] w-[76px] flex-shrink-0">
-                                            {t.label}
-                                          </div>
-                                          <div className="text-white/60 text-[11px] leading-relaxed">
-                                            {t.detail}
-                                          </div>
-                                        </div>
-                                      ))}
-                                    </div>
-                                  )}
-                                </div>
-                              )}
-                              <div className="flex flex-wrap gap-3">
-                                {proj.stack.map(s => {
-                                  const Icon = stackIcons[s as keyof typeof stackIcons] ?? Puzzle;
-                                  return (
-                                    <span key={s} className="tech-font flex items-center gap-2 text-[9px] uppercase tracking-widest text-white/60">
-                                      <Icon size={13} />{s}
-                                    </span>
-                                  );
-                                })}
-                              </div>
-                            </div>
-                          </motion.div>
-                        </motion.div>
-                      );
-                    })()}
-                  </AnimatePresence>
                 </div>
+
 
               </div>
             </div>
@@ -279,9 +211,9 @@ export const WorksSection = memo(() => {
         .project-expanded-backdrop {
           position: fixed;
           inset: 0;
-          z-index: 200;
-          background: rgba(0, 0, 0, 0.75);
-          backdrop-filter: blur(6px);
+          z-index: 99999;
+          background: rgba(0, 0, 0, 0.85);
+          backdrop-filter: blur(12px);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -292,20 +224,30 @@ export const WorksSection = memo(() => {
           width: 100%;
           max-width: 820px;
           max-height: 85vh;
-          overflow-y: auto;
-          border-radius: 20px;
+          overflow: hidden;
+          overscroll-behavior: contain;
+          -webkit-overflow-scrolling: touch;
+          border-radius: 12px;
           border: 1px solid rgba(255, 255, 255, 0.1);
           background: #0d0d0d;
           box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(124, 58, 237, 0.15);
         }
-        .project-expanded-card::-webkit-scrollbar { width: 4px; }
-        .project-expanded-card::-webkit-scrollbar-track { background: transparent; }
-        .project-expanded-card::-webkit-scrollbar-thumb { background: rgba(124, 58, 237, 0.3); border-radius: 10px; }
+        .project-expanded-scroll {
+          max-height: 85vh;
+          overflow-y: auto;
+          overscroll-behavior: contain;
+          -webkit-overflow-scrolling: touch;
+        }
+        .project-expanded-scroll::-webkit-scrollbar { width: 4px; }
+        .project-expanded-scroll::-webkit-scrollbar-track { background: transparent; }
+        .project-expanded-scroll::-webkit-scrollbar-thumb { background: rgba(124, 58, 237, 0.3); border-radius: 10px; }
         .project-expanded-image {
           position: relative;
-          width: 100%;
+          width: calc(100% - 32px);
+          margin: 20px 16px 0;
           aspect-ratio: 16 / 9;
           overflow: hidden;
+          border-radius: 12px;
         }
         .project-expanded-content {
           padding: 28px 32px 32px;
@@ -335,6 +277,28 @@ export const WorksSection = memo(() => {
           background: rgba(124, 58, 237, 0.6);
           border-color: rgba(124, 58, 237, 0.5);
           transform: rotate(90deg);
+        }
+
+        /* ── Scroll hint ── */
+        .project-scroll-hint {
+          position: absolute;
+          bottom: 16px;
+          left: 0;
+          right: 0;
+          width: 100%;
+          z-index: 20;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 5px;
+          padding: 6px 14px;
+          color: rgba(255, 255, 255, 0.4);
+          font-size: 10px;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          font-family: var(--font-tech, monospace);
+          pointer-events: none;
+          white-space: nowrap;
         }
 
         /* ── Responsive ── */
@@ -384,11 +348,131 @@ export const WorksSection = memo(() => {
           .project-expanded-card {
             max-height: 90vh;
           }
+          .project-expanded-scroll {
+            max-height: 90vh;
+          }
           .project-expanded-content {
             padding: 20px 20px 24px;
           }
         }
       `}</style>
+
+      {/* Expanded Project Overlay — portaled above everything */}
+      {createPortal(
+        <AnimatePresence>
+          {selectedId && (() => {
+            const proj = projects.find(p => p.id === selectedId);
+            if (!proj) return null;
+            return (
+              <motion.div
+                key="project-overlay"
+                className="project-expanded-backdrop"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                onClick={() => setSelectedId('')}
+              >
+                <motion.div
+                  className="project-expanded-card"
+                  data-lenis-prevent
+                  initial={{ opacity: 0, scale: 0.9, y: 40 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9, y: 40 }}
+                  onClick={(e) => e.stopPropagation()}
+                  onWheel={(e) => e.stopPropagation()}
+                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <button
+                    className="project-close-btn"
+                    onClick={() => setSelectedId('')}
+                    aria-label="Close project"
+                  >
+                    ✕
+                  </button>
+
+                  <div className="project-expanded-scroll">
+                    {/* Header — above image */}
+                    <div className="px-6 pt-4 pb-3">
+                      <div className="tech-font text-[11px] font-bold text-[#7c3aed] mb-1">{proj.year}</div>
+                      <h3 className="heading-font text-2xl md:text-3xl font-bold text-white leading-tight">{proj.title}</h3>
+                      <p className="tech-font text-[10px] text-[#7c3aed]/70 uppercase tracking-widest mt-1">{proj.line2}</p>
+                    </div>
+
+                    {/* Image */}
+                    <div className="project-expanded-image">
+                      {proj.img ? (
+                        <img src={proj.img} alt={proj.title} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-[#1a1a2e] to-[#0a0a0a] flex items-center justify-center">
+                          {proj.status && (
+                            <span className="heading-font text-[28px] tracking-[0.22em] text-white/10 uppercase">{proj.status}</span>
+                          )}
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                    </div>
+
+                    {/* Content below image */}
+                    <div className="project-expanded-content">
+                      <p className="text-white/70 text-[12px] md:text-[13px] leading-relaxed mb-5 font-light w-full">
+                        {proj.des}
+                      </p>
+                      {(proj.hoursSpent || proj.timeline) && (
+                        <div className="mb-5">
+                          {proj.hoursSpent && (
+                            <div className="tech-font text-[10px] uppercase tracking-widest text-white/60 mb-3">
+                              Time spent: <span className="text-white/80">{proj.hoursSpent}</span>
+                            </div>
+                          )}
+                          {proj.timeline && proj.timeline.length > 0 && (
+                            <div className="space-y-2">
+                              {proj.timeline.map((t) => (
+                                <div key={t.label} className="flex gap-3">
+                                  <div className="tech-font text-[9px] uppercase tracking-widest text-[#7c3aed] w-[76px] flex-shrink-0">
+                                    {t.label}
+                                  </div>
+                                  <div className="text-white/60 text-[11px] leading-relaxed">
+                                    {t.detail}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      <div className="flex flex-wrap gap-3">
+                        {proj.stack.map(s => {
+                          const Icon = stackIcons[s as keyof typeof stackIcons] ?? Puzzle;
+                          return (
+                            <span key={s} className="tech-font flex items-center gap-2 text-[9px] uppercase tracking-widest text-white/60">
+                              <Icon size={13} />{s}
+                            </span>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Scroll hint — absolute bottom center of card */}
+                  <motion.div
+                    className="project-scroll-hint"
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: [0, 1, 1, 0], y: [6, 0, 0, 0] }}
+                    transition={{ duration: 2.5, times: [0, 0.2, 0.7, 1], delay: 0.6, ease: 'easeOut' }}
+                  >
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                    scroll down
+                  </motion.div>
+                </motion.div>
+              </motion.div>
+            );
+          })()}
+        </AnimatePresence>,
+        document.body
+      )}
     </section>
   );
 });
