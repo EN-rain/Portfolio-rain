@@ -11,10 +11,11 @@ export const animateContact = (
   const buffer = pauseLength * 0.2;
   const contactEnterStart = section2LeaveStart + buffer;
   const contactAnimDuration = transitionLength * 0.6;
+  const iconLiftPx = 120;
 
   if (currentScroll < contactEnterStart) {
     if (contactIcon) {
-      contactIcon.style.transform = 'rotateY(90deg)';
+      contactIcon.style.transform = `translate3d(0, ${iconLiftPx}px, 0)`;
       contactIcon.style.opacity = '0';
     }
     contactTexts?.forEach(el => {
@@ -25,7 +26,7 @@ export const animateContact = (
     const p = (currentScroll - contactEnterStart) / contactAnimDuration;
     const eased = 1 - Math.pow(1 - p, 3);
     if (contactIcon) {
-      contactIcon.style.transform = `rotateY(${90 - eased * 90}deg)`;
+      contactIcon.style.transform = `translate3d(0, ${(1 - eased) * iconLiftPx}px, 0)`;
       contactIcon.style.opacity = String(eased);
     }
     const textEased = 1 - Math.pow(1 - Math.min(1, Math.max(0, (p - 0.2) / 0.8)), 3);
@@ -35,7 +36,7 @@ export const animateContact = (
     });
   } else {
     if (contactIcon) {
-      contactIcon.style.transform = 'rotateY(0deg)';
+      contactIcon.style.transform = 'translate3d(0, 0, 0)';
       contactIcon.style.opacity = '1';
     }
     contactTexts?.forEach(el => {

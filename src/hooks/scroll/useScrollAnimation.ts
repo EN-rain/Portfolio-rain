@@ -161,19 +161,20 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
         });
 
         if (i === 2 && window.matchMedia('(min-width: 1024px)').matches) {
-          // Works (Section 2) is moved into view during its enter transition; fading during that
-          // phase can be mostly off-screen. Instead, start fading once it's centered.
-          const enterStart = pauseLength + transitionLength + pauseLength;
-          const enterEnd = enterStart + transitionLength;
-          const leaveStart = 2 * (pauseLength + transitionLength) + pauseLength;
+          const section2ImageEl = (secEl.querySelector('[data-section2="image"]') as HTMLElement | null) ?? cache.section2Image;
+          const section2DescEl = (secEl.querySelector('[data-section2="desc"]') as HTMLElement | null) ?? cache.section2Desc;
+          const section2SkillsEl = (secEl.querySelector('[data-section2="skills"]') as HTMLElement | null) ?? cache.section2Skills;
 
-          // Fade during the early part of the centered/pause window
-          const fadeStart = enterEnd;
-          const fadeDuration = pauseLength * 0.6;
-          const fadeEnd = Math.min(leaveStart, fadeStart + fadeDuration);
-
-          const rawP = (currentScroll - fadeStart) / Math.max(1, (fadeEnd - fadeStart));
-          const p = Math.max(0, Math.min(1, rawP));
+          // Section 2 contains an internal scroll container (experience -> projects). These elements
+          // only become visible once the internal scroll reaches the projects area.
+          const worksContainer = cache.worksScrollContainer;
+          const baseP = (() => {
+            if (!worksContainer || !section2ImageEl) return 1;
+            const revealStart = section2ImageEl.offsetTop - worksContainer.clientHeight * 0.55;
+            const revealRange = Math.max(1, worksContainer.clientHeight * 0.35);
+            const raw = (worksContainer.scrollTop - revealStart) / revealRange;
+            return Math.max(0, Math.min(1, raw));
+          })();
 
           const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
 
@@ -191,51 +192,73 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
           };
 
           // Staggered fade-in
-          const imgT = Math.max(0, Math.min(1, (p - 0.00) / 0.75));
-          const descT = Math.max(0, Math.min(1, (p - 0.18) / 0.75));
-          const skillsT = Math.max(0, Math.min(1, (p - 0.35) / 0.70));
+          const imgT = Math.max(0, Math.min(1, (baseP - 0.00) / 0.75));
+          const descT = Math.max(0, Math.min(1, (baseP - 0.18) / 0.75));
+          const skillsT = Math.max(0, Math.min(1, (baseP - 0.35) / 0.70));
 
           // Before fadeStart, keep hidden; after fadeEnd, keep fully shown.
-          applyFade(cache.section2Image, imgT, 28);
-          applyFade(cache.section2Desc, descT, 22);
-          applyFade(cache.section2Skills, skillsT, 16);
+          applyFade(section2ImageEl, imgT, 120);
+          applyFade(section2DescEl, descT, 90);
+          applyFade(section2SkillsEl, skillsT, 70);
 
           // Respect section-level fade-out when leaving
           if (currentOpacity < 0.99) {
             const safeOpacity = Math.max(0, Math.min(1, currentOpacity));
-            if (cache.section2Image) cache.section2Image.style.opacity = safeOpacity.toString();
-            if (cache.section2Desc) cache.section2Desc.style.opacity = safeOpacity.toString();
-            if (cache.section2Skills) cache.section2Skills.style.opacity = safeOpacity.toString();
+            if (section2ImageEl) section2ImageEl.style.opacity = safeOpacity.toString();
+            if (section2DescEl) section2DescEl.style.opacity = safeOpacity.toString();
+            if (section2SkillsEl) section2SkillsEl.style.opacity = safeOpacity.toString();
           }
         }
 
-        if (i === 1 && window.matchMedia('(min-width: 1024px)').matches) {
-          // About (Section 1): tie fade-in to scroll (desktop only).
+        if (i === 1) {
+          // About (Section 1): scroll-driven fade-in/out for content elements.
+          // The section enter transition moves it from off-screen to resting position.
+          // Content should fade in AFTER the section has settled (during the pause),
+          // because the section has overflow:hidden which clips content during transition.
           const { aboutFadeTargets } = cache;
           if (aboutFadeTargets && aboutFadeTargets.length > 0) {
+            const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
             const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            if (reduceMotion) {
-              aboutFadeTargets.forEach((el) => {
-                el.style.opacity = '1';
-                el.style.transitionDelay = '0ms';
-              });
-            } else {
-            const shouldShow = newActiveIndex === 1;
-            const baseDelayMs = 90;
 
-            aboutFadeTargets.forEach((el) => {
-              const order = parseFloat(el.getAttribute('data-about-fade-order') || '0');
-              el.style.transitionDelay = `${Math.max(0, order) * baseDelayMs}ms`;
-              el.style.opacity = shouldShow ? '1' : '0';
-            });
+            if (isDesktop) {
+              if (reduceMotion) {
+                aboutFadeTargets.forEach((el) => {
+                  el.style.opacity = '1';
+                  el.style.transform = '';
+                });
+              } else {
+                // Section 1 settles at enterEnd = pauseLength + transitionLength.
+                // Content fade-in should happen right around that settlement point.
+                const enterEnd = pauseLength + transitionLength;
+                // Start fading slightly before section 1 fully settles (last 20% of enter)
+                const fadeStart = enterEnd - transitionLength * 0.2;
+                const fadeRange = transitionLength * 0.35;
+                const rawProgress = Math.max(0, Math.min(1, (currentScroll - fadeStart) / fadeRange));
+                // Smooth ease-out
+                const easedProgress = 1 - Math.pow(1 - rawProgress, 3);
 
-            // Respect section-level fade-out when leaving
-            if (currentOpacity < 0.99) {
-              const safeOpacity = Math.max(0, Math.min(1, currentOpacity));
-              aboutFadeTargets.forEach((el) => {
-                el.style.opacity = safeOpacity.toString();
-              });
-            }
+                aboutFadeTargets.forEach((el) => {
+                  const order = parseFloat(el.getAttribute('data-about-fade-order') || '0');
+                  // Stagger: each order unit delays by 6% of progress range
+                  const staggerOffset = order * 0.06;
+                  const denominator = Math.max(0.01, 1 - staggerOffset);
+                  const elementProgress = Math.max(0, Math.min(1, (easedProgress - staggerOffset) / denominator));
+                  el.style.transition = 'none';
+                  el.style.opacity = elementProgress.toString();
+                  // Slide up from 40px
+                  const slideY = (1 - elementProgress) * 40;
+                  const baseY = el.classList.contains('about-image-wrap') ? -60 : 0;
+                  el.style.transform = `translateY(${baseY + slideY}px)`;
+                });
+
+                // When section is leaving (opacity < 1), override to fade out
+                if (currentOpacity < 0.99) {
+                  const safeOpacity = Math.max(0, Math.min(1, currentOpacity));
+                  aboutFadeTargets.forEach((el) => {
+                    el.style.opacity = safeOpacity.toString();
+                  });
+                }
+              }
             }
           }
         }

@@ -1,4 +1,4 @@
-import heroImage from '../../assets/images/hero2.png';
+import heroImage from '../../assets/images/hero1.2.png';
 import { useMobileReveal } from '../../hooks/useMobileReveal';
 import { experience, projects } from '../../data/works';
 import jsIcon from '../../assets/icons/tech/javascript-original.svg';
@@ -251,8 +251,7 @@ export const AboutSection = () => {
           .about-scroll-fade {
             opacity: 0;
             animation: none !important;
-            transition: opacity 900ms cubic-bezier(0.22, 1, 0.36, 1);
-            will-change: opacity;
+            will-change: opacity, transform;
           }
         }
 

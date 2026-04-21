@@ -1,4 +1,4 @@
-import icon from '../../assets/images/icon.jpg';
+import icon from '../../assets/images/hero3.png';
 import { useMobileReveal } from '../../hooks/useMobileReveal';
 import { Mail, Github, Linkedin, MapPin } from 'lucide-react';
 
@@ -83,8 +83,7 @@ export const ContactSection = () => {
                   position: 'relative',
                   overflow: 'hidden',
                   borderRadius: '16px',
-                  border: '1px solid rgba(124, 58, 237, 0.16)',
-                  backgroundColor: '#0a0712'
+                  backgroundColor: 'transparent'
                 }}
               >
                 <img
