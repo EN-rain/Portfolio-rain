@@ -211,10 +211,7 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
         }
 
         if (i === 1) {
-          // About (Section 1): scroll-driven fade-in/out for content elements.
-          // The section enter transition moves it from off-screen to resting position.
-          // Content should fade in AFTER the section has settled (during the pause),
-          // because the section has overflow:hidden which clips content during transition.
+          // About (Section 1): directional scroll-driven animations.
           const { aboutFadeTargets } = cache;
           if (aboutFadeTargets && aboutFadeTargets.length > 0) {
             const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
@@ -228,34 +225,89 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
                 });
               } else {
                 // Section 1 settles at enterEnd = pauseLength + transitionLength.
-                // Content fade-in should happen right around that settlement point.
                 const enterEnd = pauseLength + transitionLength;
-                // Start fading slightly before section 1 fully settles (last 20% of enter)
+                // Start fading in the last 20% of enter transition
                 const fadeStart = enterEnd - transitionLength * 0.2;
                 const fadeRange = transitionLength * 0.35;
                 const rawProgress = Math.max(0, Math.min(1, (currentScroll - fadeStart) / fadeRange));
-                // Smooth ease-out
-                const easedProgress = 1 - Math.pow(1 - rawProgress, 3);
+                const easeOut3 = (t: number) => 1 - Math.pow(1 - t, 3);
 
                 aboutFadeTargets.forEach((el) => {
                   const order = parseFloat(el.getAttribute('data-about-fade-order') || '0');
-                  // Stagger: each order unit delays by 6% of progress range
-                  const staggerOffset = order * 0.06;
-                  const denominator = Math.max(0.01, 1 - staggerOffset);
-                  const elementProgress = Math.max(0, Math.min(1, (easedProgress - staggerOffset) / denominator));
+                  const dir = el.getAttribute('data-about-fade-dir') || 'bottom';
+                  // Stagger: each order unit delays by 5% of progress
+                  const staggerOffset = order * 0.05;
+                  const denom = Math.max(0.01, 1 - staggerOffset);
+                  const elRaw = Math.max(0, Math.min(1, (rawProgress - staggerOffset) / denom));
+                  const p = easeOut3(elRaw);
+
                   el.style.transition = 'none';
-                  el.style.opacity = elementProgress.toString();
-                  // Slide up from 40px
-                  const slideY = (1 - elementProgress) * 40;
-                  const baseY = el.classList.contains('about-image-wrap') ? -60 : 0;
-                  el.style.transform = `translateY(${baseY + slideY}px)`;
+
+                  if (dir === 'pop-children') {
+                    // The container itself just fades in
+                    el.style.opacity = p.toString();
+                    el.style.transform = '';
+                    // Animate each child with staggered scale pop-in
+                    const children = el.children;
+                    const childCount = children.length;
+                    for (let c = 0; c < childCount; c++) {
+                      const child = children[c] as HTMLElement;
+                      // Sub-stagger: spread children across the progress range
+                      const childDelay = (c / Math.max(1, childCount)) * 0.6;
+                      const childRaw = Math.max(0, Math.min(1, (p - childDelay) / Math.max(0.01, 1 - childDelay)));
+                      const childP = easeOut3(childRaw);
+                      child.style.transition = 'none';
+                      child.style.opacity = childP.toString();
+                      child.style.transform = `scale(${childP})`;
+                    }
+                  } else {
+                    el.style.opacity = p.toString();
+                    // Apply directional transforms based on data-about-fade-dir
+                    const isImageWrap = el.classList.contains('about-image-wrap');
+                    const baseY = isImageWrap ? -60 : 0;
+                    switch (dir) {
+                      case 'left': {
+                        // Slide from left + subtle scale up
+                        const tx = (1 - p) * -100;
+                        const s = 0.85 + p * 0.15;
+                        el.style.transform = `translateX(${tx}px) translateY(${baseY}px) scale(${s})`;
+                        break;
+                      }
+                      case 'top': {
+                        // Fade in from top
+                        const ty = (1 - p) * -50;
+                        el.style.transform = `translateY(${baseY + ty}px)`;
+                        break;
+                      }
+                      case 'right': {
+                        // Slide in from right
+                        const tx = (1 - p) * 100;
+                        el.style.transform = `translateX(${tx}px) translateY(${baseY}px)`;
+                        break;
+                      }
+                      case 'bottom':
+                      default: {
+                        // Fade in from bottom
+                        const ty = (1 - p) * 40;
+                        el.style.transform = `translateY(${baseY + ty}px)`;
+                        break;
+                      }
+                    }
+                  }
                 });
 
-                // When section is leaving (opacity < 1), override to fade out
+                // When section is leaving, override to fade out everything
                 if (currentOpacity < 0.99) {
                   const safeOpacity = Math.max(0, Math.min(1, currentOpacity));
                   aboutFadeTargets.forEach((el) => {
                     el.style.opacity = safeOpacity.toString();
+                    // Also fade out pop-children's children
+                    if (el.getAttribute('data-about-fade-dir') === 'pop-children') {
+                      const children = el.children;
+                      for (let c = 0; c < children.length; c++) {
+                        (children[c] as HTMLElement).style.opacity = safeOpacity.toString();
+                      }
+                    }
                   });
                 }
               }

@@ -50,11 +50,11 @@ export const AboutSection = () => {
 
           <div className="about-shell locked-content">
             <div className="about-image-container relative">
-              <div data-about-fade data-about-fade-order="0" className="about-image-wrap about-scroll-fade">
+              <div data-about-fade data-about-fade-order="0" data-about-fade-dir="left" className="about-image-wrap about-scroll-fade">
                 <img src={heroImage} alt="Profile" className="about-image" />
               </div>
 
-              <div data-about-fade data-about-fade-order="4" className="about-skills-box about-skills-box--desktop about-scroll-fade">
+              <div data-about-fade data-about-fade-order="5" data-about-fade-dir="pop-children" className="about-skills-box about-skills-box--desktop about-scroll-fade">
                 {techStackSkills.map(s => (
                   <span key={s} className="about-skill-tag">
                     <img
@@ -70,14 +70,15 @@ export const AboutSection = () => {
             </div>
 
             <div className="about-content">
-              <h2 data-about-fade data-about-fade-order="1" className="about-title about-scroll-fade">Hello!, I'm</h2>
-              <h3 data-about-fade data-about-fade-order="2" className="about-name about-scroll-fade"><span className="about-name-e">E</span>drian<br /><span className="about-name-n">N</span>ieves</h3>
+              <h2 data-about-fade data-about-fade-order="1" data-about-fade-dir="top" className="about-title about-scroll-fade">Hello!, I'm</h2>
+              <h3 data-about-fade data-about-fade-order="2" data-about-fade-dir="right" className="about-name about-name--first about-scroll-fade"><span className="about-name-e">E</span>drian</h3>
+              <h3 data-about-fade data-about-fade-order="2.6" data-about-fade-dir="right" className="about-name about-name--second about-scroll-fade"><span className="about-name-n">N</span>ieves</h3>
               
               <div className="about-text-wrapper">
-                <p data-about-fade data-about-fade-order="3" className="about-text about-scroll-fade">
+                <p data-about-fade data-about-fade-order="3" data-about-fade-dir="bottom" className="about-text about-scroll-fade">
                   A Full-Stack Developer based in Leon City, Philippines. I got into development because I like building things that actually solve problems, not just things that look good in a repo.
                 </p>
-                <p data-about-fade data-about-fade-order="3.4" className="about-text about-scroll-fade">
+                <p data-about-fade data-about-fade-order="3.5" data-about-fade-dir="bottom" className="about-text about-scroll-fade">
                   From 2FA dashboards to automated reporting pipelines, I build end-to-end and own every part of it. Open to full-time work, project based and part time.
                 </p>
               </div>
@@ -219,14 +220,19 @@ export const AboutSection = () => {
           font-size: 3rem;
           font-weight: 600;
           color: #000000;
-          margin-top: 0.5rem;
           margin-left: -0.2rem;
           line-height: 1.1;
           animation: slideFromRight 0.8s ease-out forwards;
           animation-delay: 0.4s;
           opacity: 0;
-          display: inline-block;
+          display: block;
           text-align: left;
+        }
+        .about-name--first {
+          margin-top: 0.5rem;
+        }
+        .about-name--second {
+          margin-top: 0;
         }
         .about-name-e,
         .about-name-n{
@@ -337,8 +343,14 @@ export const AboutSection = () => {
           .about-name {
             font-size: 32px !important;
             text-align: center !important;
-            margin: 0 auto 1.5rem !important;
+            margin: 0 auto !important;
             text-transform: uppercase !important;
+          }
+          .about-name--first {
+            margin-bottom: 0 !important;
+          }
+          .about-name--second {
+            margin-bottom: 1.5rem !important;
           }
 
           .about-name-e, .about-name-n {

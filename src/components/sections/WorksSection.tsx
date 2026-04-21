@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, memo, useMemo, type CSSProperties } from 'react';
+import { useRef, useState, useEffect, memo, type CSSProperties } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Blocks, Database, Server, Workflow, AudioLines, Bot, Brain, Gamepad2, MessageSquareMore, Mic, Puzzle } from 'lucide-react';
 import { useMobileReveal } from '../../hooks/useMobileReveal';
@@ -35,20 +35,9 @@ const stackIcons = {
 export const WorksSection = memo(() => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [enOpacity, setEnOpacity] = useState(0);
-  const [selectedId, setSelectedId] = useState<string>(projects[0].id);
+  const [selectedId, setSelectedId] = useState<string>('');
   const experienceRef = useMobileReveal<HTMLDivElement>();
   const projectsRef = useMobileReveal<HTMLDivElement>();
-
-  const selectedProject = useMemo(() => {
-    const found = projects.find(p => p.id === selectedId);
-    if (found) return found;
-    return projects[0];
-  }, [selectedId]);
-
-  const sideProjects = useMemo(() => {
-  
-    return projects.filter(p => p.id !== selectedProject?.id);
-  }, [selectedProject]);
 
   useEffect(() => {
     const handleEnReveal = (e: CustomEvent) => {
@@ -77,8 +66,8 @@ export const WorksSection = memo(() => {
                 </svg>
               </div>
               <div className="relative z-10 w-full max-w-none">
-                <div className="experience-header mb-8 md:mb-12">
-                  <h2 className="heading-font text-[28px] font-bold leading-[1.1] tracking-tight text-white md:text-6xl lg:text-7xl">
+                <div className="experience-header mb-4 md:mb-6">
+                  <h2 className="heading-font text-[22px] font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
                     WORK <span className="text-[#7c3aed] whitespace-nowrap">EXPERI<span data-en-target="experience-en" className="text-white" style={{ opacity: enOpacity }}>EN</span>CE</span>
                   </h2>
                 </div>
@@ -114,219 +103,136 @@ export const WorksSection = memo(() => {
               <div className="projects-part relative min-h-screen flex flex-col justify-center px-6 md:px-12 w-full max-w-full">
                 
                 {/* Projects Header */}
-                <div className="relative z-10 mx-auto w-full max-w-7xl mb-8 md:mb-12">
-                  <h2 className="heading-font text-[28px] font-bold leading-[1.1] tracking-tight text-white md:text-6xl lg:text-7xl uppercase">
+                <div className="relative z-10 mx-auto w-full max-w-7xl mb-8 md:mb-10">
+                  <h2 className="heading-font text-[22px] font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl uppercase">
                     PERSONAL <span className="text-[#7c3aed] whitespace-nowrap">PROJE<span data-en-target="projects-ct" className="text-white transition-opacity duration-0" style={{ opacity: enOpacity }}>CT</span>S</span>
                   </h2>
                 </div>
 
-                {/* Desktop Projects Structure */}
-                <div className="hidden lg:grid lg:grid-cols-5 gap-6 lg:h-[460px] w-full max-w-7xl mx-auto items-project-container">
-                  {/* Main Gallery Display */}
-                  <div data-section2="image" className="lg:col-span-4 h-full relative group overflow-hidden rounded-[20px] border border-white/10 bg-black/50">
-                    <AnimatePresence mode="wait">
+                {/* Projects Grid */}
+                <div className="relative z-10 mx-auto w-full max-w-7xl">
+                  <div className="projects-grid">
+                    {projects.map((project) => (
                       <motion.div
-                        key={selectedProject.id}
-                        className="absolute inset-0"
-                        initial={{ opacity: 0, scale: 1.05 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.95 }}
-                        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                        key={project.id}
+                        layoutId={`project-card-${project.id}`}
+                        onClick={() => setSelectedId(project.id)}
+                        className="project-card group cursor-pointer"
+                        whileHover={{ scale: 1.03 }}
+                        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                       >
-                        {selectedProject.img ? (
-                          <img 
-                            src={selectedProject.img} 
-                            alt={selectedProject.title}
-                            className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity duration-500"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-black" />
-                        )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-                        {!selectedProject.img && selectedProject.status && (
-                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                            <div className="heading-font text-[56px] tracking-[0.22em] text-white/10 uppercase">
-                              {selectedProject.status}
-                            </div>
-                          </div>
-                        )}
-                      </motion.div>
-                    </AnimatePresence>
-
-                    <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full z-10">
-                      <AnimatePresence mode="wait">
-                        <motion.div
-                          key={`text-${selectedProject.id}`}
-                          initial={{ opacity: 0, y: 30 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.5, ease: "easeOut" }}
-                        >
-                          <div className="tech-font text-[12px] font-bold text-[#7c3aed] mb-2">{selectedProject.year}</div>
-                          <h3 className="heading-font text-2xl md:text-4xl font-bold text-white mb-4 leading-tight">
-                            {selectedProject.title}<br/>{selectedProject.line2}
-                          </h3>
-                          
-                          <p data-section2="desc" className="text-white/70 text-[11px] md:text-xs max-w-2xl mb-8 font-light leading-relaxed">
-                            {selectedProject.des}
-                          </p>
-
-                          {(selectedProject.hoursSpent || selectedProject.timeline) && (
-                            <div className="mb-8">
-                              {selectedProject.hoursSpent && (
-                                <div className="tech-font text-[10px] uppercase tracking-widest text-white/60 mb-3">
-                                  Time spent: <span className="text-white/80">{selectedProject.hoursSpent}</span>
-                                </div>
-                              )}
-                              {selectedProject.timeline && selectedProject.timeline.length > 0 && (
-                                <div className="space-y-2">
-                                  {selectedProject.timeline.map((t) => (
-                                    <div key={t.label} className="flex gap-3">
-                                      <div className="tech-font text-[9px] uppercase tracking-widest text-[#7c3aed] w-[76px] flex-shrink-0">
-                                        {t.label}
-                                      </div>
-                                      <div className="text-white/60 text-[11px] leading-relaxed">
-                                        {t.detail}
-                                      </div>
-                                    </div>
-                                  ))}
-                                </div>
-                              )}
-                            </div>
-                          )}
-
-                          <div data-section2="skills" className="flex flex-wrap gap-4 mb-8">
-                            {selectedProject.stack.map(s => {
-                              const Icon = stackIcons[s as keyof typeof stackIcons] ?? Puzzle;
-                              return (
-                                <span key={s} className="tech-font flex items-center gap-2 text-[9px] uppercase tracking-widest text-white/60">
-                                  <Icon size={13} />{s}
-                                </span>
-                              );
-                            })}
-                          </div>
-
-                          <button className="lg:hidden bg-white text-black px-10 py-4 rounded-full tech-font text-[11px] font-bold uppercase tracking-wider hover:bg-[#7c3aed] hover:text-white transition-all duration-300 transform hover:scale-105">
-                            View Project
-                          </button>
-                        </motion.div>
-                      </AnimatePresence>
-                    </div>
-                  </div>
-
-                  {/* Side Gallery (Thumbnails) */}
-                  <div className="lg:col-span-1 lg:h-full flex flex-col gap-4 overflow-y-auto custom-scrollbar pr-2 relative">
-                    <AnimatePresence mode='popLayout'>
-                      {sideProjects.map((project) => (
-                        <motion.div 
-                          key={project.id} 
-                          layout
-                          initial={{ opacity: 0, x: 50 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, scale: 0.8 }}
-                          onClick={() => setSelectedId(project.id)}
-                          className="cursor-pointer group relative w-full aspect-[16/10] lg:h-[145px] flex-shrink-0 overflow-hidden rounded-[15px] border border-white/10 hover:border-[#7c3aed]/50 transition-[border-color,transform] duration-500"
-                        >
+                        <div className="project-card-image">
                           {project.img ? (
-                            <img 
-                              src={project.img} 
+                            <img
+                              src={project.img}
                               alt={project.title}
-                              className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" 
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                             />
                           ) : (
-                            <div className="w-full h-full bg-black" />
-                          )}
-                          <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-300" />
-                          {!project.img && project.status && (
-                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                              <div className="heading-font text-[18px] tracking-[0.22em] text-white/12 uppercase text-center px-3">
-                                {project.status}
-                              </div>
+                            <div className="w-full h-full bg-gradient-to-br from-[#1a1a2e] to-[#0a0a0a] flex items-center justify-center">
+                              {project.status && (
+                                <span className="heading-font text-[14px] md:text-[18px] tracking-[0.15em] text-white/10 uppercase">{project.status}</span>
+                              )}
                             </div>
                           )}
-                          <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black via-black/80 to-transparent transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                            <p className="tech-font text-[10px] text-white/90 uppercase tracking-widest truncate">{project.title}</p>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </AnimatePresence>
-                  </div>
-                </div>
-
-                {/* Mobile Projects Structure */}
-                <div className="lg:hidden flex flex-col gap-10 w-full">
-                  {projects.map((project) => (
-                    <div key={project.id} className="w-full flex flex-col gap-5">
-                      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[16px] border border-white/5">
-                        {project.img ? (
-                          <img 
-                            src={project.img} 
-                            alt={project.title}
-                            className="w-full h-full object-cover opacity-70"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-black" />
-                        )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-                        {!project.img && project.status && (
-                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                            <div className="heading-font text-[28px] tracking-[0.22em] text-white/10 uppercase">
-                              {project.status}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="flex flex-col px-1">
-                        <div className="tech-font text-[11px] font-bold text-[#7c3aed] mb-1">{project.year}</div>
-                        <h3 className="heading-font text-2xl font-bold text-white mb-2 tracking-tight">
-                          {project.title} <span className="text-[#7c3aed]">{project.line2}</span>
-                        </h3>
-                        <p className="text-white/60 text-sm leading-relaxed mb-4 font-light">
-                          {project.des}
-                        </p>
-
-                        {(project.hoursSpent || project.timeline) && (
-                          <div className="mb-5">
-                            {project.hoursSpent && (
-                              <div className="tech-font text-[9px] uppercase tracking-widest text-white/60 mb-3">
-                                Time spent: <span className="text-white/80">{project.hoursSpent}</span>
-                              </div>
-                            )}
-                            {project.timeline && project.timeline.length > 0 && (
-                              <div className="space-y-2">
-                                {project.timeline.map((t) => (
-                                  <div key={t.label} className="flex gap-3">
-                                    <div className="tech-font text-[8px] uppercase tracking-widest text-[#7c3aed] w-[66px] flex-shrink-0">
-                                      {t.label}
-                                    </div>
-                                    <div className="text-white/60 text-[12px] leading-relaxed">
-                                      {t.detail}
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                        )}
-                        
-                        <div className="flex flex-wrap gap-3 mb-6">
-                           {project.stack.map(s => {
-                              const Icon = stackIcons[s as keyof typeof stackIcons] ?? Puzzle;
-                              return (
-                                <span key={s} className="tech-font flex items-center gap-1.5 text-[8px] uppercase tracking-widest text-[#7c3aed]/80">
-                                  <Icon size={10} />{s}
-                                </span>
-                              );
-                           })}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                         </div>
+                        <div className="project-card-info">
+                          <div className="tech-font text-[10px] font-bold text-[#7c3aed] mb-1">{project.year}</div>
+                          <h3 className="heading-font text-sm md:text-base font-bold text-white leading-tight">{project.title}</h3>
+                          <p className="tech-font text-[9px] text-white/40 uppercase tracking-wider mt-1">{project.line2}</p>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
 
-                        <button className="w-full border border-white/10 bg-white/5 text-white py-4 rounded-xl tech-font text-[10px] font-bold uppercase tracking-widest active:bg-[#7c3aed] active:border-[#7c3aed] transition-colors">
-                          Project Details
-                        </button>
-                      </div>
-                    </div>
-                  ))}
+                  {/* Expanded Project Overlay — scoped to projects area */}
+                  <AnimatePresence>
+                    {selectedId && (() => {
+                      const proj = projects.find(p => p.id === selectedId);
+                      if (!proj) return null;
+                      return (
+                        <motion.div
+                          className="project-expanded-backdrop"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                          onClick={() => setSelectedId('')}
+                        >
+                          <motion.div
+                            layoutId={`project-card-${selectedId}`}
+                            className="project-expanded-card"
+                            onClick={(e) => e.stopPropagation()}
+                            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                          >
+                            <button
+                              className="project-close-btn"
+                              onClick={() => setSelectedId('')}
+                              aria-label="Close project"
+                            >
+                              ✕
+                            </button>
+                            <div className="project-expanded-image">
+                              {proj.img ? (
+                                <img src={proj.img} alt={proj.title} className="w-full h-full object-cover" />
+                              ) : (
+                                <div className="w-full h-full bg-gradient-to-br from-[#1a1a2e] to-[#0a0a0a] flex items-center justify-center">
+                                  {proj.status && (
+                                    <span className="heading-font text-[28px] tracking-[0.22em] text-white/10 uppercase">{proj.status}</span>
+                                  )}
+                                </div>
+                              )}
+                              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                            </div>
+                            <div className="project-expanded-content">
+                              <div className="tech-font text-[11px] font-bold text-[#7c3aed] mb-2">{proj.year}</div>
+                              <h3 className="heading-font text-2xl md:text-3xl font-bold text-white mb-1 leading-tight">
+                                {proj.title}
+                              </h3>
+                              <p className="tech-font text-[10px] text-[#7c3aed]/70 uppercase tracking-widest mb-4">{proj.line2}</p>
+                              <p className="text-white/70 text-[12px] md:text-[13px] leading-relaxed mb-5 font-light max-w-2xl">
+                                {proj.des}
+                              </p>
+                              {(proj.hoursSpent || proj.timeline) && (
+                                <div className="mb-5">
+                                  {proj.hoursSpent && (
+                                    <div className="tech-font text-[10px] uppercase tracking-widest text-white/60 mb-3">
+                                      Time spent: <span className="text-white/80">{proj.hoursSpent}</span>
+                                    </div>
+                                  )}
+                                  {proj.timeline && proj.timeline.length > 0 && (
+                                    <div className="space-y-2">
+                                      {proj.timeline.map((t) => (
+                                        <div key={t.label} className="flex gap-3">
+                                          <div className="tech-font text-[9px] uppercase tracking-widest text-[#7c3aed] w-[76px] flex-shrink-0">
+                                            {t.label}
+                                          </div>
+                                          <div className="text-white/60 text-[11px] leading-relaxed">
+                                            {t.detail}
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                              <div className="flex flex-wrap gap-3">
+                                {proj.stack.map(s => {
+                                  const Icon = stackIcons[s as keyof typeof stackIcons] ?? Puzzle;
+                                  return (
+                                    <span key={s} className="tech-font flex items-center gap-2 text-[9px] uppercase tracking-widest text-white/60">
+                                      <Icon size={13} />{s}
+                                    </span>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </motion.div>
+                        </motion.div>
+                      );
+                    })()}
+                  </AnimatePresence>
                 </div>
 
               </div>
@@ -337,12 +243,107 @@ export const WorksSection = memo(() => {
       <style>{`
         .works-scroll-container::-webkit-scrollbar { display: none; }
         .works-scroll-container { -ms-overflow-style: none; scrollbar-width: none; scroll-behavior: smooth; overscroll-behavior-y: contain; }
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(124, 58, 237, 0.3); border-radius: 10px; transition: background 0.3s; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(124, 58, 237, 0.6); }
         .projects-part { width: 100%; }
-        .items-project-container { margin-bottom: 48px; }
+
+        /* ── Project Grid ── */
+        .projects-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+        }
+
+        /* ── Project Card ── */
+        .project-card {
+          position: relative;
+          border-radius: 16px;
+          overflow: hidden;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: rgba(0, 0, 0, 0.4);
+          backdrop-filter: blur(8px);
+          transition: border-color 0.4s ease;
+        }
+        .project-card:hover {
+          border-color: rgba(124, 58, 237, 0.4);
+        }
+        .project-card-image {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 16 / 9;
+          overflow: hidden;
+        }
+        .project-card-info {
+          padding: 14px 16px 16px;
+        }
+
+        /* ── Expanded Overlay (scoped to projects area) ── */
+        .project-expanded-backdrop {
+          position: fixed;
+          inset: 0;
+          z-index: 200;
+          background: rgba(0, 0, 0, 0.75);
+          backdrop-filter: blur(6px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 40px;
+        }
+        .project-expanded-card {
+          position: relative;
+          width: 100%;
+          max-width: 820px;
+          max-height: 85vh;
+          overflow-y: auto;
+          border-radius: 20px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: #0d0d0d;
+          box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(124, 58, 237, 0.15);
+        }
+        .project-expanded-card::-webkit-scrollbar { width: 4px; }
+        .project-expanded-card::-webkit-scrollbar-track { background: transparent; }
+        .project-expanded-card::-webkit-scrollbar-thumb { background: rgba(124, 58, 237, 0.3); border-radius: 10px; }
+        .project-expanded-image {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 16 / 9;
+          overflow: hidden;
+        }
+        .project-expanded-content {
+          padding: 28px 32px 32px;
+        }
+
+        /* ── Close Button ── */
+        .project-close-btn {
+          position: absolute;
+          top: 16px;
+          right: 16px;
+          z-index: 50;
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          background: rgba(0, 0, 0, 0.6);
+          backdrop-filter: blur(10px);
+          color: #fff;
+          font-size: 14px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        .project-close-btn:hover {
+          background: rgba(124, 58, 237, 0.6);
+          border-color: rgba(124, 58, 237, 0.5);
+          transform: rotate(90deg);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 1024px) {
+          .projects-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+          }
+        }
 
         @media (max-width: 768px) {
           .works-scroll-container {
@@ -353,33 +354,38 @@ export const WorksSection = memo(() => {
             padding: 60px 0 20px !important;
             overflow: visible !important;
           }
-          
           .projects-part, .projects-wrapper {
             position: relative !important;
-            padding: 30px 24px 40px !important; 
+            padding: 30px 24px 40px !important;
             display: block !important;
             width: 100% !important;
           }
-
           .experience-part {
-            padding: 20px 24px 40px !important; 
+            padding: 20px 24px 40px !important;
             min-height: auto !important;
           }
-
           .experience-header h2, .projects-part h2 {
-            font-size: 22px !important;
-            margin-bottom: 25px !important;
+            font-size: 18px !important;
+            margin-bottom: 12px !important;
             line-height: 1.2 !important;
             letter-spacing: -0.03em !important;
             white-space: normal !important;
           }
-
           .experience-header, .projects-part .max-w-7xl {
-             margin-bottom: 20px !important;
+            margin-bottom: 10px !important;
           }
-
-          .lg\\:hidden.flex-col {
-            gap: 40px !important;
+          .projects-grid {
+            grid-template-columns: 1fr;
+            gap: 16px;
+          }
+          .project-expanded-backdrop {
+            padding: 20px;
+          }
+          .project-expanded-card {
+            max-height: 90vh;
+          }
+          .project-expanded-content {
+            padding: 20px 20px 24px;
           }
         }
       `}</style>
