@@ -25,6 +25,10 @@ export const useDomCache = () => {
       imageShadow: sec.querySelector('.parallax-shadow') as HTMLElement | null,
       worksScrollContainer: sec.querySelector('.works-scroll-container') as HTMLElement | null,
       parallaxImg: sec.querySelector('.parallax-img') as HTMLElement | null,
+      section2Desc: sec.querySelector('[data-section2="desc"]') as HTMLElement | null,
+      section2Image: sec.querySelector('[data-section2="image"]') as HTMLElement | null,
+      section2Skills: sec.querySelector('[data-section2="skills"]') as HTMLElement | null,
+      aboutFadeTargets: sec.querySelectorAll('[data-about-fade]') as NodeListOf<HTMLElement>,
     }));
 
     domCacheRef.current = {

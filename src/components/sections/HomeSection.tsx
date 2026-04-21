@@ -1,26 +1,5 @@
 import homeImage from '../../assets/images/hero.png';
 
-const codeBlocks = [
-  {
-    className: 'home-section__code--left',
-    floatSpeed: '0.04',
-    lines: [
-      <><em>const</em> hero = <strong>'ED'</strong></>,
-      <><em>theme</em>: <strong>'black'</strong></>,
-      <><em>motion</em>: <strong>'parallax'</strong></>,
-    ],
-  },
-  {
-    className: 'home-section__code--right',
-    floatSpeed: '0.05',
-    lines: [
-      <><em>render</em>() {'=>'} visible</>,
-      <> <em>image</em>: centered</>,
-      <> <em>intro</em>: active</>,
-    ],
-  },
-] as const;
-
 const glyphs = [
   { className: 'home-section__glyph--en-1', floatSpeed: '0.06', text: '{}' },
   { className: 'home-section__glyph--en-2', floatSpeed: '0.08', text: '</>' },
@@ -54,20 +33,6 @@ export const HomeSection = () => {
             <div className="home-section__circuit home-section__circuit--right parallax-layer home-section__intro-rail-right mobile-hide" data-speed="0.2" data-speed-x="-0.04" />
 
             <div className="home-section__center locked-content">
-              {codeBlocks.map((block) => (
-                <div
-                  key={block.className}
-                  className={`home-section__code ${block.className} home-section__intro-copy parallax-float mobile-hide`}
-                  data-float-speed={block.floatSpeed}
-                >
-                  {block.lines.map((line, index) => (
-                    <span key={`${block.className}-${index + 1}`} className={`home-section__code-line code-line-${index + 1}`}>
-                      {line}
-                    </span>
-                  ))}
-                </div>
-              ))}
-
               <div className="home-section__image-wrap" data-speed-mobile="0.15">
                 <div className="home-section__image-stack home-section__intro-image">
                   <div className="home-section__image-shadow" />

@@ -50,11 +50,11 @@ export const AboutSection = () => {
 
           <div className="about-shell locked-content">
             <div className="about-image-container relative">
-              <div className="about-image-wrap">
+              <div data-about-fade data-about-fade-order="0" className="about-image-wrap about-scroll-fade">
                 <img src={heroImage} alt="Profile" className="about-image" />
               </div>
 
-              <div className="about-skills-box about-skills-box--desktop">
+              <div data-about-fade data-about-fade-order="4" className="about-skills-box about-skills-box--desktop about-scroll-fade">
                 {techStackSkills.map(s => (
                   <span key={s} className="about-skill-tag">
                     <img
@@ -70,14 +70,14 @@ export const AboutSection = () => {
             </div>
 
             <div className="about-content">
-              <h2 className="about-title">Hello!, I'm</h2>
-              <h3 className="about-name"><span className="about-name-e">E</span>drian<br /><span className="about-name-n">N</span>ieves</h3>
+              <h2 data-about-fade data-about-fade-order="1" className="about-title about-scroll-fade">Hello!, I'm</h2>
+              <h3 data-about-fade data-about-fade-order="2" className="about-name about-scroll-fade"><span className="about-name-e">E</span>drian<br /><span className="about-name-n">N</span>ieves</h3>
               
               <div className="about-text-wrapper">
-                <p className="about-text">
+                <p data-about-fade data-about-fade-order="3" className="about-text about-scroll-fade">
                   A Full-Stack Developer based in Leon City, Philippines. I got into development because I like building things that actually solve problems, not just things that look good in a repo.
                 </p>
-                <p className="about-text">
+                <p data-about-fade data-about-fade-order="3.4" className="about-text about-scroll-fade">
                   From 2FA dashboards to automated reporting pipelines, I build end-to-end and own every part of it. Open to full-time work, project based and part time.
                 </p>
               </div>
@@ -242,12 +242,18 @@ export const AboutSection = () => {
           font-family: 'Space Grotesk', sans-serif;
           font-size: 1.1rem;
           line-height: 1.8;
-          animation: slideTextFromBottom 0.8s ease-out forwards;
-          animation-delay: 0.5s;
-          opacity: 0;
           color: #4a4a5a;
           margin-top: 1.5rem;
           margin-bottom: 0;
+        }
+
+        @media (min-width: 1024px) {
+          .about-scroll-fade {
+            opacity: 0;
+            animation: none !important;
+            transition: opacity 900ms cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity;
+          }
         }
 
         .about-skills-box {

@@ -17,6 +17,10 @@ export interface SectionCache {
   imageShadow: HTMLElement | null;
   worksScrollContainer: HTMLElement | null;
   parallaxImg: HTMLElement | null;
+  section2Desc: HTMLElement | null;
+  section2Image: HTMLElement | null;
+  section2Skills: HTMLElement | null;
+  aboutFadeTargets: NodeListOf<HTMLElement>;
 }
 
 export interface DomCache {

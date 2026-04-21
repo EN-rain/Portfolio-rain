@@ -123,7 +123,7 @@ export const WorksSection = memo(() => {
                 {/* Desktop Projects Structure */}
                 <div className="hidden lg:grid lg:grid-cols-5 gap-6 lg:h-[460px] w-full max-w-7xl mx-auto items-project-container">
                   {/* Main Gallery Display */}
-                  <div className="lg:col-span-4 h-full relative group overflow-hidden rounded-[20px] border border-white/10 bg-black/50">
+                  <div data-section2="image" className="lg:col-span-4 h-full relative group overflow-hidden rounded-[20px] border border-white/10 bg-black/50">
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={selectedProject.id}
@@ -133,12 +133,23 @@ export const WorksSection = memo(() => {
                         exit={{ opacity: 0, scale: 0.95 }}
                         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                       >
-                        <img 
-                          src={selectedProject.img} 
-                          alt={selectedProject.title}
-                          className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity duration-500"
-                        />
+                        {selectedProject.img ? (
+                          <img 
+                            src={selectedProject.img} 
+                            alt={selectedProject.title}
+                            className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity duration-500"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-black" />
+                        )}
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                        {!selectedProject.img && selectedProject.status && (
+                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <div className="heading-font text-[56px] tracking-[0.22em] text-white/10 uppercase">
+                              {selectedProject.status}
+                            </div>
+                          </div>
+                        )}
                       </motion.div>
                     </AnimatePresence>
 
@@ -156,11 +167,35 @@ export const WorksSection = memo(() => {
                             {selectedProject.title}<br/>{selectedProject.line2}
                           </h3>
                           
-                          <p className="text-white/70 text-[11px] md:text-xs max-w-2xl mb-8 font-light leading-relaxed">
+                          <p data-section2="desc" className="text-white/70 text-[11px] md:text-xs max-w-2xl mb-8 font-light leading-relaxed">
                             {selectedProject.des}
                           </p>
 
-                          <div className="flex flex-wrap gap-4 mb-8">
+                          {(selectedProject.hoursSpent || selectedProject.timeline) && (
+                            <div className="mb-8">
+                              {selectedProject.hoursSpent && (
+                                <div className="tech-font text-[10px] uppercase tracking-widest text-white/60 mb-3">
+                                  Time spent: <span className="text-white/80">{selectedProject.hoursSpent}</span>
+                                </div>
+                              )}
+                              {selectedProject.timeline && selectedProject.timeline.length > 0 && (
+                                <div className="space-y-2">
+                                  {selectedProject.timeline.map((t) => (
+                                    <div key={t.label} className="flex gap-3">
+                                      <div className="tech-font text-[9px] uppercase tracking-widest text-[#7c3aed] w-[76px] flex-shrink-0">
+                                        {t.label}
+                                      </div>
+                                      <div className="text-white/60 text-[11px] leading-relaxed">
+                                        {t.detail}
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          )}
+
+                          <div data-section2="skills" className="flex flex-wrap gap-4 mb-8">
                             {selectedProject.stack.map(s => {
                               const Icon = stackIcons[s as keyof typeof stackIcons] ?? Puzzle;
                               return (
@@ -212,12 +247,23 @@ export const WorksSection = memo(() => {
                   {projects.map((project) => (
                     <div key={project.id} className="w-full flex flex-col gap-5">
                       <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[16px] border border-white/5">
-                        <img 
-                          src={project.img} 
-                          alt={project.title}
-                          className="w-full h-full object-cover opacity-70"
-                        />
+                        {project.img ? (
+                          <img 
+                            src={project.img} 
+                            alt={project.title}
+                            className="w-full h-full object-cover opacity-70"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-black" />
+                        )}
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+                        {!project.img && project.status && (
+                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <div className="heading-font text-[28px] tracking-[0.22em] text-white/10 uppercase">
+                              {project.status}
+                            </div>
+                          </div>
+                        )}
                       </div>
 
                       <div className="flex flex-col px-1">
@@ -228,6 +274,30 @@ export const WorksSection = memo(() => {
                         <p className="text-white/60 text-sm leading-relaxed mb-4 font-light">
                           {project.des}
                         </p>
+
+                        {(project.hoursSpent || project.timeline) && (
+                          <div className="mb-5">
+                            {project.hoursSpent && (
+                              <div className="tech-font text-[9px] uppercase tracking-widest text-white/60 mb-3">
+                                Time spent: <span className="text-white/80">{project.hoursSpent}</span>
+                              </div>
+                            )}
+                            {project.timeline && project.timeline.length > 0 && (
+                              <div className="space-y-2">
+                                {project.timeline.map((t) => (
+                                  <div key={t.label} className="flex gap-3">
+                                    <div className="tech-font text-[8px] uppercase tracking-widest text-[#7c3aed] w-[66px] flex-shrink-0">
+                                      {t.label}
+                                    </div>
+                                    <div className="text-white/60 text-[12px] leading-relaxed">
+                                      {t.detail}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        )}
                         
                         <div className="flex flex-wrap gap-3 mb-6">
                            {project.stack.map(s => {

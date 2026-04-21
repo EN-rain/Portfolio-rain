@@ -160,6 +160,86 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
           content.style.opacity = (i === 2 && currentScroll >= (pauseLength + transitionLength + pauseLength) && currentScroll < (2 * (transitionLength + pauseLength) + pauseLength)) ? '1' : currentOpacity.toString();
         });
 
+        if (i === 2 && window.matchMedia('(min-width: 1024px)').matches) {
+          // Works (Section 2) is moved into view during its enter transition; fading during that
+          // phase can be mostly off-screen. Instead, start fading once it's centered.
+          const enterStart = pauseLength + transitionLength + pauseLength;
+          const enterEnd = enterStart + transitionLength;
+          const leaveStart = 2 * (pauseLength + transitionLength) + pauseLength;
+
+          // Fade during the early part of the centered/pause window
+          const fadeStart = enterEnd;
+          const fadeDuration = pauseLength * 0.6;
+          const fadeEnd = Math.min(leaveStart, fadeStart + fadeDuration);
+
+          const rawP = (currentScroll - fadeStart) / Math.max(1, (fadeEnd - fadeStart));
+          const p = Math.max(0, Math.min(1, rawP));
+
+          const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+
+          const applyFade = (el: HTMLElement | null, t: number, baseYPx: number) => {
+            if (!el) return;
+            const e = easeOut(t);
+            el.style.opacity = e.toString();
+            el.style.transform = `translate3d(0, ${(1 - e) * baseYPx}px, 0)`;
+            if (t >= 1) {
+              el.style.transform = 'translate3d(0, 0, 0)';
+            }
+            if (t <= 0) {
+              el.style.opacity = '0';
+            }
+          };
+
+          // Staggered fade-in
+          const imgT = Math.max(0, Math.min(1, (p - 0.00) / 0.75));
+          const descT = Math.max(0, Math.min(1, (p - 0.18) / 0.75));
+          const skillsT = Math.max(0, Math.min(1, (p - 0.35) / 0.70));
+
+          // Before fadeStart, keep hidden; after fadeEnd, keep fully shown.
+          applyFade(cache.section2Image, imgT, 28);
+          applyFade(cache.section2Desc, descT, 22);
+          applyFade(cache.section2Skills, skillsT, 16);
+
+          // Respect section-level fade-out when leaving
+          if (currentOpacity < 0.99) {
+            const safeOpacity = Math.max(0, Math.min(1, currentOpacity));
+            if (cache.section2Image) cache.section2Image.style.opacity = safeOpacity.toString();
+            if (cache.section2Desc) cache.section2Desc.style.opacity = safeOpacity.toString();
+            if (cache.section2Skills) cache.section2Skills.style.opacity = safeOpacity.toString();
+          }
+        }
+
+        if (i === 1 && window.matchMedia('(min-width: 1024px)').matches) {
+          // About (Section 1): tie fade-in to scroll (desktop only).
+          const { aboutFadeTargets } = cache;
+          if (aboutFadeTargets && aboutFadeTargets.length > 0) {
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (reduceMotion) {
+              aboutFadeTargets.forEach((el) => {
+                el.style.opacity = '1';
+                el.style.transitionDelay = '0ms';
+              });
+            } else {
+            const shouldShow = newActiveIndex === 1;
+            const baseDelayMs = 90;
+
+            aboutFadeTargets.forEach((el) => {
+              const order = parseFloat(el.getAttribute('data-about-fade-order') || '0');
+              el.style.transitionDelay = `${Math.max(0, order) * baseDelayMs}ms`;
+              el.style.opacity = shouldShow ? '1' : '0';
+            });
+
+            // Respect section-level fade-out when leaving
+            if (currentOpacity < 0.99) {
+              const safeOpacity = Math.max(0, Math.min(1, currentOpacity));
+              aboutFadeTargets.forEach((el) => {
+                el.style.opacity = safeOpacity.toString();
+              });
+            }
+            }
+          }
+        }
+
         const referenceStart = i === 0 ? 0 : ((i - 1) * (transitionLength + pauseLength)) + pauseLength;
         cache.textParallaxBlocks.forEach(block => {
           const speed = parseFloat(block.getAttribute('data-speed') || '0.04');
