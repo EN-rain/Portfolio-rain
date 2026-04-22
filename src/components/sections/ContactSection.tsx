@@ -7,7 +7,7 @@ export const ContactSection = () => {
   return (
     <section ref={revealRef} id="contact" className="stack-section" style={{ zIndex: 120 }}>
       <div
-        className="parallax-content relative flex flex-col items-center justify-center overflow-hidden px-6 text-[#151226]"
+        className="parallax-content relative flex flex-col items-center justify-center overflow-hidden pl-0 pr-0 text-[#151226]"
         style={{ backgroundColor: '#ffffff' }}
       >
         <div className="absolute inset-0" style={{ pointerEvents: 'none' }}>
@@ -34,12 +34,35 @@ export const ContactSection = () => {
           </svg>
         </div>
 
-        <div className="contact-shell locked-content relative z-10 mx-auto grid h-full w-full max-w-6xl grid-cols-[minmax(0,0.9fr)_minmax(320px,380px)_minmax(0,0.9fr)] items-center gap-8 py-12">
-          <div className="contact-text contact-copy scroll-parallax-text" data-speed="0.04" style={{ width: '100%', textAlign: 'left' }}>
+        <img
+          id="contact-icon"
+          className="contact-image"
+          src={icon}
+          alt="Developer portrait"
+          style={{
+            position: 'absolute',
+            left: '-160px',
+            bottom: '-33%',
+            height: '1000px',
+            width: 'auto',
+            maxWidth: '52vw',
+            objectFit: 'contain',
+            transformOrigin: 'left bottom',
+            pointerEvents: 'none',
+            zIndex: 5
+          }}
+        />
+
+        <div className="contact-shell locked-content relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col items-center justify-center gap-10 py-12 px-6 md:px-12">
+          <div
+            className="contact-text contact-copy scroll-parallax-text"
+            data-speed="0.04"
+            style={{ width: '100%', maxWidth: '1000px', margin: '0 auto', textAlign: 'center' }}
+          >
             <h2
               className="text-reveal text-reveal-delay-2"
               style={{
-                margin: 0,
+                margin: '0 auto',
                 maxWidth: '760px',
                 fontFamily: 'Outfit, sans-serif',
                 fontSize: 'clamp(2.8rem, 6vw, 5.6rem)',
@@ -58,7 +81,7 @@ export const ContactSection = () => {
             <p
               className="text-reveal text-reveal-fast text-reveal-delay-3"
               style={{
-                margin: '1.5rem 0 0',
+                margin: '1.5rem auto 0',
                 maxWidth: '500px',
                 fontSize: '15px',
                 lineHeight: 1.85,
@@ -69,75 +92,41 @@ export const ContactSection = () => {
             </p>
           </div>
 
-          <div className="contact-media relative flex w-full items-center justify-center">
-            <div
-              className="contact-media-card text-reveal text-reveal-fast text-reveal-delay-5"
-              style={{
-                width: '100%',
-                padding: 0
-              }}
-            >
-              <div
-                id="contact-icon"
-                style={{
-                  position: 'relative',
-                  overflow: 'hidden',
-                  borderRadius: '16px',
-                  backgroundColor: 'transparent'
-                }}
-              >
-                <img
-                  className="contact-image"
-                  src={icon}
-                  alt="Developer portrait"
-                  style={{
-                    display: 'block',
-                    width: '100%',
-                    height: '340px',
-                    objectFit: 'cover',
-                    objectPosition: 'center'
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-
           <div
             className="contact-grid scroll-parallax-text text-reveal text-reveal-fast text-reveal-delay-4"
             data-speed="0.025"
             style={{
-              width: '100%',
+              position: 'absolute',
+              bottom: '40px',
+              right: '40px',
               display: 'flex',
-              justifyContent: 'center',
+              flexDirection: 'row',
+              justifyContent: 'flex-end',
               alignItems: 'center',
-              gap: '1.25rem'
+              gap: '1.5rem',
+              zIndex: 20
             }}
           >
-            <div className="hidden md:flex" style={{ width: '100%', maxWidth: '360px', flexDirection: 'column', gap: '0.85rem' }}>
-              <div className="text-reveal text-reveal-fast text-reveal-delay-3" style={{ width: '100%', display: 'inline-flex', justifyContent: 'flex-end', gap: '0.5rem', alignItems: 'center', padding: '0 16px', boxSizing: 'border-box', color: 'rgba(21, 18, 38, 0.62)', fontSize: '12px', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+            <div className="hidden md:flex" style={{ flexDirection: 'row', gap: '1.5rem', alignItems: 'center' }}>
+              <div className="text-reveal text-reveal-fast text-reveal-delay-3" style={{ display: 'inline-flex', justifyContent: 'flex-start', gap: '0.5rem', alignItems: 'center', padding: '0', boxSizing: 'border-box', color: 'rgba(21, 18, 38, 0.62)', fontSize: '12px', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
                 <MapPin size={14} />
                 <span>Leon City, Philippines</span>
               </div>
               <a
                 className="contact-text"
                 href="mailto:nieves.edriancit2011@email.com"
+                aria-label="Email"
                 style={{
-                  display: 'flex',
+                  display: 'inline-flex',
                   alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: '1rem',
-                  padding: '14px 16px',
-                  borderRadius: '16px',
-                  border: 'none',
-                  backgroundColor: 'transparent',
+                  justifyContent: 'center',
+                  width: '32px',
+                  height: '32px',
                   color: '#151226',
                   textDecoration: 'none'
                 }}
               >
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.75rem', fontSize: '12px', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-                  <Mail size={18} /> Email
-                </span>
-                <span style={{ fontSize: '12px', color: 'rgba(21, 18, 38, 0.62)' }}>nieves.edriancit2011@email.com</span>
+                <Mail size={18} />
               </a>
 
               <a
@@ -145,23 +134,18 @@ export const ContactSection = () => {
                 href="https://github.com/EN-rain"
                 target="_blank"
                 rel="noreferrer"
+                aria-label="GitHub"
                 style={{
-                  display: 'flex',
+                  display: 'inline-flex',
                   alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: '1rem',
-                  padding: '14px 16px',
-                  borderRadius: '16px',
-                  border: 'none',
-                  backgroundColor: 'transparent',
+                  justifyContent: 'center',
+                  width: '32px',
+                  height: '32px',
                   color: '#151226',
                   textDecoration: 'none'
                 }}
               >
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.75rem', fontSize: '12px', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-                  <Github size={18} /> GitHub
-                </span>
-                <span style={{ fontSize: '12px', color: 'rgba(21, 18, 38, 0.62)' }}>@EN-rain</span>
+                <Github size={18} />
               </a>
 
               <a
@@ -169,27 +153,22 @@ export const ContactSection = () => {
                 href="https://linkedin.com/in/en-rain"
                 target="_blank"
                 rel="noreferrer"
+                aria-label="LinkedIn"
                 style={{
-                  display: 'flex',
+                  display: 'inline-flex',
                   alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: '1rem',
-                  padding: '14px 16px',
-                  borderRadius: '16px',
-                  border: 'none',
-                  backgroundColor: 'transparent',
+                  justifyContent: 'center',
+                  width: '32px',
+                  height: '32px',
                   color: '#151226',
                   textDecoration: 'none'
                 }}
               >
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.75rem', fontSize: '12px', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-                  <Linkedin size={18} /> LinkedIn
-                </span>
-                <span style={{ fontSize: '12px', color: 'rgba(21, 18, 38, 0.62)' }}>in/en-rain</span>
+                <Linkedin size={18} />
               </a>
             </div>
 
-            <div className="md:hidden" style={{ justifyContent: 'center', alignItems: 'center', gap: '1.25rem', width: '100%' }}>
+            <div className="md:hidden" style={{ display: 'none' }}>
               <a
                 className="contact-text"
                 href="mailto:nieves.edriancit2011@email.com"
@@ -307,9 +286,7 @@ export const ContactSection = () => {
             border-bottom: 1px solid rgba(124, 58, 237, 0.1) !important;
           }
 
-          .contact-image {
-            height: 240px !important;
-          }
+          #contact-icon { height: 240px !important; }
 
           .contact-copy h2 {
             font-size: 38px !important;
@@ -333,9 +310,7 @@ export const ContactSection = () => {
             color: rgba(21, 18, 38, 0.6) !important;
           }
 
-          .contact-image {
-            height: 200px !important;
-          }
+          #contact-icon { height: 200px !important; }
         }
       `}</style>
     </section>

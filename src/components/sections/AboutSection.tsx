@@ -179,10 +179,8 @@ export const AboutSection = () => {
 
         .about-image-wrap {
           position: relative;
-          transform: translateY(-60px);
-          width: 320px;
+          width: 400px;
           height: 400px;
-          border-radius: 16px;
           overflow: visible;
           animation: slideFromLeft 0.8s ease-out forwards;
           animation-delay: 0.2s;
@@ -326,12 +324,10 @@ export const AboutSection = () => {
           .about-image-wrap {
             width: 180px !important;
             height: 180px !important;
-            border-radius: 50% !important;
             transform: none !important;
             margin: 0 auto !important;
           }
 
-          .about-image { border-radius: 50% !important; }
 
           .about-content {
             width: 100% !important;
