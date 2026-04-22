@@ -21,6 +21,7 @@ export type WorkProject = {
   status?: string;
   hoursSpent?: string;
   timeline?: { label: string; detail: string }[];
+  links?: { label: string; url: string; type: 'github' | 'drive' }[];
 };
 
 export const experience: WorkExperience[] = [
@@ -37,13 +38,14 @@ export const experience: WorkExperience[] = [
 export const projects: WorkProject[] = [
   {
     id: '01',
-    year: '2023-2024',
+    year: '2024-2025',
     title: 'ChemQuest',
     line2: 'EDUCATIONAL MOBILE RPG',
     category: 'GAMES',
     des: 'Designed and built a story-driven chemistry RPG in Godot 4.6 for Android. Implemented JSON-driven quests and NPC dialogue, a modular autoload architecture, and a save system that restores full scene + lesson progress. Includes interactive mini-games teaching elements, compounds, density, and states of matter.',
     img: imgChemQuest,
     stack: ['Godot 4.6', 'GDScript', 'Android', 'JSON'],
+    links: [{ label: 'Google Drive', url: 'https://drive.google.com/file/d/1DcR2BbWSssGNkvtVhNa-P65hFhzOb3RD/view?usp=drive_link', type: 'drive' }],
   },
   {
     id: '02',
@@ -54,6 +56,7 @@ export const projects: WorkProject[] = [
     des: 'Built a Windows desktop voice assistant featuring real-time voice interaction. Includes a local ASP.NET Core API, multi-LLM provider routing, ChromaDB semantic memory, and a Node.js Discord bridge with voice activity detection for natural turn-taking and low-latency playback.',
     img: imgTsukiai,
     stack: ['C# / .NET 8', 'WPF', 'ASP.NET Core', 'Node.js', 'discord.js', 'ChromaDB'],
+    links: [{ label: 'GitHub', url: 'https://github.com/EN-rain/TsukiAI-Desktop/graphs/contributors', type: 'github' }],
   },
   {
     id: '03',
@@ -64,6 +67,7 @@ export const projects: WorkProject[] = [
     des: '[WIP] Developed a real-time multiplayer game in Godot 4.6 backed by a Dockerized Nakama + CockroachDB server. Features email authentication, room-code lobbies with chat and class selection, and an authoritative Lua match loop with client-side prediction, interpolation, and state reconciliation.',
     img: '',
     stack: ['Godot 4.6', 'GDScript', 'Nakama', 'Lua', 'Docker', 'CockroachDB', 'WebSockets'],
+    links: [{ label: 'GitHub', url: 'https://github.com/EN-rain/Oozeborne', type: 'github' }],
     status: 'On development',
     hoursSpent: '90+ hours',
     timeline: [

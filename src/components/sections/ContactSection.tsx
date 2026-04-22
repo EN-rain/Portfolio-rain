@@ -1,6 +1,6 @@
 import icon from '../../assets/images/hero3.png';
 import { useMobileReveal } from '../../hooks/useMobileReveal';
-import { Mail, Github, Linkedin, MapPin } from 'lucide-react';
+import { Mail, Github, Linkedin } from 'lucide-react';
 
 export const ContactSection = () => {
   const revealRef = useMobileReveal<HTMLElement>();
@@ -53,7 +53,7 @@ export const ContactSection = () => {
           }}
         />
 
-        <div className="contact-shell locked-content relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col items-center justify-center gap-10 py-12 px-6 md:px-12">
+        <div className="contact-shell locked-content relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col items-center justify-center gap-10 py-12 px-5 md:px-12">
           <div
             className="contact-text contact-copy scroll-parallax-text"
             data-speed="0.04"
@@ -107,11 +107,7 @@ export const ContactSection = () => {
               zIndex: 20
             }}
           >
-            <div className="hidden md:flex" style={{ flexDirection: 'row', gap: '1.5rem', alignItems: 'center' }}>
-              <div className="text-reveal text-reveal-fast text-reveal-delay-3" style={{ display: 'inline-flex', justifyContent: 'flex-start', gap: '0.5rem', alignItems: 'center', padding: '0', boxSizing: 'border-box', color: 'rgba(21, 18, 38, 0.62)', fontSize: '12px', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-                <MapPin size={14} />
-                <span>Leon City, Philippines</span>
-              </div>
+            <div className="flex" style={{ flexDirection: 'row', gap: '1.5rem', alignItems: 'center' }}>
               <a
                 className="contact-text"
                 href="mailto:nieves.edriancit2011@email.com"
@@ -167,70 +163,6 @@ export const ContactSection = () => {
                 <Linkedin size={18} />
               </a>
             </div>
-
-            <div className="md:hidden" style={{ display: 'none' }}>
-              <a
-                className="contact-text"
-                href="mailto:nieves.edriancit2011@email.com"
-                aria-label="Email"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '52px',
-                  height: '52px',
-                  borderRadius: '16px',
-                  border: '1px solid rgba(124, 58, 237, 0.18)',
-                  backgroundColor: 'rgba(124, 58, 237, 0.06)',
-                  color: '#151226',
-                  textDecoration: 'none'
-                }}
-              >
-                <Mail size={22} />
-              </a>
-              <a
-                className="contact-text"
-                href="https://github.com/EN-rain"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="GitHub"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '52px',
-                  height: '52px',
-                  borderRadius: '16px',
-                  border: '1px solid rgba(124, 58, 237, 0.18)',
-                  backgroundColor: 'rgba(124, 58, 237, 0.06)',
-                  color: '#151226',
-                  textDecoration: 'none'
-                }}
-              >
-                <Github size={22} />
-              </a>
-              <a
-                className="contact-text"
-                href="https://linkedin.com/in/en-rain"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="LinkedIn"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '52px',
-                  height: '52px',
-                  borderRadius: '16px',
-                  border: '1px solid rgba(124, 58, 237, 0.18)',
-                  backgroundColor: 'rgba(124, 58, 237, 0.06)',
-                  color: '#151226',
-                  textDecoration: 'none'
-                }}
-              >
-                <Linkedin size={22} />
-              </a>
-            </div>
           </div>
         </div>
       </div>
@@ -260,7 +192,7 @@ export const ContactSection = () => {
           .contact-shell {
             display: flex !important;
             flex-direction: column !important;
-            padding: 140px 24px 60px !important; 
+            padding: 140px 20px 60px !important; 
             height: auto !important;
             min-height: 100vh !important;
             gap: 40px !important;
@@ -277,6 +209,10 @@ export const ContactSection = () => {
           }
 
           .contact-grid {
+            position: static !important;
+            right: auto !important;
+            bottom: auto !important;
+            justify-content: center !important;
             gap: 0 !important;
             border-top: 1px solid rgba(124, 58, 237, 0.1) !important;
           }

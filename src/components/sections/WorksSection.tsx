@@ -1,9 +1,22 @@
 import { useRef, useState, useEffect, memo, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Blocks, Database, Server, Workflow, AudioLines, Bot, Brain, Gamepad2, MessageSquareMore, Mic, Puzzle } from 'lucide-react';
+import { Blocks, Database, Server, Workflow, AudioLines, Bot, Brain, Gamepad2, MessageSquareMore, Mic, Puzzle, Github, ExternalLink } from 'lucide-react';
 import { useMobileReveal } from '../../hooks/useMobileReveal';
 import { experience, projects } from '../../data/works';
+import architectureFlowchart from '../../assets/images/architecture-flowchart.png';
+
+const TSUKIAI_SHORT_OVERVIEW =
+  'TsukiAI is a .NET 8 + WPF desktop voice companion built for real-time conversation.\nIt runs a local API, supports multiple LLM providers, keeps lightweight semantic memory, and can operate through a Discord voice bridge.\nThe actual flow is STT → LLM → TTS, with local and cloud options, conversation history, latency tracking, provider failover, and a polished desktop control surface.';
+
+const TSUKIAI_DETAILED_OVERVIEW =
+  'TsukiAI is a Windows desktop voice companion runtime built with .NET 8, WPF, and an embedded local ASP.NET Core API. Its core function is to run a real-time STT → LLM → TTS pipeline, allowing spoken input to be transcribed, processed through a language model, and returned as synthesized speech.\n\nThe system supports both local and cloud-based speech recognition. Audio can be transcribed through the local C# Whisper path or cloud providers such as Groq Whisper and AssemblyAI. After transcription, the text is passed into an inference layer that supports multiple model backends, including remote OpenAI-compatible APIs and configurable multi-provider routing with failover between services such as Groq, Cerebras, Gemini, GitHub Models, and Mistral.\n\nTsukiAI also includes lightweight semantic memory so the assistant can recall relevant prior context across sessions. It combines recent conversation history with selective semantic retrieval through a Chroma/SQLite-backed memory service, using asynchronous write-back, bounded queues, request timeouts, and circuit-breaker protection to keep memory access stable during live conversations.\n\nFor speech output, the runtime supports both local and remote TTS. It can synthesize voice through a local VOICEVOX engine or through cloud TTS endpoints, with optional translation before synthesis when the configured output voice requires a different language. The voice pipeline also handles cancellation, duplicate-turn suppression, focused speaker filtering, latency measurement, and conversation history persistence.\n\nA built-in local HTTP API exposes endpoints for STT, text processing, binary audio generation, TTS testing, health checks, and semantic memory operations. This allows external integrations to use the runtime as a local voice-processing engine instead of embedding the full assistant stack directly.\n\nThe Discord voice bridge extends the system into Discord voice channels through a separate Node.js sidecar. That bridge joins channels, captures user speech, segments turns with voice activity detection, optionally performs cloud STT, forwards requests to the C# local API, and plays returned audio back into Discord. This makes TsukiAI usable both as a local voice runtime and as a backend for external real-time voice platforms.';
+
+const CHEMQUEST_SHORT_OVERVIEW =
+  'CHEMQuest is an offline Android game that makes General Chemistry 1 easier to understand through interactive gameplay. Instead of memorizing from textbooks, you explore chemistry concepts like matter, measurements, stoichiometry, atoms, and gases by playing through puzzles, platformers, and simulations. It\'s designed for STEM students who want a more engaging way to learn and practice chemistry — no internet required.';
+
+const CHEMQUEST_DETAILED_OVERVIEW =
+  'CHEMQuest is an offline Android game-based learning application built with the Godot engine and GDScript, targeting General Chemistry 1 competencies under the Philippine K-12 curriculum. It was developed for STEM students at Western Institute of Technology (WIT) as a supplementary learning tool grounded in constructivist learning theory and scaffolding principles.\n\nThe application covers five core chemistry topic areas: matter, measurements, stoichiometry, atoms, and gases. Each topic is implemented through distinct game mechanics — side-scrolling platformers handle phase change simulations, while puzzle modules address chemical equation balancing and related problem-solving tasks. Scaffolding is embedded throughout via adjustable difficulty levels and in-game hints that progressively reduce to encourage independent reasoning.\n\nDevelopment followed an agile methodology across six phases: planning, design, development, testing, deployment, and review. UI/UX prototyping was done in Figma and pixel art assets were produced in Aseprite. The build is optimized for low-end Android devices, with offline functionality and lightweight asset loading as core technical constraints.\n\nEvaluation used a mixed-methods framework with 50 WIT STEM students, combining pre/post-test scoring, Likert-scale surveys, gameplay analytics (completion rates, retries), and qualitative focus group feedback. Known limitations include Android-only availability, no multiplayer support, and coverage restricted to foundational chemistry topics.';
 
 const highlightIcons = {
   React: Blocks,
@@ -37,6 +50,9 @@ export const WorksSection = memo(() => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [enOpacity, setEnOpacity] = useState(0);
   const [selectedId, setSelectedId] = useState<string>('');
+  const [tsukiOverviewMode, setTsukiOverviewMode] = useState<'short' | 'detailed'>('short');
+  const [tsukiShowFlowchart, setTsukiShowFlowchart] = useState(false);
+  const [chemQuestOverviewMode, setChemQuestOverviewMode] = useState<'short' | 'detailed'>('short');
   const experienceRef = useMobileReveal<HTMLDivElement>();
   const projectsRef = useMobileReveal<HTMLDivElement>();
 
@@ -58,6 +74,9 @@ export const WorksSection = memo(() => {
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
       window.dispatchEvent(new Event('lenis-stop'));
+      setTsukiOverviewMode('short');
+      setTsukiShowFlowchart(false);
+      setChemQuestOverviewMode('short');
     } else {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
@@ -77,7 +96,7 @@ export const WorksSection = memo(() => {
           <div ref={scrollContainerRef} className="works-scroll-container h-full w-full overflow-y-auto overflow-x-hidden locked-content bg-black flex flex-col">
             
             {/* Experience Part */}
-            <div ref={experienceRef} className="experience-part relative min-h-screen w-full flex flex-col justify-center px-6 md:px-12 flex-shrink-0">
+            <div ref={experienceRef} className="experience-part relative min-h-screen w-full flex flex-col justify-center px-5 md:px-12 flex-shrink-0">
               <div className="absolute inset-0 opacity-20 pointer-events-none">
                  <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1920 1080">
                   <ellipse cx="350" cy="400" rx="280" ry="180" fill="none" stroke="#7c3aed" strokeWidth="0.5" opacity="0.3" />
@@ -119,7 +138,7 @@ export const WorksSection = memo(() => {
 
             {/* Projects Part */}
             <div ref={projectsRef} className="projects-wrapper relative min-h-screen w-full flex-shrink-0 overflow-hidden">
-              <div className="projects-part relative min-h-screen flex flex-col justify-center px-6 md:px-12 w-full max-w-full">
+              <div className="projects-part relative min-h-screen flex flex-col justify-center px-5 md:px-12 w-full max-w-full">
                 
                 {/* Projects Header */}
                 <div className="relative z-10 mx-auto w-full max-w-7xl mb-8 md:mb-10">
@@ -282,7 +301,7 @@ export const WorksSection = memo(() => {
         /* ── Scroll hint ── */
         .project-scroll-hint {
           position: absolute;
-          bottom: 16px;
+          top: 16px;
           left: 0;
           right: 0;
           width: 100%;
@@ -393,10 +412,26 @@ export const WorksSection = memo(() => {
 
                   <div className="project-expanded-scroll">
                     {/* Header — above image */}
-                    <div className="px-6 pt-4 pb-3">
+                    <div className="px-5 md:px-6 pt-4 pb-3">
                       <div className="tech-font text-[11px] font-bold text-[#7c3aed] mb-1">{proj.year}</div>
                       <h3 className="heading-font text-2xl md:text-3xl font-bold text-white leading-tight">{proj.title}</h3>
                       <p className="tech-font text-[10px] text-[#7c3aed]/70 uppercase tracking-widest mt-1">{proj.line2}</p>
+                      {proj.links && proj.links.length > 0 && (
+                        <div className="flex flex-wrap gap-3 mt-3">
+                          {proj.links.map(link => (
+                            <a
+                              key={link.url}
+                              href={link.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="tech-font flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-white/50 hover:text-[#7c3aed] transition-colors"
+                            >
+                              {link.type === 'github' ? <Github size={13} /> : <ExternalLink size={13} />}
+                              {link.label}
+                            </a>
+                          ))}
+                        </div>
+                      )}
                     </div>
 
                     {/* Image */}
@@ -413,11 +448,135 @@ export const WorksSection = memo(() => {
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
                     </div>
 
+                    {/* Tech stack — below image */}
+                    <div className="px-5 md:px-6 pt-4">
+                      <div className="flex flex-wrap gap-3">
+                        {proj.stack.map(s => {
+                          const Icon = stackIcons[s as keyof typeof stackIcons] ?? Puzzle;
+                          return (
+                            <span key={s} className="tech-font flex items-center gap-2 text-[9px] uppercase tracking-widest text-white/60">
+                              <Icon size={13} />{s}
+                            </span>
+                          );
+                        })}
+                      </div>
+                    </div>
+
                     {/* Content below image */}
                     <div className="project-expanded-content">
-                      <p className="text-white/70 text-[12px] md:text-[13px] leading-relaxed mb-5 font-light w-full">
-                        {proj.des}
-                      </p>
+                      {proj.id === '02' && (
+                        <div className="flex flex-wrap gap-3 mb-6">
+                          <button
+                            type="button"
+                            onClick={() => setTsukiOverviewMode('short')}
+                            className={`tech-font rounded-full px-4 py-2 text-[10px] uppercase tracking-widest transition-colors border ${
+                              tsukiOverviewMode === 'short'
+                                ? 'bg-[#7c3aed] text-white border-[#7c3aed]'
+                                : 'bg-transparent text-white/70 border-white/15 hover:text-white'
+                            }`}
+                          >
+                            Short overview
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setTsukiOverviewMode('detailed')}
+                            className={`tech-font rounded-full px-4 py-2 text-[10px] uppercase tracking-widest transition-colors border ${
+                              tsukiOverviewMode === 'detailed'
+                                ? 'bg-[#7c3aed] text-white border-[#7c3aed]'
+                                : 'bg-transparent text-white/70 border-white/15 hover:text-white'
+                            }`}
+                          >
+                            Detailed overview
+                          </button>
+                        </div>
+                      )}
+
+                      {proj.id === '01' && (
+                        <div className="flex flex-wrap gap-3 mb-6">
+                          <button
+                            type="button"
+                            onClick={() => setChemQuestOverviewMode('short')}
+                            className={`tech-font rounded-full px-4 py-2 text-[10px] uppercase tracking-widest transition-colors border ${
+                              chemQuestOverviewMode === 'short'
+                                ? 'bg-[#7c3aed] text-white border-[#7c3aed]'
+                                : 'bg-transparent text-white/70 border-white/15 hover:text-white'
+                            }`}
+                          >
+                            Short overview
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setChemQuestOverviewMode('detailed')}
+                            className={`tech-font rounded-full px-4 py-2 text-[10px] uppercase tracking-widest transition-colors border ${
+                              chemQuestOverviewMode === 'detailed'
+                                ? 'bg-[#7c3aed] text-white border-[#7c3aed]'
+                                : 'bg-transparent text-white/70 border-white/15 hover:text-white'
+                            }`}
+                          >
+                            Detailed overview
+                          </button>
+                        </div>
+                      )}
+
+                      <AnimatePresence mode="wait" initial={false}>
+                        <motion.p
+                          key={
+                            proj.id === '02'
+                              ? `tsuki-${tsukiOverviewMode}`
+                              : proj.id === '01'
+                                ? `chem-${chemQuestOverviewMode}`
+                                : `proj-${proj.id}`
+                          }
+                          className="text-white/70 text-[12px] md:text-[13px] leading-relaxed mb-5 font-light w-full whitespace-pre-line"
+                          initial={{ opacity: 0, y: 8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -8 }}
+                          transition={{ duration: 0.22, ease: 'easeOut' }}
+                        >
+                          {proj.id === '02'
+                            ? (tsukiOverviewMode === 'short' ? TSUKIAI_SHORT_OVERVIEW : TSUKIAI_DETAILED_OVERVIEW)
+                            : proj.id === '01'
+                              ? (chemQuestOverviewMode === 'short' ? CHEMQUEST_SHORT_OVERVIEW : CHEMQUEST_DETAILED_OVERVIEW)
+                              : proj.des}
+                        </motion.p>
+                      </AnimatePresence>
+
+                      {proj.id === '02' && (
+                        <div className="mb-6">
+                          <button
+                            type="button"
+                            onClick={() => setTsukiShowFlowchart(v => !v)}
+                            className={`tech-font rounded-full px-4 py-2 text-[10px] uppercase tracking-widest transition-colors border ${
+                              tsukiShowFlowchart
+                                ? 'bg-[#7c3aed] text-white border-[#7c3aed]'
+                                : 'bg-transparent text-white/70 border-white/15 hover:text-white'
+                            }`}
+                          >
+                            {tsukiShowFlowchart ? 'Hide flow chart' : 'Show flow chart'}
+                          </button>
+                        </div>
+                      )}
+
+                      {proj.id === '02' && (
+                        <AnimatePresence initial={false}>
+                          {tsukiShowFlowchart && (
+                            <motion.div
+                              key="tsuki-flowchart"
+                              className="mt-4 rounded-[14px] border border-white/10 bg-black/30 p-3 overflow-hidden mb-6"
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: 10 }}
+                              transition={{ duration: 0.22, ease: 'easeOut' }}
+                            >
+                              <img
+                                src={architectureFlowchart}
+                                alt="TSUKIAI architecture flowchart"
+                                className="w-full h-auto"
+                              />
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      )}
                       {(proj.hoursSpent || proj.timeline) && (
                         <div className="mb-5">
                           {proj.hoursSpent && (
@@ -441,20 +600,10 @@ export const WorksSection = memo(() => {
                           )}
                         </div>
                       )}
-                      <div className="flex flex-wrap gap-3">
-                        {proj.stack.map(s => {
-                          const Icon = stackIcons[s as keyof typeof stackIcons] ?? Puzzle;
-                          return (
-                            <span key={s} className="tech-font flex items-center gap-2 text-[9px] uppercase tracking-widest text-white/60">
-                              <Icon size={13} />{s}
-                            </span>
-                          );
-                        })}
-                      </div>
                     </div>
                   </div>
 
-                  {/* Scroll hint — absolute bottom center of card */}
+                  {/* Scroll hint — absolute top center of card */}
                   <motion.div
                     className="project-scroll-hint"
                     initial={{ opacity: 0, y: 6 }}

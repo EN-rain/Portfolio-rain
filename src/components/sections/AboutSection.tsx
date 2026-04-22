@@ -313,7 +313,7 @@ export const AboutSection = () => {
         @media (max-width: 768px) {
           .about-shell {
             flex-direction: column !important;
-            padding: 80px 24px 60px !important;
+            padding: 80px 20px 60px !important;
             height: auto !important;
             min-height: 100vh !important;
             gap: 40px !important;
