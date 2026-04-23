@@ -1,5 +1,6 @@
 import imgChemQuest from '../assets/images/chemquest.png';
 import imgTsukiai from '../assets/images/tsukiai.png';
+import oozebirImg from '../assets/images/oozebir.png';
 
 export type WorkExperience = {
   year: string;
@@ -65,7 +66,7 @@ export const projects: WorkProject[] = [
     line2: 'ONLINE MULTIPLAYER + NAKAMA BACKEND',
     category: 'GAMES / MULTIPLAYER (In Development)',
     des: '[WIP] Developed a real-time multiplayer game in Godot 4.6 backed by a Dockerized Nakama + CockroachDB server. Features email authentication, room-code lobbies with chat and class selection, and an authoritative Lua match loop with client-side prediction, interpolation, and state reconciliation.',
-    img: '',
+    img: oozebirImg,
     stack: ['Godot 4.6', 'GDScript', 'Nakama', 'Lua', 'Docker', 'CockroachDB', 'WebSockets'],
     links: [{ label: 'GitHub', url: 'https://github.com/EN-rain/Oozeborne', type: 'github' }],
     status: 'On development',
