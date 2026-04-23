@@ -5,18 +5,46 @@ import { Blocks, Database, Server, Workflow, AudioLines, Bot, Brain, Gamepad2, M
 import { useMobileReveal } from '../../hooks/useMobileReveal';
 import { experience, projects } from '../../data/works';
 import architectureFlowchart from '../../assets/images/architecture-flowchart.png';
+import multiplayerFlowchart from '../../assets/images/multiplayer-flowchart.png';
 
-const TSUKIAI_SHORT_OVERVIEW =
-  'TsukiAI is a .NET 8 + WPF desktop voice companion built for real-time conversation.\nIt runs a local API, supports multiple LLM providers, keeps lightweight semantic memory, and can operate through a Discord voice bridge.\nThe actual flow is STT → LLM → TTS, with local and cloud options, conversation history, latency tracking, provider failover, and a polished desktop control surface.';
-
-const TSUKIAI_DETAILED_OVERVIEW =
-  'TsukiAI is a Windows desktop voice companion runtime built with .NET 8, WPF, and an embedded local ASP.NET Core API. Its core function is to run a real-time STT → LLM → TTS pipeline, allowing spoken input to be transcribed, processed through a language model, and returned as synthesized speech.\n\nThe system supports both local and cloud-based speech recognition. Audio can be transcribed through the local C# Whisper path or cloud providers such as Groq Whisper and AssemblyAI. After transcription, the text is passed into an inference layer that supports multiple model backends, including remote OpenAI-compatible APIs and configurable multi-provider routing with failover between services such as Groq, Cerebras, Gemini, GitHub Models, and Mistral.\n\nTsukiAI also includes lightweight semantic memory so the assistant can recall relevant prior context across sessions. It combines recent conversation history with selective semantic retrieval through a Chroma/SQLite-backed memory service, using asynchronous write-back, bounded queues, request timeouts, and circuit-breaker protection to keep memory access stable during live conversations.\n\nFor speech output, the runtime supports both local and remote TTS. It can synthesize voice through a local VOICEVOX engine or through cloud TTS endpoints, with optional translation before synthesis when the configured output voice requires a different language. The voice pipeline also handles cancellation, duplicate-turn suppression, focused speaker filtering, latency measurement, and conversation history persistence.\n\nA built-in local HTTP API exposes endpoints for STT, text processing, binary audio generation, TTS testing, health checks, and semantic memory operations. This allows external integrations to use the runtime as a local voice-processing engine instead of embedding the full assistant stack directly.\n\nThe Discord voice bridge extends the system into Discord voice channels through a separate Node.js sidecar. That bridge joins channels, captures user speech, segments turns with voice activity detection, optionally performs cloud STT, forwards requests to the C# local API, and plays returned audio back into Discord. This makes TsukiAI usable both as a local voice runtime and as a backend for external real-time voice platforms.';
-
-const CHEMQUEST_SHORT_OVERVIEW =
-  'CHEMQuest is an offline Android game that makes General Chemistry 1 easier to understand through interactive gameplay. Instead of memorizing from textbooks, you explore chemistry concepts like matter, measurements, stoichiometry, atoms, and gases by playing through puzzles, platformers, and simulations. It\'s designed for STEM students who want a more engaging way to learn and practice chemistry — no internet required.';
-
-const CHEMQUEST_DETAILED_OVERVIEW =
-  'CHEMQuest is an offline Android game-based learning application built with the Godot engine and GDScript, targeting General Chemistry 1 competencies under the Philippine K-12 curriculum. It was developed for STEM students at Western Institute of Technology (WIT) as a supplementary learning tool grounded in constructivist learning theory and scaffolding principles.\n\nThe application covers five core chemistry topic areas: matter, measurements, stoichiometry, atoms, and gases. Each topic is implemented through distinct game mechanics — side-scrolling platformers handle phase change simulations, while puzzle modules address chemical equation balancing and related problem-solving tasks. Scaffolding is embedded throughout via adjustable difficulty levels and in-game hints that progressively reduce to encourage independent reasoning.\n\nDevelopment followed an agile methodology across six phases: planning, design, development, testing, deployment, and review. UI/UX prototyping was done in Figma and pixel art assets were produced in Aseprite. The build is optimized for low-end Android devices, with offline functionality and lightweight asset loading as core technical constraints.\n\nEvaluation used a mixed-methods framework with 50 WIT STEM students, combining pre/post-test scoring, Likert-scale surveys, gameplay analytics (completion rates, retries), and qualitative focus group feedback. Known limitations include Android-only availability, no multiplayer support, and coverage restricted to foundational chemistry topics.';
+const PROJECT_ABOUT: Record<string, { description: string; keyFeatures: string[] }> = {
+  '01': {
+    description: 'CHEMQuest is a chemistry learning adventure that turns core lessons into hands-on play. Instead of relying only on reading and memorization, players explore important chemistry topics through puzzles, action-based challenges, and interactive activities designed to make difficult ideas easier to grasp.\n\nBuilt for students studying introductory chemistry, the game focuses on essential lessons such as matter, measurements, stoichiometry, atoms, and gases. Each topic is taught through a different style of play, giving players a more active way to practice concepts, solve problems, and build confidence as they progress.\n\nDesigned for offline use on Android, CHEMQuest makes learning accessible anywhere without needing an internet connection. It is made for students who want a more engaging way to review chemistry, strengthen understanding, and turn study time into something more interactive and enjoyable.',
+    keyFeatures: [
+      'Learn core introductory chemistry through interactive gameplay',
+      'Explore lessons on matter, measurements, stoichiometry, atoms, and gases',
+      'Solve puzzles and complete action-based challenges tied to chemistry concepts',
+      'Practice problem-solving in a more engaging format than traditional study methods',
+      'Play fully offline on Android with no internet required',
+      'Built as a supplementary learning tool for STEM students',
+    ],
+  },
+  '02': {
+    description: 'TsukiAI is a real-time voice companion for Windows that lets you talk naturally and get spoken responses back with low friction. It listens, understands, replies, and speaks through a full live voice pipeline built for continuous conversation rather than one-off prompts.\n\nRun it locally on your desktop, connect it to different AI providers, and choose between local or cloud speech services depending on how you want it to behave. It is built to stay responsive during live use, keep track of conversation flow, remember useful past context, and recover cleanly when a provider fails.\n\nTsukiAI also works beyond the desktop. With its Discord voice bridge, it can join voice channels, listen for spoken turns, process them through the same conversation pipeline, and speak back into the channel. That makes it useful both as a personal desktop companion and as a voice runtime for shared online spaces.\n\nA built-in local API opens the system up for integrations, testing, and external tooling. Speech recognition, text processing, voice generation, health checks, and memory features can all be accessed as services, making TsukiAI more than just a standalone app.',
+    keyFeatures: [
+      'Real-time voice conversation with a full speech-to-text, AI response, and text-to-speech pipeline',
+      'Support for both local and cloud speech processing',
+      'Multi-provider AI routing with failover across several model services',
+      'Lightweight semantic memory for recalling relevant past context',
+      'Local and remote voice synthesis options',
+      'Conversation history, latency tracking, and live pipeline controls',
+      'Built-in local API for integrations and external tools',
+      'Discord voice bridge for channel-based spoken interaction',
+    ],
+  },
+  '03': {
+    description: 'Enter a fast-paced co-op action RPG where every run is shaped by your class, your build, and your team.\n\nChoose from distinct class paths, unlock specialized roles, and shape your own fighting style through a wide mix of active skills, passives, and progression choices. Build for raw damage, frontline defense, battlefield control, support, or hybrid play, then adapt your setup as the run grows harder.\n\nFight through escalating rounds of enemies that become more dangerous, more capable, and more demanding as the battle goes on. Success is not just about surviving longer, but learning how to combine your strengths with the rest of the party. Team composition, timing, and coordination matter.\n\nAt the center of the challenge is a boss encounter built around adaptation and counterplay. The boss is designed to respond to player patterns, punish predictable behavior, and force the team to change tactics on the fly. Winning means reading the fight, adjusting your approach, and working together under pressure.\n\nProgression carries beyond a single match. Your class growth, build development, and overall advancement are saved through the cloud, giving you room to experiment, refine strategies, and return stronger for the next run.\n\nPlay solo or squad up with others, form a party, chat during the run, and coordinate through voice communication as you push deeper into increasingly intense encounters.',
+    keyFeatures: [
+      'Build your character through class progression, subclass paths, and flexible skill choices',
+      'Create custom playstyles across damage, tank, support, control, and hybrid roles',
+      'Battle through rounds that grow tougher, smarter, and more punishing over time',
+      'Face a major boss encounter that adapts to player behavior and demands teamwork',
+      'Play cooperatively in shared sessions with party-based strategy and coordination',
+      'Use text chat and voice communication to react in real time',
+      'Keep your progress through cloud saving and ongoing character growth',
+    ],
+  },
+};
 
 const highlightIcons = {
   React: Blocks,
@@ -50,9 +78,13 @@ export const WorksSection = memo(() => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [enOpacity, setEnOpacity] = useState(0);
   const [selectedId, setSelectedId] = useState<string>('');
-  const [tsukiOverviewMode, setTsukiOverviewMode] = useState<'short' | 'detailed'>('short');
   const [tsukiShowFlowchart, setTsukiShowFlowchart] = useState(false);
-  const [chemQuestOverviewMode, setChemQuestOverviewMode] = useState<'short' | 'detailed'>('short');
+  const [oozeborneShowFlowchart, setOozeborneShowFlowchart] = useState(false);
+  const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
   const experienceRef = useMobileReveal<HTMLDivElement>();
   const projectsRef = useMobileReveal<HTMLDivElement>();
 
@@ -68,15 +100,58 @@ export const WorksSection = memo(() => {
     return () => window.removeEventListener('en-reveal', handleEnReveal as EventListener);
   }, []);
 
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const onWheel = (e: WheelEvent) => {
+      if (oozeborneShowFlowchart) {
+        e.preventDefault();
+        const delta = e.deltaY > 0 ? 0.9 : 1.1;
+        setZoom(prev => Math.min(Math.max(prev * delta, 0.5), 5));
+      }
+    };
+
+    container.addEventListener('wheel', onWheel, { passive: false });
+    return () => container.removeEventListener('wheel', onWheel);
+  }, [oozeborneShowFlowchart]);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (e.button === 0) {
+      e.preventDefault(); // Prevent text selection and other default behaviors
+      setIsDragging(true);
+      setDragStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
+    }
+  };
+
+  const handleReset = () => {
+    setZoom(1);
+    setPan({ x: 0, y: 0 });
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (isDragging) {
+      setPan({
+        x: e.clientX - dragStart.x,
+        y: e.clientY - dragStart.y
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
   // Lock body scroll and pause Lenis when a project is expanded
   useEffect(() => {
     if (selectedId) {
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
       window.dispatchEvent(new Event('lenis-stop'));
-      setTsukiOverviewMode('short');
       setTsukiShowFlowchart(false);
-      setChemQuestOverviewMode('short');
+      setOozeborneShowFlowchart(false);
+      setZoom(1);
+      setPan({ x: 0, y: 0 });
     } else {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
@@ -104,14 +179,27 @@ export const WorksSection = memo(() => {
                 </svg>
               </div>
               <div className="relative z-10 w-full max-w-none">
-                <div className="experience-header mb-4 md:mb-6">
+                <motion.div 
+                  className="experience-header mb-4 md:mb-6"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: false, amount: 0.3 }}
+                  transition={{ duration: 0.8 }}
+                >
                   <h2 className="heading-font text-[22px] font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl">
                     WORK <span className="text-[#7c3aed] whitespace-nowrap">EXPERI<span data-en-target="experience-en" className="text-white" style={{ opacity: enOpacity }}>EN</span>CE</span>
                   </h2>
-                </div>
+                </motion.div>
                 <div className="space-y-6">
-                  {experience.map((item) => (
-                    <div key={item.role} className="group relative rounded-[20px] border border-white/10 bg-white/10 p-6 transition-all duration-500 md:p-8">
+                  {experience.map((item, index) => (
+                    <motion.div 
+                      key={item.role} 
+                      className="group relative rounded-[20px] border border-white/10 bg-white/10 p-6 transition-all duration-500 md:p-8"
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: false, amount: 0.2 }}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                    >
                       <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
                         <div>
                           <div className="tech-font mb-2 text-sm font-bold text-[#7c3aed]">{item.year}</div>
@@ -130,7 +218,7 @@ export const WorksSection = memo(() => {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </div>
@@ -141,22 +229,35 @@ export const WorksSection = memo(() => {
               <div className="projects-part relative min-h-screen flex flex-col justify-center px-5 md:px-12 w-full max-w-full">
                 
                 {/* Projects Header */}
-                <div className="relative z-10 mx-auto w-full max-w-7xl mb-8 md:mb-10">
+                <motion.div 
+                  className="relative z-10 mx-auto w-full max-w-7xl mb-8 md:mb-10"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: false, amount: 0.3 }}
+                  transition={{ duration: 0.8 }}
+                >
                   <h2 className="heading-font text-[22px] font-bold leading-[1.1] tracking-tight text-white md:text-4xl lg:text-5xl uppercase">
                     PERSONAL <span className="text-[#7c3aed] whitespace-nowrap">PROJE<span data-en-target="projects-ct" className="text-white transition-opacity duration-0" style={{ opacity: enOpacity }}>CT</span>S</span>
                   </h2>
-                </div>
+                </motion.div>
 
                 {/* Projects Grid */}
                 <div className="relative z-10 mx-auto w-full max-w-7xl">
                   <div className="projects-grid">
-                    {projects.map((project) => (
+                    {projects.map((project, index) => (
                       <motion.div
                         key={project.id}
                         onClick={() => setSelectedId(project.id)}
                         className="project-card group cursor-pointer"
                         whileHover={{ scale: 1.03 }}
-                        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: false, amount: 0.2 }}
+                        transition={{ 
+                          duration: 0.6, 
+                          delay: index * 0.1,
+                          scale: { duration: 0.35, ease: [0.22, 1, 0.36, 1] }
+                        }}
                       >
                         <div className="project-card-image">
                           {project.img ? (
@@ -464,82 +565,108 @@ export const WorksSection = memo(() => {
 
                     {/* Content below image */}
                     <div className="project-expanded-content">
-                      {proj.id === '02' && (
-                        <div className="flex flex-wrap gap-3 mb-6">
+                      {proj.id === '03' && (
+                        <div className="mb-6">
                           <button
                             type="button"
-                            onClick={() => setTsukiOverviewMode('short')}
+                            onClick={() => {
+                              setOozeborneShowFlowchart(v => !v);
+                              setZoom(1);
+                              setPan({ x: 0, y: 0 });
+                            }}
                             className={`tech-font rounded-full px-4 py-2 text-[10px] uppercase tracking-widest transition-colors border ${
-                              tsukiOverviewMode === 'short'
+                              oozeborneShowFlowchart
                                 ? 'bg-[#7c3aed] text-white border-[#7c3aed]'
                                 : 'bg-transparent text-white/70 border-white/15 hover:text-white'
                             }`}
                           >
-                            Short overview
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => setTsukiOverviewMode('detailed')}
-                            className={`tech-font rounded-full px-4 py-2 text-[10px] uppercase tracking-widest transition-colors border ${
-                              tsukiOverviewMode === 'detailed'
-                                ? 'bg-[#7c3aed] text-white border-[#7c3aed]'
-                                : 'bg-transparent text-white/70 border-white/15 hover:text-white'
-                            }`}
-                          >
-                            Detailed overview
+                            {oozeborneShowFlowchart ? 'Hide flow chart' : 'Show flow chart'}
                           </button>
                         </div>
                       )}
 
-                      {proj.id === '01' && (
-                        <div className="flex flex-wrap gap-3 mb-6">
-                          <button
-                            type="button"
-                            onClick={() => setChemQuestOverviewMode('short')}
-                            className={`tech-font rounded-full px-4 py-2 text-[10px] uppercase tracking-widest transition-colors border ${
-                              chemQuestOverviewMode === 'short'
-                                ? 'bg-[#7c3aed] text-white border-[#7c3aed]'
-                                : 'bg-transparent text-white/70 border-white/15 hover:text-white'
-                            }`}
-                          >
-                            Short overview
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => setChemQuestOverviewMode('detailed')}
-                            className={`tech-font rounded-full px-4 py-2 text-[10px] uppercase tracking-widest transition-colors border ${
-                              chemQuestOverviewMode === 'detailed'
-                                ? 'bg-[#7c3aed] text-white border-[#7c3aed]'
-                                : 'bg-transparent text-white/70 border-white/15 hover:text-white'
-                            }`}
-                          >
-                            Detailed overview
-                          </button>
-                        </div>
+                      {proj.id === '03' && (
+                        <AnimatePresence initial={false}>
+                          {oozeborneShowFlowchart && (
+                            <motion.div
+                              key="oozeborne-flowchart"
+                              ref={containerRef}
+                              className="mt-4 rounded-[14px] border border-white/10 bg-black/30 overflow-hidden mb-6 relative cursor-grab active:cursor-grabbing select-none"
+                              style={{ height: '400px', touchAction: 'none' }}
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: 10 }}
+                              transition={{ duration: 0.22, ease: 'easeOut' }}
+                              onMouseDown={handleMouseDown}
+                              onMouseMove={handleMouseMove}
+                              onMouseUp={handleMouseUp}
+                              onMouseLeave={handleMouseUp}
+                            >
+                              <div className="absolute top-2 left-2 z-10 tech-font text-[9px] text-white/40 uppercase bg-black/50 px-2 py-1 rounded">
+                                Scroll to Zoom • Drag to Pan • Click button to Toggle
+                              </div>
+                              
+                              <div className="absolute top-2 right-2 z-20 flex gap-2">
+                                <button
+                                  type="button"
+                                  onClick={() => setZoom(prev => Math.min(prev * 1.2, 5))}
+                                  className="w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-white hover:bg-[#7c3aed] transition-colors"
+                                  title="Zoom In"
+                                >
+                                  +
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => setZoom(prev => Math.max(prev / 1.2, 0.5))}
+                                  onDoubleClick={handleReset}
+                                  className="w-8 h-8 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-white hover:bg-[#7c3aed] transition-colors"
+                                  title="Zoom Out (Double click to reset)"
+                                >
+                                  -
+                                </button>
+                              </div>
+                              <motion.div
+                                style={{
+                                  x: pan.x,
+                                  y: pan.y,
+                                  scale: zoom,
+                                  transformOrigin: 'center',
+                                }}
+                                className="w-full h-full flex items-center justify-center"
+                              >
+                                <img
+                                  src={multiplayerFlowchart}
+                                  alt="Oozeborne multiplayer flowchart"
+                                  className="max-w-none pointer-events-none"
+                                  style={{ width: '100%', height: 'auto' }}
+                                />
+                              </motion.div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       )}
 
-                      <AnimatePresence mode="wait" initial={false}>
-                        <motion.p
-                          key={
-                            proj.id === '02'
-                              ? `tsuki-${tsukiOverviewMode}`
-                              : proj.id === '01'
-                                ? `chem-${chemQuestOverviewMode}`
-                                : `proj-${proj.id}`
-                          }
-                          className="text-white/70 text-[12px] md:text-[13px] leading-relaxed mb-5 font-light w-full whitespace-pre-line"
-                          initial={{ opacity: 0, y: 8 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -8 }}
-                          transition={{ duration: 0.22, ease: 'easeOut' }}
-                        >
-                          {proj.id === '02'
-                            ? (tsukiOverviewMode === 'short' ? TSUKIAI_SHORT_OVERVIEW : TSUKIAI_DETAILED_OVERVIEW)
-                            : proj.id === '01'
-                              ? (chemQuestOverviewMode === 'short' ? CHEMQUEST_SHORT_OVERVIEW : CHEMQUEST_DETAILED_OVERVIEW)
-                              : proj.des}
-                        </motion.p>
-                      </AnimatePresence>
+                      {(() => {
+                        const about = PROJECT_ABOUT[proj.id];
+                        if (!about) return null;
+                        return (
+                          <div className="mb-5">
+                            <h4 className="heading-font text-[14px] md:text-[16px] font-bold text-white mb-3">About This Project</h4>
+                            <p className="text-white/70 text-[12px] md:text-[13px] leading-relaxed font-light whitespace-pre-line mb-5">
+                              {about.description}
+                            </p>
+                            <h5 className="heading-font text-[12px] md:text-[14px] font-bold text-[#7c3aed] mb-3">Key Features</h5>
+                            <ul className="space-y-2">
+                              {about.keyFeatures.map((feature, i) => (
+                                <li key={i} className="flex items-start gap-2 text-white/60 text-[11px] md:text-[12px] leading-relaxed">
+                                  <span className="text-[#7c3aed] mt-0.5 flex-shrink-0">▸</span>
+                                  {feature}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        );
+                      })()}
 
                       {proj.id === '02' && (
                         <div className="mb-6">
@@ -576,29 +703,6 @@ export const WorksSection = memo(() => {
                             </motion.div>
                           )}
                         </AnimatePresence>
-                      )}
-                      {(proj.hoursSpent || proj.timeline) && (
-                        <div className="mb-5">
-                          {proj.hoursSpent && (
-                            <div className="tech-font text-[10px] uppercase tracking-widest text-white/60 mb-3">
-                              Time spent: <span className="text-white/80">{proj.hoursSpent}</span>
-                            </div>
-                          )}
-                          {proj.timeline && proj.timeline.length > 0 && (
-                            <div className="space-y-2">
-                              {proj.timeline.map((t) => (
-                                <div key={t.label} className="flex gap-3">
-                                  <div className="tech-font text-[9px] uppercase tracking-widest text-[#7c3aed] w-[76px] flex-shrink-0">
-                                    {t.label}
-                                  </div>
-                                  <div className="text-white/60 text-[11px] leading-relaxed">
-                                    {t.detail}
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
                       )}
                     </div>
                   </div>

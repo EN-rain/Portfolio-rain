@@ -63,11 +63,11 @@ export const ContactSection = () => {
               className="text-reveal text-reveal-delay-2"
               style={{
                 margin: '0 auto',
-                maxWidth: '760px',
+                maxWidth: '900px',
                 fontFamily: 'Outfit, sans-serif',
-                fontSize: 'clamp(2.8rem, 6vw, 5.6rem)',
-                lineHeight: 0.96,
-                letterSpacing: '-0.05em',
+                fontSize: 'clamp(3.5rem, 8vw, 7.5rem)',
+                lineHeight: 0.94,
+                letterSpacing: '-0.06em',
                 fontWeight: 800,
                 textTransform: 'uppercase',
                 color: '#151226'
@@ -225,7 +225,7 @@ export const ContactSection = () => {
           #contact-icon { height: 240px !important; }
 
           .contact-copy h2 {
-            font-size: 38px !important;
+            font-size: 54px !important;
             line-height: 1 !important;
           }
         }
@@ -237,7 +237,7 @@ export const ContactSection = () => {
           }
 
           .contact-copy h2 {
-            font-size: 32px !important;
+            font-size: 42px !important;
           }
 
           .contact-copy p {

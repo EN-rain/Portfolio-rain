@@ -31,6 +31,9 @@ export interface DomCache {
   progressEl: HTMLElement | null;
   root: HTMLElement | null;
   contactIcon: HTMLElement | null;
+  contactHeading: HTMLElement | null;
+  contactSubtext: HTMLElement | null;
+  contactGrid: HTMLElement | null;
   contactTexts: NodeListOf<HTMLElement> | null;
 }
 
@@ -59,6 +62,8 @@ export interface LenisInstance {
   raf: (time: number) => void;
   on: (event: string, callback: (e: any) => void) => void;
   scrollTo: (value: number | string | HTMLElement) => void;
+  stop: () => void;
+  start: () => void;
   destroy: () => void;
 }
 

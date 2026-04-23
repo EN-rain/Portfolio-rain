@@ -8,11 +8,11 @@ export const animateSection3 = (
   const { transitionLength, pauseLength } = ctx;
   // Use the same base as Section 2's leaveStart to ensure synchronization
   const section2LeaveStart = 2 * (transitionLength + pauseLength) + pauseLength;
-  const buffer = pauseLength * 0.2;
+  const buffer = pauseLength * 0.1;
   
   // Start revealing exactly when Section 2 starts to shrink
   const contactRevealStart = section2LeaveStart + buffer;
-  const fadeDuration = transitionLength * 0.6;
+  const fadeDuration = transitionLength * 0.1; // Even faster fade-in for the section container (10% of transition)
 
   let currentYMoveVh = 0;
   let currentOpacity = 0;
@@ -22,7 +22,8 @@ export const animateSection3 = (
     currentOpacity = 0;
   } else if (currentScroll >= contactRevealStart && currentScroll < contactRevealStart + fadeDuration) {
     currentYMoveVh = 0;
-    currentOpacity = (currentScroll - contactRevealStart) / fadeDuration;
+    // Faster opacity transition
+    currentOpacity = Math.min(1, (currentScroll - contactRevealStart) / fadeDuration);
   } else {
     currentYMoveVh = 0;
     currentOpacity = 1;

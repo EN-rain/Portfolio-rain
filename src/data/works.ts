@@ -28,7 +28,7 @@ export const experience: WorkExperience[] = [
   {
     year: '2025-2026',
     role: 'Full-Stack Developer Intern',
-    place: 'Acme Solutions Inc.',
+    place: 'BILT Information Technology Solutions, Villa iloilo',
     summary:
       'Designed and built two full-stack React dashboards with secure authentication (including 2FA). Developed a Node.js backend serving 15+ RESTful endpoints, integrated Supabase PostgreSQL with Row Level Security, and automated client reporting pipelines that process email-to-CSV workflows. \n Converted Figma designs into responsive, production-ready websites for 4 clients using Kajabi and custom CSS/JavaScript implementations, ensuring pixel-perfect fidelity and optimal performance.',
     highlights: ['React', 'Node.js', 'Express.js', 'Supabase', 'PostgreSQL', 'TypeScript', 'Tailwind CSS'],
@@ -69,12 +69,6 @@ export const projects: WorkProject[] = [
     stack: ['Godot 4.6', 'GDScript', 'Nakama', 'Lua', 'Docker', 'CockroachDB', 'WebSockets'],
     links: [{ label: 'GitHub', url: 'https://github.com/EN-rain/Oozeborne', type: 'github' }],
     status: 'On development',
-    hoursSpent: '90+ hours',
-    timeline: [
-      { label: 'Current', detail: '90+ hours invested (active development)' },
-      { label: 'Core', detail: 'Nakama + CockroachDB backend setup, auth, lobbies' },
-      { label: 'Gameplay', detail: 'Authoritative match loop + prediction/interpolation/reconciliation' },
-    ],
   },
 ];
 

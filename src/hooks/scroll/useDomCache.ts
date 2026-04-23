@@ -39,6 +39,9 @@ export const useDomCache = () => {
       progressEl: document.getElementById('section-progress'),
       root: document.getElementById('root'),
       contactIcon: document.getElementById('contact-icon') as HTMLElement | null,
+      contactHeading: document.querySelector('.contact-copy h2') as HTMLElement | null,
+      contactSubtext: document.querySelector('.contact-copy p') as HTMLElement | null,
+      contactGrid: document.querySelector('.contact-grid') as HTMLElement | null,
       contactTexts: document.querySelectorAll('.contact-text') as NodeListOf<HTMLElement>,
     };
   }, []);

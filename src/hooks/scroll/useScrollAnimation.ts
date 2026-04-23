@@ -330,7 +330,7 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
       animateBackdrop(currentScroll, ctx, cachedBackdrop);
 
       // Contact animations
-      animateContact(currentScroll, ctx, contactIcon, contactTexts);
+      animateContact(currentScroll, ctx, contactIcon, contactHeading, contactSubtext, contactGrid, contactTexts);
     };
 
     const rafScrollHandler = () => {
