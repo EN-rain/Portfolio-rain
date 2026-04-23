@@ -102,7 +102,9 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
       
       onSectionChange(newActiveIndex);
 
-      const { progressEl, root, globalEnBackdrop: cachedBackdrop, experienceEnSpan, sections, sectionCaches, contactIcon, contactTexts } = domCacheRef.current;
+      const { 
+        progressEl, root, globalEnBackdrop: cachedBackdrop, experienceEnSpan, sections, sectionCaches 
+      } = domCacheRef.current;
 
       // Update progress bar
       if (progressEl) {
@@ -330,6 +332,7 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
       animateBackdrop(currentScroll, ctx, cachedBackdrop);
 
       // Contact animations
+      const { contactIcon, contactHeading, contactSubtext, contactGrid, contactTexts } = domCacheRef.current;
       animateContact(currentScroll, ctx, contactIcon, contactHeading, contactSubtext, contactGrid, contactTexts);
     };
 

@@ -20,10 +20,9 @@ export const animateSection3 = (
   if (currentScroll < contactRevealStart) {
     currentYMoveVh = 0;
     currentOpacity = 0;
-  } else if (currentScroll >= contactRevealStart && currentScroll < contactRevealStart + fadeDuration) {
+  } else if (currentScroll >= contactRevealStart) {
     currentYMoveVh = 0;
-    // Faster opacity transition
-    currentOpacity = Math.min(1, (currentScroll - contactRevealStart) / fadeDuration);
+    currentOpacity = 1;
   } else {
     currentYMoveVh = 0;
     currentOpacity = 1;

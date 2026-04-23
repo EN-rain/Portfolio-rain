@@ -60,7 +60,7 @@ export const ContactSection = () => {
             style={{ width: '100%', maxWidth: '1000px', margin: '0 auto', textAlign: 'center' }}
           >
             <h2
-              className="text-reveal text-reveal-delay-2"
+              className=""
               style={{
                 margin: '0 auto',
                 maxWidth: '900px',
@@ -79,7 +79,7 @@ export const ContactSection = () => {
             </h2>
 
             <p
-              className="text-reveal text-reveal-fast text-reveal-delay-3"
+              className=""
               style={{
                 margin: '1.5rem auto 0',
                 maxWidth: '500px',
