@@ -12,7 +12,6 @@ export const animateSection3 = (
   
   // Start revealing exactly when Section 2 starts to shrink
   const contactRevealStart = section2LeaveStart + buffer;
-  const fadeDuration = transitionLength * 0.1; // Even faster fade-in for the section container (10% of transition)
 
   let currentYMoveVh = 0;
   let currentOpacity = 0;
