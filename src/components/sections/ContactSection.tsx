@@ -70,7 +70,8 @@ export const ContactSection = () => {
                 letterSpacing: '-0.06em',
                 fontWeight: 800,
                 textTransform: 'uppercase',
-                color: '#151226'
+                color: '#151226',
+                transition: 'none'
               }}
             >
               Let&apos;s talk
@@ -93,7 +94,7 @@ export const ContactSection = () => {
           </div>
 
           <div
-            className="contact-grid scroll-parallax-text text-reveal text-reveal-fast text-reveal-delay-4"
+            className="contact-grid scroll-parallax-text"
             data-speed="0.025"
             style={{
               position: 'absolute',

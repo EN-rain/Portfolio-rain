@@ -25,7 +25,7 @@ export const animateContact = (
     }
     if (contactHeading) {
       contactHeading.style.clipPath = 'inset(0 0 100% 0)';
-      contactHeading.style.transform = 'translate3d(0, 60px, 0)';
+      contactHeading.style.transform = 'translate3d(0, 120px, 0)';
       contactHeading.style.opacity = '1';
     }
     if (contactSubtext) {
@@ -52,7 +52,7 @@ export const animateContact = (
     if (contactHeading) {
       const headingEased = 1 - Math.pow(1 - p, 3);
       contactHeading.style.clipPath = `inset(0 0 ${(1 - stepped) * 100}% 0)`;
-      contactHeading.style.transform = `translate3d(0, ${(1 - headingEased) * 60}px, 0)`;
+      contactHeading.style.transform = `translate3d(0, ${(1 - headingEased) * 120}px, 0)`;
       contactHeading.style.opacity = '1';
     }
     
