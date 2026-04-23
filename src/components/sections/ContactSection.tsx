@@ -60,7 +60,7 @@ export const ContactSection = () => {
             style={{ width: '100%', maxWidth: '1000px', margin: '0 auto', textAlign: 'center' }}
           >
             <h2
-              className=""
+              className="contact-heading-idle"
               style={{
                 margin: '0 auto',
                 maxWidth: '900px',
@@ -76,7 +76,7 @@ export const ContactSection = () => {
             >
               Let&apos;s talk
               <br />
-              <span style={{ color: '#7c3aed' }}>about your project.</span>
+              <span className="contact-heading-accent">about your project.</span>
             </h2>
 
             <p
@@ -169,6 +169,37 @@ export const ContactSection = () => {
       </div>
 
       <style>{`
+        @keyframes idle-float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+
+        @keyframes accent-shimmer {
+          0% { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+
+        .contact-heading-idle {
+          animation: idle-float 4s ease-in-out infinite;
+        }
+
+        .contact-heading-accent {
+          color: #7c3aed;
+          background: linear-gradient(
+            90deg,
+            #7c3aed 0%,
+            #a78bfa 30%,
+            #c4b5fd 50%,
+            #a78bfa 70%,
+            #7c3aed 100%
+          );
+          background-size: 200% auto;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: accent-shimmer 3s linear infinite;
+        }
+
         @media (max-width: 900px) {
           .contact-shell {
             grid-template-columns: 1fr !important;
