@@ -97,12 +97,9 @@ export const ContactSection = () => {
             className="contact-grid scroll-parallax-text"
             data-speed="0.025"
             style={{
-              position: 'absolute',
-              bottom: '40px',
-              right: '40px',
               display: 'flex',
               flexDirection: 'row',
-              justifyContent: 'flex-end',
+              justifyContent: 'center',
               alignItems: 'center',
               gap: '1.5rem',
               zIndex: 20
@@ -241,9 +238,6 @@ export const ContactSection = () => {
           }
 
           .contact-grid {
-            position: static !important;
-            right: auto !important;
-            bottom: auto !important;
             justify-content: center !important;
             gap: 0 !important;
             border-top: 1px solid rgba(124, 58, 237, 0.1) !important;
