@@ -279,7 +279,7 @@ export const WorksSection = memo(() => {
                           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                           {project.id === '01' && (
                             <div className="absolute inset-0 flex items-center justify-center">
-                              <div className="tech-font text-[10px] md:text-[11px] uppercase tracking-widest text-[#7c3aed] text-center">
+                              <div className="tech-font text-[10px] md:text-[11px] uppercase tracking-widest text-white text-center px-3 py-1.5 rounded-full bg-black shadow-[0_10px_30px_rgba(0,0,0,0.7)]">
                                 Best Capstone Award
                               </div>
                             </div>
