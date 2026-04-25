@@ -11,10 +11,11 @@ export const animateContact = (
 ): void => {
   const { transitionLength, pauseLength } = ctx;
   const section2LeaveStart = 2 * (transitionLength + pauseLength) + pauseLength;
-  const buffer = pauseLength * 0.1;
-  const contactEnterStart = section2LeaveStart + buffer;
+  const contactEnterStart = section2LeaveStart;
   const contactAnimDuration = transitionLength * 0.8;
-  const stepCount = 6;
+
+  const headingLiftPx = 140;
+  const subtextLiftPx = 80;
 
   if (currentScroll < contactEnterStart) {
     // Initial states
@@ -24,13 +25,13 @@ export const animateContact = (
       contactIcon.style.clipPath = 'inset(0 0 100% 0)';
     }
     if (contactHeading) {
-      contactHeading.style.clipPath = 'inset(0 0 100% 0)';
-      contactHeading.style.transform = 'translate3d(0, 120px, 0)';
-      contactHeading.style.opacity = '1';
+      contactHeading.style.clipPath = 'none';
+      contactHeading.style.transform = `translate3d(0, ${headingLiftPx}px, 0)`;
+      contactHeading.style.opacity = '0';
     }
     if (contactSubtext) {
       contactSubtext.style.opacity = '0';
-      contactSubtext.style.transform = 'none';
+      contactSubtext.style.transform = `translate3d(0, ${subtextLiftPx}px, 0)`;
     }
     if (contactGrid) {
       contactGrid.style.opacity = '1';
@@ -41,25 +42,29 @@ export const animateContact = (
     });
   } else if (currentScroll >= contactEnterStart && currentScroll < contactEnterStart + contactAnimDuration) {
     const p = (currentScroll - contactEnterStart) / contactAnimDuration;
-    const stepped = Math.floor(p * stepCount) / stepCount;
     
     // Icon: Stepped Reveal
     if (contactIcon) {
-      contactIcon.style.clipPath = `inset(0 0 ${(1 - stepped) * 100}% 0)`;
+      const iconP = Math.max(0, Math.min(1, p));
+      const iconStepped = Math.floor(iconP * 6) / 6;
+      contactIcon.style.clipPath = `inset(0 0 ${(1 - iconStepped) * 100}% 0)`;
     }
     
-    // Heading: Clipped Slide Up
+    // Heading: Fade + slide up (no clip)
     if (contactHeading) {
-      const headingEased = 1 - Math.pow(1 - p, 3);
-      contactHeading.style.clipPath = `inset(0 0 ${(1 - stepped) * 100}% 0)`;
-      contactHeading.style.transform = `translate3d(0, ${(1 - headingEased) * 120}px, 0)`;
-      contactHeading.style.opacity = '1';
+      const headingP = Math.max(0, Math.min(1, p));
+      const headingEased = 1 - Math.pow(1 - headingP, 3);
+      contactHeading.style.clipPath = 'none';
+      contactHeading.style.transform = `translate3d(0, ${(1 - headingEased) * headingLiftPx}px, 0)`;
+      contactHeading.style.opacity = headingEased.toString();
     }
     
-    // Subtext: Fade only
+    // Subtext: Fade + slide up
     if (contactSubtext) {
       const subP = Math.max(0, Math.min(1, (p - 0.2) / 0.6));
-      contactSubtext.style.opacity = subP.toString();
+      const subEased = 1 - Math.pow(1 - subP, 3);
+      contactSubtext.style.opacity = subEased.toString();
+      contactSubtext.style.transform = `translate3d(0, ${(1 - subEased) * subtextLiftPx}px, 0)`;
     }
     
     // Grid: Slide up only (no fade)
@@ -78,11 +83,14 @@ export const animateContact = (
     // Final states
     if (contactIcon) contactIcon.style.clipPath = 'inset(0% 0 0 0)';
     if (contactHeading) {
-      contactHeading.style.clipPath = 'inset(0% 0 0 0)';
+      contactHeading.style.clipPath = 'none';
       contactHeading.style.transform = 'translate3d(0, 0, 0)';
       contactHeading.style.opacity = '1';
     }
-    if (contactSubtext) contactSubtext.style.opacity = '1';
+    if (contactSubtext) {
+      contactSubtext.style.opacity = '1';
+      contactSubtext.style.transform = 'translate3d(0, 0, 0)';
+    }
     if (contactGrid) contactGrid.style.transform = 'translate3d(0, 0, 0)';
     
     contactTexts?.forEach(el => {

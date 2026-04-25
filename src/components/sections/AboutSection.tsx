@@ -11,6 +11,11 @@ import postgresIcon from '../../assets/icons/tech/postgresql-original.svg';
 import tailwindIcon from '../../assets/icons/tech/tailwindcss-original.svg';
 import cssIcon from '../../assets/icons/tech/css3-original.svg';
 import figmaIcon from '../../assets/icons/tech/figma-original.svg';
+import dockerIcon from '../../assets/icons/tech/docker-original.svg';
+import dotnetCoreIcon from '../../assets/icons/tech/dotnetcore-original.svg';
+import cockroachIcon from '../../assets/icons/tech/cockroachdb-original.svg';
+import chromaIcon from '../../assets/icons/tech/chromadb-original.svg';
+import websocketIcon from '../../assets/icons/tech/websocket-original.svg';
 
 export const AboutSection = () => {
   const revealRef = useMobileReveal<HTMLElement>();
@@ -25,6 +30,11 @@ export const AboutSection = () => {
     'Tailwind CSS',
     'CSS',
     'Figma',
+    'Docker',
+    'WebSockets',
+    'ASP.NET Core',
+    'ChromaDB',
+    'CockroachDB',
   ] as const;
 
   const availableSkills = new Set([...experience.flatMap(e => e.highlights ?? []), ...projects.flatMap(p => p.stack ?? [])]);
@@ -41,6 +51,11 @@ export const AboutSection = () => {
     'Tailwind CSS': tailwindIcon,
     CSS: cssIcon,
     Figma: figmaIcon,
+    Docker: dockerIcon,
+    WebSockets: websocketIcon,
+    'ASP.NET Core': dotnetCoreIcon,
+    ChromaDB: chromaIcon,
+    CockroachDB: cockroachIcon,
   } as const;
   return (
     <section ref={revealRef} id="about" className="stack-section mask-shaped-section mask-theme-purple" style={{ zIndex: 20 }}>
@@ -76,7 +91,7 @@ export const AboutSection = () => {
               
               <div className="about-text-wrapper">
                 <p data-about-fade data-about-fade-order="3" data-about-fade-dir="bottom" className="about-text about-scroll-fade">
-                  A Full-Stack Developer based in Leon City, Philippines. I got into development because I like building things that actually solve problems, not just things that look good in a repo.
+                  A Junior Full-Stack Developer based in Leon City, Philippines. I got into development because I like building things that actually solve problems, not just things that look good in a repo.
                 </p>
                 <p data-about-fade data-about-fade-order="3.5" data-about-fade-dir="bottom" className="about-text about-scroll-fade">
                   From 2FA dashboards to automated reporting pipelines, I build end-to-end and own every part of it. Open to full-time work, project based and part time.
@@ -84,17 +99,73 @@ export const AboutSection = () => {
               </div>
 
               <div className="about-skills-box about-skills-box--mobile">
-                {techStackSkills.map(s => (
-                  <span key={s} className="about-skill-tag">
-                    <img
-                      className="about-skill-icon"
-                      src={skillIcons[s as keyof typeof skillIcons]}
-                      alt=""
-                      aria-hidden="true"
-                    />
-                    {s}
-                  </span>
-                ))}
+                <div className="about-sr-only">Tech stack: {techStackSkills.join(', ')}</div>
+
+                <div className="about-tech-marquee" aria-hidden="true">
+                  <div className="about-tech-row about-tech-row--right">
+                    <div className="about-tech-track">
+                      <div className="about-tech-set">
+                        {techStackSkills.map(s => (
+                          <span key={`r-a-${s}`} className="about-skill-tag">
+                            <img
+                              className="about-skill-icon"
+                              src={skillIcons[s as keyof typeof skillIcons]}
+                              alt=""
+                              aria-hidden="true"
+                            />
+                            {s}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="about-tech-set" aria-hidden="true">
+                        {techStackSkills.map(s => (
+                          <span key={`r-b-${s}`} className="about-skill-tag">
+                            <img
+                              className="about-skill-icon"
+                              src={skillIcons[s as keyof typeof skillIcons]}
+                              alt=""
+                              aria-hidden="true"
+                            />
+                            {s}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="about-tech-row about-tech-row--left">
+                    <div className="about-tech-track">
+                      <div className="about-tech-set">
+                        {techStackSkills.map(s => (
+                          <span key={`l-a-${s}`} className="about-skill-tag">
+                            <img
+                              className="about-skill-icon"
+                              src={skillIcons[s as keyof typeof skillIcons]}
+                              alt=""
+                              aria-hidden="true"
+                            />
+                            {s}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="about-tech-set" aria-hidden="true">
+                        {techStackSkills.map(s => (
+                          <span key={`l-b-${s}`} className="about-skill-tag">
+                            <img
+                              className="about-skill-icon"
+                              src={skillIcons[s as keyof typeof skillIcons]}
+                              alt=""
+                              aria-hidden="true"
+                            />
+                            {s}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -156,6 +227,16 @@ export const AboutSection = () => {
             opacity: 1;
             transform: translateY(0);
           }
+        }
+
+        @keyframes about-marquee-left {
+          from { transform: translate3d(0, 0, 0); }
+          to { transform: translate3d(-50%, 0, 0); }
+        }
+
+        @keyframes about-marquee-right {
+          from { transform: translate3d(-50%, 0, 0); }
+          to { transform: translate3d(0, 0, 0); }
         }
 
         .about-shell {
@@ -294,6 +375,8 @@ export const AboutSection = () => {
           color: #6b4fa8;
           text-transform: uppercase;
           letter-spacing: 0.05em;
+          white-space: nowrap;
+          flex: 0 0 auto;
         }
 
         .about-skill-icon {
@@ -303,6 +386,62 @@ export const AboutSection = () => {
           flex: 0 0 auto;
         }
 
+        .about-sr-only {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border: 0;
+        }
+
+        .about-tech-marquee {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          width: 100%;
+        }
+
+        .about-tech-row {
+          position: relative;
+          width: 100%;
+          overflow: hidden;
+          -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+        }
+
+        .about-tech-track {
+          display: flex;
+          align-items: center;
+          width: max-content;
+          will-change: transform;
+        }
+
+        .about-tech-set {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 2px 0;
+        }
+
+        .about-tech-row--left .about-tech-track {
+          animation: none;
+        }
+
+        .about-tech-row--right .about-tech-track {
+          animation: none;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .about-tech-row--left .about-tech-track,
+          .about-tech-row--right .about-tech-track {
+            animation-duration: 60s;
+          }
+        }
+
         .about-location-icon {
           display: inline-block;
           vertical-align: middle;
@@ -310,7 +449,7 @@ export const AboutSection = () => {
           transform: translateY(-1px);
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 768px), (hover: none) and (pointer: coarse) {
           .about-shell {
             flex-direction: column !important;
             padding: 80px 20px 60px !important;
@@ -371,7 +510,21 @@ export const AboutSection = () => {
           }
 
           .about-skills-box--mobile {
-            display: flex !important;
+            display: block !important;
+            width: 100% !important;
+            max-width: 520px !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+          }
+
+          .about-tech-row--left .about-tech-track {
+            animation: about-marquee-left 50s linear infinite;
+            animation-play-state: running;
+          }
+
+          .about-tech-row--right .about-tech-track {
+            animation: about-marquee-right 50s linear infinite;
+            animation-play-state: running;
           }
         }
       `}</style>
