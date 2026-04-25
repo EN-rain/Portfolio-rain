@@ -1,11 +1,12 @@
 import { useRef, useState, useEffect, memo, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Blocks, Database, Server, Workflow, AudioLines, Bot, Brain, Gamepad2, MessageSquareMore, Mic, Puzzle, Github, ExternalLink } from 'lucide-react';
+import { Blocks, Database, Server, Workflow, AudioLines, Bot, Brain, Gamepad2, MessageSquareMore, Mic, Puzzle, Github, ExternalLink, Award } from 'lucide-react';
 import { useMobileReveal } from '../../hooks/useMobileReveal';
 import { experience, projects } from '../../data/works';
 import architectureFlowchart from '../../assets/images/architecture-flowchart.png';
 import multiplayerFlowchart from '../../assets/images/multiplayer-flowchart.png';
+import awardImg from '../../assets/images/award.png';
 
 const PROJECT_ABOUT: Record<string, { description: string; keyFeatures: string[] }> = {
   '01': {
@@ -80,6 +81,7 @@ export const WorksSection = memo(() => {
   const [selectedId, setSelectedId] = useState<string>('');
   const [tsukiShowFlowchart, setTsukiShowFlowchart] = useState(false);
   const [oozeborneShowFlowchart, setOozeborneShowFlowchart] = useState(false);
+  const [chemQuestShowImage, setChemQuestShowImage] = useState(false);
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
@@ -150,6 +152,7 @@ export const WorksSection = memo(() => {
       window.dispatchEvent(new Event('lenis-stop'));
       setTsukiShowFlowchart(false);
       setOozeborneShowFlowchart(false);
+      setChemQuestShowImage(false);
       setZoom(1);
       setPan({ x: 0, y: 0 });
     } else {
@@ -274,11 +277,20 @@ export const WorksSection = memo(() => {
                             </div>
                           )}
                           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                          {project.id === '01' && (
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="tech-font text-[10px] md:text-[11px] uppercase tracking-widest text-[#7c3aed] text-center">
+                                Best Capstone Award
+                              </div>
+                            </div>
+                          )}
                         </div>
                         <div className="project-card-info">
-                          <div className="tech-font text-[10px] font-bold text-[#7c3aed] mb-1">{project.year}</div>
-                          <h3 className="heading-font text-sm md:text-base font-bold text-white leading-tight">{project.title}</h3>
-                          <p className="tech-font text-[9px] text-white/40 uppercase tracking-wider mt-1">{project.line2}</p>
+                          <div className="tech-font text-[13px] font-bold text-[#7c3aed] mb-1">{project.year}</div>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <h3 className="heading-font text-xl md:text-2xl font-bold text-white leading-tight">{project.title}</h3>
+                          </div>
+                          <p className="tech-font text-[11px] text-white/55 uppercase tracking-wider mt-1">{project.line2}</p>
                         </div>
                       </motion.div>
                     ))}
@@ -514,9 +526,75 @@ export const WorksSection = memo(() => {
                   <div className="project-expanded-scroll">
                     {/* Header — above image */}
                     <div className="px-5 md:px-6 pt-4 pb-3">
-                      <div className="tech-font text-[11px] font-bold text-[#7c3aed] mb-1">{proj.year}</div>
-                      <h3 className="heading-font text-2xl md:text-3xl font-bold text-white leading-tight">{proj.title}</h3>
-                      <p className="tech-font text-[10px] text-[#7c3aed]/70 uppercase tracking-widest mt-1">{proj.line2}</p>
+                      <div className="tech-font text-[13px] font-bold text-[#7c3aed] mb-1">{proj.year}</div>
+                      <div className="flex items-center gap-3">
+                        <h3 className="heading-font text-3xl md:text-4xl font-bold text-white leading-tight">
+                          {proj.title}
+                        </h3>
+                        {proj.id === '01' && (
+                          <div className="relative group">
+                            <button
+                              type="button"
+                              onClick={() => setChemQuestShowImage(v => !v)}
+                              className="tech-font flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] uppercase tracking-widest border transition-colors duration-300 bg-transparent text-white/50 border-white/15 hover:text-[#7c3aed] hover:border-[#7c3aed]/40"
+                            >
+                              <Award size={13} />
+                              Best Capstone Award
+                            </button>
+                            {/* Hover preview */}
+                            <button
+                              type="button"
+                              onClick={() => setChemQuestShowImage(true)}
+                              className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[240px] rounded-[10px] border border-white/10 bg-black/95 p-1.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 z-[100] shadow-2xl"
+                              aria-label="Open award preview"
+                            >
+                              <img
+                                src={awardImg}
+                                alt="Best Capstone Award"
+                                className="w-full h-auto rounded-[6px]"
+                              />
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                      <p className="tech-font text-[11px] text-[#7c3aed]/70 uppercase tracking-widest mt-1">{proj.line2}</p>
+                      {proj.id === '01' && (
+                        <AnimatePresence>
+                          {chemQuestShowImage && (
+                            <motion.div
+                              key="chemquest-popup"
+                              className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm"
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                              transition={{ duration: 0.25 }}
+                              onClick={() => setChemQuestShowImage(false)}
+                            >
+                              <motion.div
+                                className="relative max-w-lg w-[90%] rounded-[16px] border border-white/10 bg-[#0d0d0d] p-4 shadow-[0_30px_80px_rgba(0,0,0,0.7),0_0_0_1px_rgba(124,58,237,0.15)]"
+                                initial={{ scale: 0.9, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                exit={{ scale: 0.9, opacity: 0 }}
+                                transition={{ duration: 0.25, ease: 'easeOut' }}
+                                onClick={e => e.stopPropagation()}
+                              >
+                                <button
+                                  type="button"
+                                  onClick={() => setChemQuestShowImage(false)}
+                                  className="absolute top-3 right-3 text-white/50 hover:text-white text-lg leading-none"
+                                >
+                                  ✕
+                                </button>
+                                <img
+                                  src={awardImg}
+                                  alt="CHEMQuest award"
+                                  className="w-full h-auto rounded-[12px]"
+                                />
+                              </motion.div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      )}
                       {proj.links && proj.links.length > 0 && (
                         <div className="flex flex-wrap gap-3 mt-3">
                           {proj.links.map(link => (
