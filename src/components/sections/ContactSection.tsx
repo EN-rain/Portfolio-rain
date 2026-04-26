@@ -9,27 +9,13 @@ export const ContactSection = () => {
         style={{ backgroundColor: '#ffffff' }}
       >
         <div className="absolute inset-0" style={{ pointerEvents: 'none' }}>
-          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1920 1080">
-            <g fill="none" stroke="#7c3aed" strokeWidth="0.7" opacity="0.1">
-              <path d="M0 210h1920" />
-              <path d="M0 540h1920" />
-              <path d="M0 860h1920" />
-              <path d="M280 0v1080" />
-              <path d="M960 0v1080" />
-              <path d="M1620 0v1080" />
-            </g>
-            <g fill="none" stroke="#f5f3ff" strokeWidth="0.6" opacity="0.14">
-              <rect x="148" y="164" width="92" height="92" />
-              <rect x="1532" y="206" width="74" height="74" />
-              <rect x="1360" y="742" width="86" height="86" />
-              <rect x="420" y="782" width="66" height="66" />
-            </g>
-            <g fill="#a78bfa" opacity="0.14">
-              <circle cx="288" cy="210" r="2.5" />
-              <circle cx="960" cy="540" r="3" />
-              <circle cx="1620" cy="860" r="2.5" />
-            </g>
-          </svg>
+          <div className="contact-bg-art" aria-hidden="true">
+            <span className="contact-bg-symbol">@</span>
+            <span className="contact-bg-text contact-bg-text--email">EMAIL</span>
+            <span className="contact-bg-text contact-bg-text--social">GITHUB / LINKEDIN</span>
+            <span className="contact-bg-cut contact-bg-cut--top"></span>
+            <span className="contact-bg-cut contact-bg-cut--bottom"></span>
+          </div>
         </div>
 
         <img
@@ -171,6 +157,64 @@ export const ContactSection = () => {
         /* Hide portrait on desktop; show on mobile only */
         #contact-icon {
           display: none;
+        }
+
+        .contact-bg-art {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+        }
+
+        .contact-bg-symbol {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          font-family: 'Sora', sans-serif;
+          font-size: clamp(360px, 50vw, 720px);
+          font-weight: 800;
+          line-height: 0.8;
+          color: transparent;
+          -webkit-text-stroke: 2px rgba(124, 58, 237, 0.18);
+          text-stroke: 2px rgba(124, 58, 237, 0.18);
+          transform: translate(-50%, -52%);
+        }
+
+        .contact-bg-text {
+          position: absolute;
+          font-family: 'IBM Plex Mono', monospace;
+          font-size: 11px;
+          font-weight: 600;
+          letter-spacing: 0.24em;
+          color: rgba(21, 18, 38, 0.24);
+        }
+
+        .contact-bg-text--email {
+          left: 8vw;
+          top: 23vh;
+          writing-mode: vertical-rl;
+        }
+
+        .contact-bg-text--social {
+          right: 7vw;
+          bottom: 18vh;
+        }
+
+        .contact-bg-cut {
+          position: absolute;
+          height: 1px;
+          background: rgba(21, 18, 38, 0.2);
+        }
+
+        .contact-bg-cut--top {
+          right: 0;
+          top: 28vh;
+          width: 28vw;
+        }
+
+        .contact-bg-cut--bottom {
+          left: 0;
+          bottom: 25vh;
+          width: 34vw;
         }
 
         @media (max-width: 900px) {

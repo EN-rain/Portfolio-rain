@@ -553,7 +553,7 @@ main {
 /* Fixed Centered Navbar */
 .fixed-navbar {
   position: fixed;
-  top: 10px;
+  top: 5px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10000;
@@ -575,7 +575,7 @@ main {
 
 .fixed-navbar.scrolling {
   gap: 14px;
-  padding: 8px 20px;
+  padding: 6px 20px;
   background: rgba(0, 0, 0, 0.82);
   border-color: rgba(167, 139, 250, 0.15);
 }

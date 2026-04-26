@@ -9,8 +9,8 @@ import expressIcon from '../../assets/icons/tech/express-original.svg';
 import supabaseIcon from '../../assets/icons/tech/supabase-original.svg';
 import postgresIcon from '../../assets/icons/tech/postgresql-original.svg';
 import tailwindIcon from '../../assets/icons/tech/tailwindcss-original.svg';
-import cssIcon from '../../assets/icons/tech/css3-original.svg';
 import figmaIcon from '../../assets/icons/tech/figma-original.svg';
+import canvaIcon from '../../assets/icons/tech/canva-original.svg';
 import dockerIcon from '../../assets/icons/tech/docker-original.svg';
 import dotnetCoreIcon from '../../assets/icons/tech/dotnetcore-original.svg';
 import cockroachIcon from '../../assets/icons/tech/cockroachdb-original.svg';
@@ -24,12 +24,12 @@ export const AboutSection = () => {
     'React',
     'TypeScript',
     'Node.js',
-    'Express.js',
+    'Express',
     'Supabase',
     'PostgreSQL',
     'Tailwind CSS',
-    'CSS',
     'Figma',
+    'Canva',
     'Docker',
     'WebSockets',
     'ASP.NET Core',
@@ -38,25 +38,36 @@ export const AboutSection = () => {
   ] as const;
 
   const availableSkills = new Set([...experience.flatMap(e => e.highlights ?? []), ...projects.flatMap(p => p.stack ?? [])]);
-  const techStackSkills = jobStackSkills.filter(s => s === 'JavaScript' || s === 'CSS' || s === 'Figma' || availableSkills.has(s));
+  const techStackSkills = jobStackSkills.filter(s => s === 'JavaScript' || s === 'Figma' || s === 'Canva' || availableSkills.has(s));
+  const desktopSkillGroups = [
+    { label: 'Frontend', skills: ['JavaScript', 'React', 'TypeScript', 'Tailwind CSS'] },
+    { label: 'Backend', skills: ['Node.js', 'Express', 'ASP.NET Core', 'WebSockets'] },
+    { label: 'Database', skills: ['PostgreSQL', 'Supabase', 'ChromaDB', 'CockroachDB'] },
+    { label: 'Tooling', skills: ['Figma', 'Canva', 'Docker'] },
+  ].map(group => ({
+    ...group,
+    skills: group.skills.filter(s => techStackSkills.includes(s as typeof techStackSkills[number])),
+  })).filter(group => group.skills.length > 0);
 
   const skillIcons = {
     JavaScript: jsIcon,
     React: reactIcon,
     TypeScript: tsIcon,
     'Node.js': nodeIcon,
-    'Express.js': expressIcon,
+    Express: expressIcon,
     Supabase: supabaseIcon,
     PostgreSQL: postgresIcon,
     'Tailwind CSS': tailwindIcon,
-    CSS: cssIcon,
     Figma: figmaIcon,
+    Canva: canvaIcon,
     Docker: dockerIcon,
     WebSockets: websocketIcon,
     'ASP.NET Core': dotnetCoreIcon,
     ChromaDB: chromaIcon,
     CockroachDB: cockroachIcon,
   } as const;
+
+  const getSkillIcon = (skill: string) => (skillIcons as Record<string, string | undefined>)[skill];
   return (
     <section ref={revealRef} id="about" className="stack-section mask-shaped-section mask-theme-purple" style={{ zIndex: 20 }}>
       <div className="clip-gap-outer parallax-content">
@@ -70,16 +81,25 @@ export const AboutSection = () => {
               </div>
 
               <div data-about-fade data-about-fade-order="5" data-about-fade-dir="pop-children" className="about-skills-box about-skills-box--desktop about-scroll-fade">
-                {techStackSkills.map(s => (
-                  <span key={s} className="about-skill-tag">
-                    <img
-                      className="about-skill-icon"
-                      src={skillIcons[s as keyof typeof skillIcons]}
-                      alt=""
-                      aria-hidden="true"
-                    />
-                    {s}
-                  </span>
+                {desktopSkillGroups.map(group => (
+                  <div key={group.label} className="about-skill-group">
+                    <div className="about-skill-group-title">{group.label}</div>
+                    <div className="about-skill-group-list">
+                      {group.skills.map(s => (
+                        <span key={s} className="about-skill-tag">
+                          {getSkillIcon(s) ? (
+                            <img
+                              className="about-skill-icon"
+                              src={getSkillIcon(s)}
+                              alt=""
+                              aria-hidden="true"
+                            />
+                          ) : null}
+                          {s === 'JavaScript' ? 'JS' : s === 'Tailwind CSS' ? 'Tailwind' : s}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
@@ -107,12 +127,14 @@ export const AboutSection = () => {
                       <div className="about-tech-set">
                         {techStackSkills.map(s => (
                           <span key={`r-a-${s}`} className="about-skill-tag">
-                            <img
-                              className="about-skill-icon"
-                              src={skillIcons[s as keyof typeof skillIcons]}
-                              alt=""
-                              aria-hidden="true"
-                            />
+                            {getSkillIcon(s) ? (
+                              <img
+                                className="about-skill-icon"
+                                src={getSkillIcon(s)}
+                                alt=""
+                                aria-hidden="true"
+                              />
+                            ) : null}
                             {s}
                           </span>
                         ))}
@@ -121,12 +143,14 @@ export const AboutSection = () => {
                       <div className="about-tech-set" aria-hidden="true">
                         {techStackSkills.map(s => (
                           <span key={`r-b-${s}`} className="about-skill-tag">
-                            <img
-                              className="about-skill-icon"
-                              src={skillIcons[s as keyof typeof skillIcons]}
-                              alt=""
-                              aria-hidden="true"
-                            />
+                            {getSkillIcon(s) ? (
+                              <img
+                                className="about-skill-icon"
+                                src={getSkillIcon(s)}
+                                alt=""
+                                aria-hidden="true"
+                              />
+                            ) : null}
                             {s}
                           </span>
                         ))}
@@ -139,12 +163,14 @@ export const AboutSection = () => {
                       <div className="about-tech-set">
                         {techStackSkills.map(s => (
                           <span key={`l-a-${s}`} className="about-skill-tag">
-                            <img
-                              className="about-skill-icon"
-                              src={skillIcons[s as keyof typeof skillIcons]}
-                              alt=""
-                              aria-hidden="true"
-                            />
+                            {getSkillIcon(s) ? (
+                              <img
+                                className="about-skill-icon"
+                                src={getSkillIcon(s)}
+                                alt=""
+                                aria-hidden="true"
+                              />
+                            ) : null}
                             {s}
                           </span>
                         ))}
@@ -153,12 +179,14 @@ export const AboutSection = () => {
                       <div className="about-tech-set" aria-hidden="true">
                         {techStackSkills.map(s => (
                           <span key={`l-b-${s}`} className="about-skill-tag">
-                            <img
-                              className="about-skill-icon"
-                              src={skillIcons[s as keyof typeof skillIcons]}
-                              alt=""
-                              aria-hidden="true"
-                            />
+                            {getSkillIcon(s) ? (
+                              <img
+                                className="about-skill-icon"
+                                src={getSkillIcon(s)}
+                                alt=""
+                                aria-hidden="true"
+                              />
+                            ) : null}
                             {s}
                           </span>
                         ))}
@@ -354,9 +382,11 @@ export const AboutSection = () => {
 
         .about-skills-box.about-skills-box--desktop {
           display: flex;
+          flex-direction: column;
+          gap: 12px;
           margin-top: -28px;
-          width: 400px;
-          padding: 0 calc(400px * 0.05);
+          width: 560px;
+          padding: 0;
           box-sizing: content-box;
         }
 
@@ -367,21 +397,46 @@ export const AboutSection = () => {
         .about-skill-tag {
           display: inline-flex;
           align-items: center;
-          gap: 8px;
-          padding: 6px 14px;
-          border-radius: 100px;
+          gap: 6px;
+          padding: 0;
+          border-radius: 0;
           font-family: 'IBM Plex Mono', monospace;
-          font-size: 0.7rem;
+          font-size: 0.62rem;
           color: #6b4fa8;
           text-transform: uppercase;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.03em;
           white-space: nowrap;
           flex: 0 0 auto;
         }
 
+        .about-skill-group {
+          display: grid;
+          grid-template-columns: 92px 1fr;
+          align-items: start;
+          column-gap: 14px;
+          row-gap: 7px;
+          min-width: 0;
+        }
+
+        .about-skill-group-title {
+          font-family: 'Sora', sans-serif;
+          font-size: 0.72rem;
+          font-weight: 700;
+          line-height: 1;
+          color: #11081a;
+        }
+
+        .about-skill-group-list {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          align-items: flex-start;
+          gap: 6px 10px;
+        }
+
         .about-skill-icon {
-          width: 14px;
-          height: 14px;
+          width: 12px;
+          height: 12px;
           display: block;
           flex: 0 0 auto;
         }
@@ -515,6 +570,19 @@ export const AboutSection = () => {
             max-width: 520px !important;
             margin-left: auto !important;
             margin-right: auto !important;
+          }
+
+          .about-skills-box--mobile .about-skill-tag {
+            gap: 8px !important;
+            padding: 6px 14px !important;
+            border-radius: 100px !important;
+            font-size: 0.7rem !important;
+            letter-spacing: 0.05em !important;
+          }
+
+          .about-skills-box--mobile .about-skill-icon {
+            width: 14px !important;
+            height: 14px !important;
           }
 
           .about-tech-row--left .about-tech-track {
