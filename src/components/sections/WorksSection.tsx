@@ -461,14 +461,16 @@ export const WorksSection = memo(() => {
             min-height: auto !important;
           }
           .experience-header h2, .projects-part h2 {
-            font-size: 18px !important;
+            font-size: 34px !important;
             margin-bottom: 12px !important;
             line-height: 1.2 !important;
             letter-spacing: -0.03em !important;
             white-space: normal !important;
+            text-align: center !important;
           }
           .experience-header, .projects-part .max-w-7xl {
             margin-bottom: 10px !important;
+            text-align: center !important;
           }
           .projects-grid {
             grid-template-columns: 1fr;

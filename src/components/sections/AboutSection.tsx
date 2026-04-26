@@ -280,7 +280,8 @@ export const AboutSection = () => {
         }
 
         .about-image-container {
-          flex: 0 0 auto;
+          flex: 1;
+          min-width: 0;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -288,8 +289,8 @@ export const AboutSection = () => {
 
         .about-image-wrap {
           position: relative;
-          width: 400px;
-          height: 400px;
+          width: min(420px, 100%);
+          aspect-ratio: 1 / 1;
           overflow: visible;
           animation: slideFromLeft 0.8s ease-out forwards;
           animation-delay: 0.2s;
@@ -305,7 +306,8 @@ export const AboutSection = () => {
 
         .about-content {
           flex: 1;
-          max-width: 600px;
+          max-width: none;
+          min-width: 0;
           padding: 0;
         }
 
@@ -516,10 +518,11 @@ export const AboutSection = () => {
           }
 
           .about-image-wrap {
-            width: 180px !important;
-            height: 180px !important;
+            width: 350px !important;
+            height: 350px !important;
             transform: none !important;
             margin: 0 auto !important;
+            margin-top: -100px !important;
           }
 
 
