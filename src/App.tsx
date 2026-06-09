@@ -6,15 +6,106 @@ import {
   WorksSection,
   ContactSection
 } from './components/sections';
+import { LoadingScreen } from './components/LoadingScreen';
 import './App.css';
+
+const assetModules = import.meta.glob('./assets/**/*.{png,jpg,jpeg,webp,gif,svg,mp4,webm,ogg,mp3,wav}', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+}) as Record<string, string>;
+
+const preloadUrls = Array.from(new Set(Object.values(assetModules)));
+const mediaExtensions = /\.(mp4|webm|ogg|mp3|wav)(\?.*)?$/i;
+
+const withTimeout = (promise: Promise<void>, timeoutMs: number) =>
+  new Promise<void>((resolve) => {
+    const timeout = window.setTimeout(resolve, timeoutMs);
+    promise.finally(() => {
+      window.clearTimeout(timeout);
+      resolve();
+    });
+  });
+
+const preloadImage = (url: string) =>
+  withTimeout(new Promise<void>((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      if (img.decode) {
+        img.decode().then(resolve).catch(resolve);
+      } else {
+        resolve();
+      }
+    };
+    img.onerror = () => resolve();
+    img.src = url;
+  }), 12000);
+
+const preloadMedia = (url: string) =>
+  withTimeout(new Promise<void>((resolve) => {
+    const media = document.createElement(url.match(/\.(mp4|webm)(\?.*)?$/i) ? 'video' : 'audio');
+    media.preload = 'auto';
+    media.oncanplaythrough = () => resolve();
+    media.onloadeddata = () => resolve();
+    media.onerror = () => resolve();
+    media.src = url;
+    media.load();
+  }), 12000);
+
+const waitForWindowLoad = () =>
+  withTimeout(new Promise<void>((resolve) => {
+    if (document.readyState === 'complete') {
+      resolve();
+      return;
+    }
+    window.addEventListener('load', () => resolve(), { once: true });
+  }), 12000);
+
+const waitForFonts = () =>
+  withTimeout(document.fonts ? document.fonts.ready.then(() => undefined).catch(() => undefined) : Promise.resolve(), 12000);
 
 function App() {
   const [currentSection, setCurrentSection] = useState(0);
   const [vh, setVh] = useState(window.innerHeight);
   const [isScrolling, setIsScrolling] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [showLoading, setShowLoading] = useState(true);
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   useScrollAnimation(setCurrentSection);
+
+  useEffect(() => {
+    let cancelled = false;
+    let completed = 0;
+    const tasks = [
+      ...preloadUrls.map((url) => mediaExtensions.test(url) ? preloadMedia(url) : preloadImage(url)),
+      waitForFonts(),
+      waitForWindowLoad(),
+    ];
+
+    const updateProgress = () => {
+      completed += 1;
+      if (!cancelled) {
+        setLoadingProgress(Math.round((completed / tasks.length) * 100));
+      }
+    };
+
+    tasks.forEach(task => {
+      task.then(updateProgress).catch(updateProgress);
+    });
+
+    Promise.all(tasks).then(() => {
+      if (!cancelled) {
+        setLoadingProgress(100);
+        setIsLoaded(true);
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const handleScrollState = () => {
@@ -73,6 +164,13 @@ function App() {
 
   return (
     <>
+      {showLoading && (
+        <LoadingScreen
+          progress={loadingProgress}
+          isComplete={isLoaded}
+          onComplete={() => setShowLoading(false)}
+        />
+      )}
       <nav className={`fixed-navbar ${isScrolling ? 'scrolling' : ''}`}>
         <button 
           onClick={() => scrollToSection('home')} 

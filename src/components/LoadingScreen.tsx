@@ -1,30 +1,29 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import gsap from 'gsap';
 
-export const LoadingScreen = ({ onComplete }: { onComplete: () => void }) => {
-  const [progress, setProgress] = useState(0);
+type LoadingScreenProps = {
+  progress: number;
+  isComplete: boolean;
+  onComplete: () => void;
+};
 
+export const LoadingScreen = ({ progress, isComplete, onComplete }: LoadingScreenProps) => {
   useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setTimeout(() => {
-            gsap.to('.loading-screen', {
-              opacity: 0,
-              duration: 0.8,
-              ease: 'power2.inOut',
-              onComplete
-            });
-          }, 300);
-          return 100;
-        }
-        return prev + Math.random() * 15;
-      });
-    }, 100);
+    if (!isComplete) return;
 
-    return () => clearInterval(interval);
-  }, [onComplete]);
+    const fadeTimer = window.setTimeout(() => {
+      gsap.to('.loading-screen', {
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power2.inOut',
+        onComplete
+      });
+    }, 300);
+
+    return () => window.clearTimeout(fadeTimer);
+  }, [isComplete, onComplete]);
+
+  const safeProgress = Math.min(Math.max(progress, 0), 100);
 
   return (
     <div
@@ -69,7 +68,7 @@ export const LoadingScreen = ({ onComplete }: { onComplete: () => void }) => {
         >
           <div
             style={{
-              width: `${Math.min(progress, 100)}%`,
+              width: `${safeProgress}%`,
               height: '100%',
               background: '#6ee7b7',
               transition: 'width 0.3s ease',
@@ -86,7 +85,7 @@ export const LoadingScreen = ({ onComplete }: { onComplete: () => void }) => {
             opacity: 0.6
           }}
         >
-          {Math.floor(Math.min(progress, 100))}%
+          {Math.floor(safeProgress)}%
         </div>
       </div>
     </div>

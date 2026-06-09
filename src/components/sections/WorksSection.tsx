@@ -45,6 +45,18 @@ const PROJECT_ABOUT: Record<string, { description: string; keyFeatures: string[]
       'Keep your progress through cloud saving and ongoing character growth',
     ],
   },
+  '04': {
+    description: 'Type Duel is a competitive 2D pixel typing duel built with Godot and a Node.js backend. Players register or log in, enter matchmaking or custom rooms, choose a character loadout, then fight through round-based typing battles where speed, accuracy, mana, active skills, and passive effects decide the winner.\n\nThe MVP includes a full lobby and match loop: character selection, skill selection, typing phases, combat resolution, HP sync, rematches, match history, leaderboards, friends, chat, online presence, profile updates, and feedback submission.\n\nThe backend uses REST routes for account, lobby, room, social, chat, and game flows, while real-time match state is synchronized through Socket.IO and WebSocket events. Persistent data such as users, leaderboard records, chat messages, friends, and match history is stored in SQLite.',
+    keyFeatures: [
+      'Real-time multiplayer typing duels with matchmaking and custom rooms',
+      'Round loop with skill selection, typing, combat resolution, HP, mana, win streaks, and rematches',
+      'Three playable characters: Riven, Liora, and Zephon',
+      'Active skills and passive disruption effects that alter typing and combat flow',
+      'Account registration, login, profile updates, profile pictures, friends, chat, and leaderboards',
+      'REST API for lobby/account/social flows with Socket.IO and WebSocket match sync',
+      'SQLite persistence for users, leaderboard records, chat, friends, and match history',
+    ],
+  },
 };
 
 const highlightIcons = {
@@ -73,6 +85,10 @@ const stackIcons = {
   Memory: Brain,
   AI: Bot,
   Context: Brain,
+  Express: Server,
+  SQLite: Database,
+  'Socket.IO': MessageSquareMore,
+  WebSockets: Server,
 } as const;
 
 export const WorksSection = memo(() => {
@@ -312,7 +328,7 @@ export const WorksSection = memo(() => {
         /* ── Project Grid ── */
         .projects-grid {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          grid-template-columns: repeat(4, 1fr);
           gap: 20px;
         }
 

@@ -71,5 +71,16 @@ export const projects: WorkProject[] = [
     links: [{ label: 'GitHub', url: 'https://github.com/EN-rain/Oozeborne', type: 'github' }],
     status: 'On development',
   },
+  {
+    id: '04',
+    year: '2026-Present',
+    title: 'Type Duel',
+    line2: 'COMPETITIVE TYPING DUEL (MVP)',
+    category: 'GAMES / MULTIPLAYER',
+    des: 'Built a competitive 2D pixel typing duel in Godot with a Node.js backend. Players can register, queue into matchmaking or custom rooms, choose a character loadout, and fight through round-based typing battles driven by speed, accuracy, mana, active skills, passive effects, and rematches.',
+    img: '',
+    stack: ['Godot 4.6', 'GDScript', 'Node.js', 'Express', 'SQLite', 'Socket.IO', 'WebSockets'],
+    links: [{ label: 'GitHub', url: 'https://github.com/EN-rain/TypeDuel', type: 'github' }],
+    status: 'MVP',
+  },
 ];
-
