@@ -57,6 +57,18 @@ const PROJECT_ABOUT: Record<string, { description: string; keyFeatures: string[]
       'SQLite persistence for users, leaderboard records, chat, friends, and match history',
     ],
   },
+  '05': {
+    description: 'CSCprep is a React + Vite reviewer app built for Philippine Civil Service Exam practice. It covers all five exam subjects — Verbal Reasoning, Numerical Reasoning, Analytical Ability, Filipino, and General Information — through a clean, focused interface designed for effective study sessions.\n\nThe question bank was extracted and verified directly from official CSC reviewer PDFs, resulting in 716 items cross-checked for accuracy. Each subject can be practiced individually or combined into a randomized full exam, and an optional one-hour timed mode simulates actual test conditions.\n\nAnswer review lets you filter correct and wrong responses, confirm skipped items before submitting, and revisit explanations after the session. A dark/light theme toggle and smooth Lenis scrolling keep the experience comfortable over long study periods.',
+    keyFeatures: [
+      'Random and subject-based exam sessions across all five CSC subject areas',
+      'Optional 1-hour timed exam mode that mirrors actual test conditions',
+      'Answer review with correct/wrong filtering and per-item explanations',
+      'Skipped-item confirmation before final submission',
+      '716-question bank extracted and verified against official CSC 11 reviewer PDFs',
+      'Dark and light theme toggle with smooth Lenis scroll',
+      'PDF-backed image questions for figure and table-based items',
+    ],
+  },
 };
 
 const highlightIcons = {
@@ -89,6 +101,9 @@ const stackIcons = {
   SQLite: Database,
   'Socket.IO': MessageSquareMore,
   WebSockets: Server,
+  Lenis: Workflow,
+  'React 19': Blocks,
+  Vite: Blocks,
 } as const;
 
 export const WorksSection = memo(() => {

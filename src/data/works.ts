@@ -1,6 +1,7 @@
 import imgChemQuest from '../assets/images/chemquest.png';
 import imgTsukiai from '../assets/images/tsukiai.png';
 import oozebirImg from '../assets/images/oozebir.png';
+import cscprepImg from '../assets/images/cscprep.png';
 
 export type WorkExperience = {
   year: string;
@@ -82,5 +83,16 @@ export const projects: WorkProject[] = [
     stack: ['Godot 4.6', 'GDScript', 'Node.js', 'Express', 'SQLite', 'Socket.IO', 'WebSockets'],
     links: [{ label: 'GitHub', url: 'https://github.com/EN-rain/TypeDuel', type: 'github' }],
     status: 'MVP',
+  },
+  {
+    id: '05',
+    year: '2026-Present',
+    title: 'CSCprep',
+    line2: 'CIVIL SERVICE EXAM REVIEWER',
+    category: 'WEB / EDUCATION',
+    des: 'Built a React + Vite reviewer app for Philippine Civil Service Exam practice. Features randomized and subject-specific exams, a 1-hour timed mode, answer review with correct/wrong filtering, skipped-item confirmations, and a 716-question bank extracted and verified from official CSC PDFs.',
+    img: cscprepImg,
+    stack: ['React 19', 'TypeScript', 'Vite', 'Lenis'],
+    links: [{ label: 'GitHub', url: 'https://github.com/EN-rain/CSCprep', type: 'github' }],
   },
 ];
