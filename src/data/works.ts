@@ -1,7 +1,7 @@
 import imgChemQuest from '../assets/images/chemquest.png';
 import imgTsukiai from '../assets/images/tsukiai.png';
 import oozebirImg from '../assets/images/oozebir.png';
-import cscprepImg from '../assets/images/cscprep.png';
+import cscprepImg from '../assets/images/Screenshot 2026-06-10 152807.png';
 
 export type WorkExperience = {
   year: string;
