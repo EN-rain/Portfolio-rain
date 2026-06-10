@@ -50,7 +50,7 @@ export const LoadingScreen = ({ progress, isComplete, onComplete }: LoadingScree
             fontSize: 'clamp(2rem, 5vw, 4rem)',
             letterSpacing: '0.3em',
             marginBottom: '2rem',
-            color: '#6ee7b7'
+            color: '#fff'
           }}
         >
           LOADING
@@ -70,9 +70,9 @@ export const LoadingScreen = ({ progress, isComplete, onComplete }: LoadingScree
             style={{
               width: `${safeProgress}%`,
               height: '100%',
-              background: '#6ee7b7',
+              background: '#fff',
               transition: 'width 0.3s ease',
-              boxShadow: '0 0 10px rgba(110, 231, 183, 0.45)'
+              boxShadow: '0 0 10px rgba(255, 255, 255, 0.3)'
             }}
           />
         </div>
