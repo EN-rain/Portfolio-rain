@@ -23,7 +23,7 @@ export type WorkProject = {
   status?: string;
   hoursSpent?: string;
   timeline?: { label: string; detail: string }[];
-  links?: { label: string; url: string; type: 'github' | 'drive' }[];
+  links?: { label: string; url: string; type: 'github' | 'drive' | 'live' }[];
 };
 
 export const experience: WorkExperience[] = [
@@ -47,7 +47,10 @@ export const projects: WorkProject[] = [
     des: 'Designed and built a story-driven chemistry RPG in Godot 4.6 for Android. Implemented JSON-driven quests and NPC dialogue, a modular autoload architecture, and a save system that restores full scene + lesson progress. Includes interactive mini-games teaching elements, compounds, density, and states of matter.',
     img: imgChemQuest,
     stack: ['Godot 4.6', 'GDScript', 'Android', 'JSON'],
-    links: [{ label: 'Google Drive', url: 'https://drive.google.com/file/d/1DcR2BbWSssGNkvtVhNa-P65hFhzOb3RD/view?usp=drive_link', type: 'drive' }],
+    links: [
+      { label: 'Google Drive', url: 'https://drive.google.com/file/d/1DcR2BbWSssGNkvtVhNa-P65hFhzOb3RD/view?usp=drive_link', type: 'drive' },
+      { label: 'v1.0.0 Release', url: 'https://github.com/EN-rain/ChemQuest/releases/tag/v1.0.0', type: 'github' },
+    ],
   },
   {
     id: '02',
@@ -81,7 +84,10 @@ export const projects: WorkProject[] = [
     des: 'Built a competitive 2D pixel typing duel in Godot with a Node.js backend. Players can register, queue into matchmaking or custom rooms, choose a character loadout, and fight through round-based typing battles driven by speed, accuracy, mana, active skills, passive effects, and rematches.',
     img: '',
     stack: ['Godot 4.6', 'GDScript', 'Node.js', 'Express', 'SQLite', 'Socket.IO', 'WebSockets'],
-    links: [{ label: 'GitHub', url: 'https://github.com/EN-rain/TypeDuel', type: 'github' }],
+    links: [
+      { label: 'GitHub', url: 'https://github.com/EN-rain/TypeDuel', type: 'github' },
+      { label: 'v1.0.0 Release', url: 'https://github.com/EN-rain/TypeDuel/releases/tag/v1.0.0', type: 'github' },
+    ],
     status: 'MVP',
   },
   {
@@ -93,6 +99,9 @@ export const projects: WorkProject[] = [
     des: 'Built a React + Vite reviewer app for Philippine Civil Service Exam practice. Features randomized and subject-specific exams, a 1-hour timed mode, answer review with correct/wrong filtering, skipped-item confirmations, and a 716-question bank extracted and verified from official CSC PDFs.',
     img: cscprepImg,
     stack: ['React 19', 'TypeScript', 'Vite', 'Lenis'],
-    links: [{ label: 'GitHub', url: 'https://github.com/EN-rain/CSCprep', type: 'github' }],
+    links: [
+      { label: 'GitHub', url: 'https://github.com/EN-rain/CSCprep', type: 'github' },
+      { label: 'Live Site', url: 'https://cs-cprep.vercel.app', type: 'live' },
+    ],
   },
 ];

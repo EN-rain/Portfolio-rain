@@ -638,7 +638,7 @@ export const WorksSection = memo(() => {
                               rel="noopener noreferrer"
                               className="tech-font flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-white/50 hover:text-[#7c3aed] transition-colors"
                             >
-                              {link.type === 'github' ? <Github size={13} /> : <ExternalLink size={13} />}
+                              {link.type === 'github' ? <Github size={13} /> : link.type === 'live' ? <ExternalLink size={13} /> : <ExternalLink size={13} />}
                               {link.label}
                             </a>
                           ))}
