@@ -54,7 +54,17 @@ export const projects: WorkProject[] = [
   },
   {
     id: '02',
-    year: '2025-Present',
+    year: '2024-2025',
+    title: 'StudentFlow',
+    line2: 'STUDENT & CLASSROOM MANAGEMENT PLATFORM',
+    category: 'WEB / MOBILE / EDUCATION',
+    des: 'Designed and built a comprehensive student and classroom management platform. Features a Laravel 11 backend and a native Java Android client, simplifying school administration, grading with weighted categories, attendance tracking, and automated announcements with email notifications.',
+    img: '',
+    stack: ['Laravel 11', 'PHP 8.2+', 'Android (Java)', 'SQLite / MySQL', 'Bootstrap 5', 'REST API (JSON)'],
+  },
+  {
+    id: '03',
+    year: '2025-2026',
     title: 'TSUKIAI',
     line2: 'VOICE CHAT + DISCORD BRIDGE',
     category: 'AI / VOICE',
@@ -64,7 +74,7 @@ export const projects: WorkProject[] = [
     links: [{ label: 'GitHub', url: 'https://github.com/EN-rain/TsukiAI-Desktop/graphs/contributors', type: 'github' }],
   },
   {
-    id: '03',
+    id: '04',
     year: '2026-Present',
     title: 'Oozeborne',
     line2: 'ONLINE MULTIPLAYER + NAKAMA BACKEND',
@@ -76,7 +86,7 @@ export const projects: WorkProject[] = [
     status: 'On development',
   },
   {
-    id: '04',
+    id: '05',
     year: 'May 2026 (hackathon project)',
     title: 'Type Duel',
     line2: 'COMPETITIVE TYPING DUEL (MVP)',
@@ -91,8 +101,8 @@ export const projects: WorkProject[] = [
     status: 'MVP',
   },
   {
-    id: '05',
-    year: '2026-Present',
+    id: '06',
+    year: 'May-June 2026',
     title: 'CSCprep',
     line2: 'CIVIL SERVICE EXAM REVIEWER',
     category: 'WEB / EDUCATION',
@@ -105,16 +115,6 @@ export const projects: WorkProject[] = [
     ],
   },
   {
-    id: '06',
-    year: '2026',
-    title: 'StudentFlow',
-    line2: 'STUDENT & CLASSROOM MANAGEMENT PLATFORM',
-    category: 'WEB / MOBILE / EDUCATION',
-    des: 'Designed and built a comprehensive student and classroom management platform. Features a Laravel 11 backend and a native Java Android client, simplifying school administration, grading with weighted categories, attendance tracking, and automated announcements with email notifications.',
-    img: '',
-    stack: ['Laravel 11', 'PHP 8.2+', 'Android (Java)', 'SQLite / MySQL', 'Bootstrap 5', 'REST API (JSON)'],
-  },
-  {
     id: '07',
     year: '2026-Present',
     title: 'PocketTrade',
@@ -125,3 +125,5 @@ export const projects: WorkProject[] = [
     stack: ['NestJS (Node.js)', 'TypeScript', 'Flutter (Dart)', 'React 19 (Tailwind CSS)', 'PostgreSQL / Prisma', 'Socket.IO / REST API'],
   },
 ];
+
+
