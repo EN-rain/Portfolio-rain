@@ -58,15 +58,46 @@ const PROJECT_ABOUT: Record<string, { description: string; keyFeatures: string[]
     ],
   },
   '05': {
-    description: 'CSCprep is a React + Vite reviewer app built for Philippine Civil Service Exam practice. It covers all five exam subjects — Verbal Reasoning, Numerical Reasoning, Analytical Ability, Filipino, and General Information — through a clean, focused interface designed for effective study sessions.\n\nThe question bank was extracted and verified directly from official CSC reviewer PDFs, resulting in 716 items cross-checked for accuracy. Each subject can be practiced individually or combined into a randomized full exam, and an optional one-hour timed mode simulates actual test conditions.\n\nAnswer review lets you filter correct and wrong responses, confirm skipped items before submitting, and revisit explanations after the session. A dark/light theme toggle and smooth Lenis scrolling keep the experience comfortable over long study periods.',
+    description: 'CSCprep is a Civil Service Exam reviewer web app built to help users practice for the Philippine Civil Service Examination through interactive, exam-style sessions. Instead of studying from static reviewers only, users can answer randomized exams, subject-focused tests, and fixed CSC 11-based exams directly in the browser.\n\nThe app covers major exam areas including Verbal Reasoning, Numerical Reasoning, Analytical Ability, Filipino, and General Information. Questions are loaded from local JSON question banks, with support for image-based items, shuffled choices, hints, explanations, and answer review after submission.\n\nCSCprep is designed for focused self-review. It tracks answered questions, saves exam attempts, supports timed practice, warns users about skipped items, and lets users review correct and wrong answers after each session. Progress and in-progress exams are saved locally, so users can continue without losing their work.',
     keyFeatures: [
-      'Random and subject-based exam sessions across all five CSC subject areas',
-      'Optional 1-hour timed exam mode that mirrors actual test conditions',
-      'Answer review with correct/wrong filtering and per-item explanations',
-      'Skipped-item confirmation before final submission',
-      '716-question bank extracted and verified against official CSC 11 reviewer PDFs',
-      'Dark and light theme toggle with smooth Lenis scroll',
-      'PDF-backed image questions for figure and table-based items',
+      'Practice Civil Service Exam questions across five major subjects',
+      'Take random mixed exams, subject-specific exams, or fixed CSC 11-based exams',
+      'Use optional timed mode with a customizable timer',
+      'Answer image-based questions with enlarged image preview support',
+      'Get hints while answering and explanations during review',
+      'Review results with score, pass/fail status, correct answers, wrong answers, and skipped items',
+      'Save exam history and view previous attempts with subject-level performance',
+      'Track question usage to reduce repeated questions across exams',
+      'Save in-progress exams locally in the browser',
+      'Report problematic questions, with local fallback and optional shared report syncing',
+      'Switch between light and dark themes',
+      'Built as a practical reviewer tool for Civil Service Exam preparation',
+    ],
+  },
+  '06': {
+    description: 'StudentFlow is a comprehensive student and classroom management platform designed to streamline daily academic workflows for teachers and administrators while providing an accessible mobile experience for students. Built with a robust Laravel 11 backend and a native Java Android client, the system simplifies school administration, grading, attendance tracking, and communication.\n\nThe web dashboard allows administrators to oversee teacher accounts, audit system activity logs, and configure settings, while teachers can manage classes, record grades across weighted categories, and publish announcements with automated email notifications. For students, the platform offers a dedicated portal supporting social login (Google and GitHub) and interactive exam taking, both on the web and through the mobile app.\n\nDesigned with mobility and reliability in mind, StudentFlow\'s Android application is built using native Java, Retrofit, and Material Design components, enabling teachers and students to view profiles, track attendance, submit assignments, and review reports on the go.',
+    keyFeatures: [
+      'Manage classes, teacher/student records, and course enrollments from a responsive web dashboard',
+      'Support for distinct roles (Admin, Teacher, Student) with secure, token-based Sanctum authentication',
+      'Mark and track attendance status (Present, Absent, Late, Excused) with calculated attendance percentages',
+      'Configure custom grade categories with automatic final grade calculations and ranking',
+      'Create quizzes and exams with secure per-student magic links and automated score sync to the gradebook',
+      'Access student profiles, announcements, assignments, and grades via the native Android mobile app',
+      'Generate and export academic reports (attendance, failing grades, missing assignments) in PDF, CSV, and Web formats',
+    ],
+  },
+  '07': {
+    description: 'PocketTrade is a comprehensive mobile and web-based marketplace platform designed to streamline peer-to-peer used phone trading for buyers and sellers while providing an administrative moderation system. Built with a robust NestJS backend, a React admin web app, and a Flutter mobile client, the system simplifies listing creation, real-time messaging, and platform administration.\n\nThe web dashboard allows administrators to manage listings, suspend user accounts, review community reports, and view search analytics, while users can publish pre-owned devices, upload photos, and update listing statuses. For buyers, the platform offers an intuitive search interface with custom filters, listing favoriting, and direct negotiation with sellers.\n\nDesigned with mobility and real-time connectivity in mind, PocketTrade\'s mobile application is built using Flutter, GoRouter, Riverpod, and Socket.IO, enabling users to browse listings, receive instant push notifications via Firebase Cloud Messaging, manage conversations, and report or block users on the go.',
+    keyFeatures: [
+      'Publish and search pre-owned phone listings with details on brand, condition, storage, price, and location',
+      'Log in securely with a one-time password (OTP) sent directly to your email',
+      'Upload multiple high-quality photos of your device during the listing process',
+      'Negotiate and chat in real time with buyers or sellers directly inside the app',
+      'Manage active listings, suspend accounts, and review reported content from the admin web dashboard',
+      'Track marketplace metrics, user activity, and popular device searches with analytics charts',
+      'Favorite listings to save them for later and receive updates when a listing is sold',
+      'Report or block suspicious users and listings to maintain a safe trading community',
+      'Receive instant push notifications for new incoming chat messages and account updates',
     ],
   },
 };
@@ -104,6 +135,19 @@ const stackIcons = {
   Lenis: Workflow,
   'React 19': Blocks,
   Vite: Blocks,
+  'Vercel API': Server,
+  'Local Storage': Database,
+  'Laravel 11': Server,
+  'PHP 8.2+': Server,
+  'Android (Java)': Gamepad2,
+  'SQLite / MySQL': Database,
+  'Bootstrap 5': Blocks,
+  'REST API (JSON)': Workflow,
+  'NestJS (Node.js)': Server,
+  'Flutter (Dart)': Gamepad2,
+  'React 19 (Tailwind CSS)': Blocks,
+  'PostgreSQL / Prisma': Database,
+  'Socket.IO / REST API': Workflow,
 } as const;
 
 export const WorksSection = memo(() => {
@@ -136,7 +180,6 @@ export const WorksSection = memo(() => {
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-
     const onWheel = (e: WheelEvent) => {
       if (oozeborneShowFlowchart) {
         e.preventDefault();
@@ -144,14 +187,13 @@ export const WorksSection = memo(() => {
         setZoom(prev => Math.min(Math.max(prev * delta, 0.5), 5));
       }
     };
-
     container.addEventListener('wheel', onWheel, { passive: false });
     return () => container.removeEventListener('wheel', onWheel);
   }, [oozeborneShowFlowchart]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (e.button === 0) {
-      e.preventDefault(); // Prevent text selection and other default behaviors
+      e.preventDefault();
       setIsDragging(true);
       setDragStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
     }
@@ -321,12 +363,28 @@ export const WorksSection = memo(() => {
                           <div className="flex flex-wrap items-center gap-2">
                             <h3 className="heading-font text-xl md:text-2xl font-bold text-white leading-tight">{project.title}</h3>
                           </div>
-                          <p className="tech-font text-[11px] text-white/55 uppercase tracking-wider mt-1">{project.line2}</p>
+                          <p className="heading-font text-[11px] text-white/55 uppercase tracking-wider mt-1">{project.line2}</p>
+                          {project.id === '05' && project.links && project.links.length > 0 && (
+                            <div className="mt-3 flex flex-wrap gap-3">
+                              {project.links.map(link => (
+                                <a
+                                  key={link.url}
+                                  href={link.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="tech-font inline-flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-white/55 hover:text-[#7c3aed] transition-colors"
+                                >
+                                  {link.type === 'github' ? <Github size={13} /> : <ExternalLink size={13} />}
+                                  {link.label}
+                                </a>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       </motion.div>
                     ))}
                   </div>
-
                 </div>
 
 
@@ -590,7 +648,7 @@ export const WorksSection = memo(() => {
                           </div>
                         )}
                       </div>
-                      <p className="tech-font text-[11px] text-[#7c3aed]/70 uppercase tracking-widest mt-1">{proj.line2}</p>
+                      <p className="heading-font text-[11px] text-[#7c3aed]/70 uppercase tracking-widest mt-1">{proj.line2}</p>
                       {proj.id === '01' && (
                         <AnimatePresence>
                           {chemQuestShowImage && (
