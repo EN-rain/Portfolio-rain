@@ -20,7 +20,7 @@ const PROJECT_ABOUT: Record<string, { description: string; keyFeatures: string[]
       'Built as a supplementary learning tool for STEM students',
     ],
   },
-  '02': {
+  '03': {
     description: 'TsukiAI is a real-time voice companion for Windows that lets you talk naturally and get spoken responses back with low friction. It listens, understands, replies, and speaks through a full live voice pipeline built for continuous conversation rather than one-off prompts.\n\nRun it locally on your desktop, connect it to different AI providers, and choose between local or cloud speech services depending on how you want it to behave. It is built to stay responsive during live use, keep track of conversation flow, remember useful past context, and recover cleanly when a provider fails.\n\nTsukiAI also works beyond the desktop. With its Discord voice bridge, it can join voice channels, listen for spoken turns, process them through the same conversation pipeline, and speak back into the channel. That makes it useful both as a personal desktop companion and as a voice runtime for shared online spaces.\n\nA built-in local API opens the system up for integrations, testing, and external tooling. Speech recognition, text processing, voice generation, health checks, and memory features can all be accessed as services, making TsukiAI more than just a standalone app.',
     keyFeatures: [
       'Real-time voice conversation with a full speech-to-text, AI response, and text-to-speech pipeline',
@@ -33,7 +33,7 @@ const PROJECT_ABOUT: Record<string, { description: string; keyFeatures: string[]
       'Discord voice bridge for channel-based spoken interaction',
     ],
   },
-  '03': {
+  '04': {
     description: 'Enter a fast-paced co-op action RPG where every run is shaped by your class, your build, and your team.\n\nChoose from distinct class paths, unlock specialized roles, and shape your own fighting style through a wide mix of active skills, passives, and progression choices. Build for raw damage, frontline defense, battlefield control, support, or hybrid play, then adapt your setup as the run grows harder.\n\nFight through escalating rounds of enemies that become more dangerous, more capable, and more demanding as the battle goes on. Success is not just about surviving longer, but learning how to combine your strengths with the rest of the party. Team composition, timing, and coordination matter.\n\nAt the center of the challenge is a boss encounter built around adaptation and counterplay. The boss is designed to respond to player patterns, punish predictable behavior, and force the team to change tactics on the fly. Winning means reading the fight, adjusting your approach, and working together under pressure.\n\nProgression carries beyond a single match. Your class growth, build development, and overall advancement are saved through the cloud, giving you room to experiment, refine strategies, and return stronger for the next run.\n\nPlay solo or squad up with others, form a party, chat during the run, and coordinate through voice communication as you push deeper into increasingly intense encounters.',
     keyFeatures: [
       'Build your character through class progression, subclass paths, and flexible skill choices',
@@ -45,7 +45,7 @@ const PROJECT_ABOUT: Record<string, { description: string; keyFeatures: string[]
       'Keep your progress through cloud saving and ongoing character growth',
     ],
   },
-  '04': {
+  '05': {
     description: 'Type Duel is a competitive 2D pixel typing duel built with Godot and a Node.js backend. Players register or log in, enter matchmaking or custom rooms, choose a character loadout, then fight through round-based typing battles where speed, accuracy, mana, active skills, and passive effects decide the winner.\n\nThe MVP includes a full lobby and match loop: character selection, skill selection, typing phases, combat resolution, HP sync, rematches, match history, leaderboards, friends, chat, online presence, profile updates, and feedback submission.\n\nThe backend uses REST routes for account, lobby, room, social, chat, and game flows, while real-time match state is synchronized through Socket.IO and WebSocket events. Persistent data such as users, leaderboard records, chat messages, friends, and match history is stored in SQLite.',
     keyFeatures: [
       'Real-time multiplayer typing duels with matchmaking and custom rooms',
@@ -57,7 +57,7 @@ const PROJECT_ABOUT: Record<string, { description: string; keyFeatures: string[]
       'SQLite persistence for users, leaderboard records, chat, friends, and match history',
     ],
   },
-  '05': {
+  '06': {
     description: 'CSCprep is a Civil Service Exam reviewer web app built to help users practice for the Philippine Civil Service Examination through interactive, exam-style sessions. Instead of studying from static reviewers only, users can answer randomized exams, subject-focused tests, and fixed CSC 11-based exams directly in the browser.\n\nThe app covers major exam areas including Verbal Reasoning, Numerical Reasoning, Analytical Ability, Filipino, and General Information. Questions are loaded from local JSON question banks, with support for image-based items, shuffled choices, hints, explanations, and answer review after submission.\n\nCSCprep is designed for focused self-review. It tracks answered questions, saves exam attempts, supports timed practice, warns users about skipped items, and lets users review correct and wrong answers after each session. Progress and in-progress exams are saved locally, so users can continue without losing their work.',
     keyFeatures: [
       'Practice Civil Service Exam questions across five major subjects',
@@ -74,7 +74,7 @@ const PROJECT_ABOUT: Record<string, { description: string; keyFeatures: string[]
       'Built as a practical reviewer tool for Civil Service Exam preparation',
     ],
   },
-  '06': {
+  '02': {
     description: 'StudentFlow is a comprehensive student and classroom management platform designed to streamline daily academic workflows for teachers and administrators while providing an accessible mobile experience for students. Built with a robust Laravel 11 backend and a native Java Android client, the system simplifies school administration, grading, attendance tracking, and communication.\n\nThe web dashboard allows administrators to oversee teacher accounts, audit system activity logs, and configure settings, while teachers can manage classes, record grades across weighted categories, and publish announcements with automated email notifications. For students, the platform offers a dedicated portal supporting social login (Google and GitHub) and interactive exam taking, both on the web and through the mobile app.\n\nDesigned with mobility and reliability in mind, StudentFlow\'s Android application is built using native Java, Retrofit, and Material Design components, enabling teachers and students to view profiles, track attendance, submit assignments, and review reports on the go.',
     keyFeatures: [
       'Manage classes, teacher/student records, and course enrollments from a responsive web dashboard',
@@ -364,23 +364,6 @@ export const WorksSection = memo(() => {
                             <h3 className="heading-font text-xl md:text-2xl font-bold text-white leading-tight">{project.title}</h3>
                           </div>
                           <p className="heading-font text-[11px] text-white/55 uppercase tracking-wider mt-1">{project.line2}</p>
-                          {project.id === '05' && project.links && project.links.length > 0 && (
-                            <div className="mt-3 flex flex-wrap gap-3">
-                              {project.links.map(link => (
-                                <a
-                                  key={link.url}
-                                  href={link.url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  onClick={(e) => e.stopPropagation()}
-                                  className="tech-font inline-flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-white/55 hover:text-[#7c3aed] transition-colors"
-                                >
-                                  {link.type === 'github' ? <Github size={13} /> : <ExternalLink size={13} />}
-                                  {link.label}
-                                </a>
-                              ))}
-                            </div>
-                          )}
                         </div>
                       </motion.div>
                     ))}
@@ -734,7 +717,7 @@ export const WorksSection = memo(() => {
 
                     {/* Content below image */}
                     <div className="project-expanded-content">
-                      {proj.id === '03' && (
+                      {proj.id === '04' && (
                         <div className="mb-6">
                           <button
                             type="button"
@@ -754,7 +737,7 @@ export const WorksSection = memo(() => {
                         </div>
                       )}
 
-                      {proj.id === '03' && (
+                      {proj.id === '04' && (
                         <AnimatePresence initial={false}>
                           {oozeborneShowFlowchart && (
                             <motion.div
@@ -837,7 +820,7 @@ export const WorksSection = memo(() => {
                         );
                       })()}
 
-                      {proj.id === '02' && (
+                      {proj.id === '03' && (
                         <div className="mb-6">
                           <button
                             type="button"
@@ -853,7 +836,7 @@ export const WorksSection = memo(() => {
                         </div>
                       )}
 
-                      {proj.id === '02' && (
+                      {proj.id === '03' && (
                         <AnimatePresence initial={false}>
                           {tsukiShowFlowchart && (
                             <motion.div
