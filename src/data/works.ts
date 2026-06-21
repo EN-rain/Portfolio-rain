@@ -2,6 +2,16 @@ import imgChemQuest from '../assets/images/chemquest.png';
 import imgTsukiai from '../assets/images/tsukiai.png';
 import oozebirImg from '../assets/images/oozebir.png';
 import cscprepImg from '../assets/images/Screenshot 2026-06-10 152807.png';
+import cacheMeOutImg from '../assets/images/cachemeoutside.png';
+import chemQuestIcon from '../assets/images/chemques-icon.svg';
+import typeDuelIcon from '../assets/images/type-duel-logo.png';
+import cashMeOutIcon from '../assets/images/cash-me-outside-logo.png';
+import studentFlowIcon from '../assets/images/studentflow-logo.png';
+import studentFlowBackground from '../assets/images/studentflow-bg.png';
+import pocketTradeIcon from '../assets/images/pockettrade-icon.png';
+import pocketTradeBackground from '../assets/images/pockettrade-bg.png';
+import oozeborneIcon from '../assets/images/oozeborne-logo.png';
+import cscprepIcon from '../assets/images/cscprep-logo.png';
 
 export type WorkExperience = {
   year: string;
@@ -19,6 +29,7 @@ export type WorkProject = {
   category: string;
   des: string;
   img: string;
+  icon?: string;
   stack: string[];
   status?: string;
   hoursSpent?: string;
@@ -46,8 +57,10 @@ export const projects: WorkProject[] = [
     category: 'GAMES',
     des: 'Designed and built a story-driven chemistry RPG in Godot 4.6 for Android. Implemented JSON-driven quests and NPC dialogue, a modular autoload architecture, and a save system that restores full scene + lesson progress. Includes interactive mini-games teaching elements, compounds, density, and states of matter.',
     img: imgChemQuest,
+    icon: chemQuestIcon,
     stack: ['Godot 4.6', 'GDScript', 'Android', 'JSON'],
     links: [
+      { label: 'GitHub', url: 'https://github.com/EN-rain/ChemQuest', type: 'github' },
       { label: 'Google Drive', url: 'https://drive.google.com/file/d/1DcR2BbWSssGNkvtVhNa-P65hFhzOb3RD/view?usp=drive_link', type: 'drive' },
       { label: 'v1.0.0 Release', url: 'https://github.com/EN-rain/ChemQuest/releases/tag/v1.0.0', type: 'github' },
     ],
@@ -59,8 +72,10 @@ export const projects: WorkProject[] = [
     line2: 'STUDENT & CLASSROOM MANAGEMENT PLATFORM',
     category: 'WEB / MOBILE / EDUCATION',
     des: 'Designed and built a comprehensive student and classroom management platform. Features a Laravel 11 backend and a native Java Android client, simplifying school administration, grading with weighted categories, attendance tracking, and automated announcements with email notifications.',
-    img: '',
-    stack: ['Laravel 11', 'PHP 8.2+', 'Android (Java)', 'SQLite / MySQL', 'Bootstrap 5', 'REST API (JSON)'],
+    img: studentFlowBackground,
+    icon: studentFlowIcon,
+    stack: ['Laravel 12', 'PHP', 'Blade', 'Java', 'XML', 'Retrofit', 'REST API', 'Sanctum', 'PostgreSQL', 'Supabase', 'Docker', 'Apache', 'Render'],
+    links: [{ label: 'GitHub', url: 'https://github.com/EN-rain/StudentFLow', type: 'github' }],
   },
   {
     id: '03',
@@ -71,7 +86,7 @@ export const projects: WorkProject[] = [
     des: 'Built a Windows desktop voice assistant featuring real-time voice interaction. Includes a local ASP.NET Core API, multi-LLM provider routing, ChromaDB semantic memory, and a Node.js Discord bridge with voice activity detection for natural turn-taking and low-latency playback.',
     img: imgTsukiai,
     stack: ['C# / .NET 8', 'WPF', 'ASP.NET Core', 'Node.js', 'discord.js', 'ChromaDB'],
-    links: [{ label: 'GitHub', url: 'https://github.com/EN-rain/TsukiAI-Desktop/graphs/contributors', type: 'github' }],
+    links: [{ label: 'GitHub', url: 'https://github.com/EN-rain/TsukiAI-Desktop', type: 'github' }],
   },
   {
     id: '04',
@@ -81,6 +96,7 @@ export const projects: WorkProject[] = [
     category: 'GAMES / MULTIPLAYER (In Development)',
     des: '[WIP] Developed a real-time multiplayer game in Godot 4.6 backed by a Dockerized Nakama + CockroachDB server. Features email authentication, room-code lobbies with chat and class selection, and an authoritative Lua match loop with client-side prediction, interpolation, and state reconciliation.',
     img: oozebirImg,
+    icon: oozeborneIcon,
     stack: ['Godot 4.6', 'GDScript', 'Nakama', 'Lua', 'Docker', 'CockroachDB', 'WebSockets'],
     links: [{ label: 'GitHub', url: 'https://github.com/EN-rain/Oozeborne', type: 'github' }],
     status: 'On development',
@@ -93,6 +109,7 @@ export const projects: WorkProject[] = [
     category: 'GAMES / MULTIPLAYER',
     des: 'Built a competitive 2D pixel typing duel in Godot with a Node.js backend. Players can register, queue into matchmaking or custom rooms, choose a character loadout, and fight through round-based typing battles driven by speed, accuracy, mana, active skills, passive effects, and rematches.',
     img: '',
+    icon: typeDuelIcon,
     stack: ['Godot 4.6', 'GDScript', 'Node.js', 'Express', 'SQLite', 'Socket.IO', 'WebSockets'],
     links: [
       { label: 'GitHub', url: 'https://github.com/EN-rain/TypeDuel', type: 'github' },
@@ -108,6 +125,7 @@ export const projects: WorkProject[] = [
     category: 'WEB / EDUCATION',
     des: 'Built a React + Vite reviewer app for Philippine Civil Service Exam practice. Features randomized and subject-specific exams, a 1-hour timed mode, answer review with correct/wrong filtering, skipped-item confirmations, and a 716-question bank extracted and verified from official CSC PDFs.',
     img: cscprepImg,
+    icon: cscprepIcon,
     stack: ['React 19', 'TypeScript', 'Vite', 'JSON', 'Vercel API', 'Local Storage', 'Lenis'],
     links: [
       { label: 'GitHub', url: 'https://github.com/EN-rain/CSCprep', type: 'github' },
@@ -116,14 +134,27 @@ export const projects: WorkProject[] = [
   },
   {
     id: '07',
-    year: '2026-Present',
+    year: 'June 2026',
     title: 'PocketTrade',
     line2: 'P2P USED PHONE MARKETPLACE',
     category: 'WEB / MOBILE / MARKETPLACE',
-    des: 'Developed a peer-to-peer used phone marketplace with a NestJS backend, a Flutter mobile client, and a React admin web app. Supports real-time Socket.IO chat, email OTP verification, Cloudinary photo uploads, FCM push notifications, and admin moderation.',
-    img: '',
-    stack: ['NestJS (Node.js)', 'TypeScript', 'Flutter (Dart)', 'React 19 (Tailwind CSS)', 'PostgreSQL / Prisma', 'Socket.IO / REST API'],
+    des: 'Developed a peer-to-peer marketplace for buying and selling used phones with a NestJS REST API, Flutter mobile client, and React admin dashboard. Includes email OTP authentication, searchable device listings, Cloudinary image uploads, real-time Socket.IO messaging, Firebase push notifications, favorites, reports, and moderation tools.',
+    img: pocketTradeBackground,
+    icon: pocketTradeIcon,
+    stack: ['Flutter', 'Dart', 'Riverpod', 'GoRouter', 'React 19', 'Tailwind CSS', 'TypeScript', 'NestJS', 'REST API', 'Socket.IO', 'JWT', 'Prisma', 'PostgreSQL', 'Firebase', 'Cloudinary'],
+    links: [{ label: 'GitHub', url: 'https://github.com/EN-rain/PocketTrade', type: 'github' }],
+  },
+  {
+    id: '08',
+    year: '2026-Present',
+    title: 'Cash Me Out',
+    line2: '2020 INTERNET TIME CAPSULE',
+    category: 'WEB / ARCHIVE / CMS',
+    des: 'Built a newspaper-style 2020 internet time capsule with public archive pages organized by month and day. Includes a hidden desktop-only admin CMS, email magic-link authentication with TOTP verification, draft generation, review and preview workflows, and controlled publishing through Supabase.',
+    img: cacheMeOutImg,
+    icon: cashMeOutIcon,
+    stack: ['Next.js 15', 'React 19', 'TypeScript', 'Tailwind CSS', 'Supabase', 'PostgreSQL', 'TOTP', 'Nodemailer', 'Vercel'],
+    links: [{ label: 'GitHub', url: 'https://github.com/EN-rain/Cache-Me-Out', type: 'github' }],
+    status: 'In Development',
   },
 ];
-
-

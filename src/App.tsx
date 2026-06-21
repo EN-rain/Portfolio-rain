@@ -7,6 +7,8 @@ import {
   ContactSection
 } from './components/sections';
 import { LoadingScreen } from './components/LoadingScreen';
+import { ProjectsPage } from './components/ProjectsPage';
+import { ProjectDetailPage } from './components/ProjectDetailPage';
 import './App.css';
 
 const assetModules = import.meta.glob('./assets/**/*.{png,jpg,jpeg,webp,gif,svg,mp4,webm,ogg,mp3,wav}', {
@@ -64,7 +66,7 @@ const waitForWindowLoad = () =>
 const waitForFonts = () =>
   withTimeout(document.fonts ? document.fonts.ready.then(() => undefined).catch(() => undefined) : Promise.resolve(), 12000);
 
-function App() {
+function PortfolioApp() {
   const [currentSection, setCurrentSection] = useState(0);
   const [vh, setVh] = useState(window.innerHeight);
   const [isScrolling, setIsScrolling] = useState(false);
@@ -211,6 +213,55 @@ function App() {
         <WorksSection />
         <ContactSection />
       </main>
+    </>
+  );
+}
+
+function App() {
+  const [pathname, setPathname] = useState(window.location.pathname);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
+    const handlePopState = () => setPathname(window.location.pathname);
+    const handleNavigation = (event: Event) => {
+      const path = (event as CustomEvent<{ path: string }>).detail.path;
+      if (!path || path === window.location.pathname || isTransitioning) return;
+
+      setIsTransitioning(true);
+      window.setTimeout(() => {
+        window.history.pushState({}, '', path);
+        setPathname(path);
+        window.requestAnimationFrame(() => {
+          window.scrollTo(0, 0);
+          window.requestAnimationFrame(() => setIsTransitioning(false));
+        });
+      }, 320);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    window.addEventListener('portfolio-navigate', handleNavigation);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('portfolio-navigate', handleNavigation);
+    };
+  }, [isTransitioning]);
+
+  return (
+    <>
+      <div className={`route-content ${isTransitioning ? 'route-content--hidden' : ''}`}>
+        {pathname === '/projects' ? (
+          <ProjectsPage />
+        ) : pathname.startsWith('/projects/') ? (
+          <ProjectDetailPage projectId={pathname.split('/')[2]} />
+        ) : (
+          <PortfolioApp />
+        )}
+      </div>
+      <div className={`route-transition ${isTransitioning ? 'route-transition--active' : ''}`} aria-hidden="true" />
     </>
   );
 }

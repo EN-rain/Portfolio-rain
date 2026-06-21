@@ -100,6 +100,18 @@ const PROJECT_ABOUT: Record<string, { description: string; keyFeatures: string[]
       'Receive instant push notifications for new incoming chat messages and account updates',
     ],
   },
+  '08': {
+    description: 'Cash Me Out is a newspaper-style digital archive that revisits notable internet moments from 2020 through a structured month-and-day timeline. Public pages only display reviewed entries, while unpublished content stays inside a protected admin workflow.\n\nThe project includes a hidden desktop-only CMS for creating, reviewing, previewing, and publishing entries. Admin access uses a secret trigger, email magic links, and TOTP verification, while Supabase stores the archive data and publishing state.\n\nThe platform is designed as a curated time capsule rather than an open feed, giving each entry a consistent editorial layout and review process before it becomes publicly visible.',
+    keyFeatures: [
+      'Browse reviewed 2020 internet moments by month and day',
+      'Manage draft and published entries through a hidden admin CMS',
+      'Protect admin access with email magic links and TOTP verification',
+      'Preview drafts with a visible watermark before publishing',
+      'Restrict admin pages and APIs to desktop access',
+      'Store archive content and publishing state in Supabase',
+      'Deploy the Next.js application through Vercel',
+    ],
+  },
 };
 
 const highlightIcons = {
@@ -245,17 +257,17 @@ export const WorksSection = memo(() => {
       <div className="clip-gap-outer parallax-content h-full w-full">
         <div className="clip-gap-inner absolute inset-0 bg-black overflow-hidden">
           <div ref={scrollContainerRef} className="works-scroll-container h-full w-full overflow-y-auto overflow-x-hidden locked-content bg-black flex flex-col">
-            
+
             {/* Experience Part */}
             <div ref={experienceRef} className="experience-part relative min-h-screen w-full flex flex-col justify-center px-5 md:px-12 flex-shrink-0">
               <div className="absolute inset-0 opacity-20 pointer-events-none">
-                 <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1920 1080">
+                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1920 1080">
                   <ellipse cx="350" cy="400" rx="280" ry="180" fill="none" stroke="#7c3aed" strokeWidth="0.5" opacity="0.3" />
                   <ellipse cx="1550" cy="650" rx="320" ry="200" fill="none" stroke="#a78bfa" strokeWidth="0.5" opacity="0.3" />
                 </svg>
               </div>
               <div className="relative z-10 w-full max-w-none">
-                <motion.div 
+                <motion.div
                   className="experience-header mb-4 md:mb-6"
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
@@ -268,8 +280,8 @@ export const WorksSection = memo(() => {
                 </motion.div>
                 <div className="space-y-6">
                   {experience.map((item, index) => (
-                    <motion.div 
-                      key={item.role} 
+                    <motion.div
+                      key={item.role}
                       className="group relative rounded-[20px] border border-white/10 bg-white/10 p-6 transition-all duration-500 md:p-8"
                       initial={{ opacity: 0, y: 30 }}
                       whileInView={{ opacity: 1, y: 0 }}
@@ -301,12 +313,12 @@ export const WorksSection = memo(() => {
             </div>
 
             {/* Projects Part */}
-            <div ref={projectsRef} className="projects-wrapper relative min-h-screen w-full flex-shrink-0 overflow-hidden">
+            <div ref={projectsRef} className="projects-wrapper relative min-h-screen w-full flex-shrink-0 overflow-visible mb-[80px]">
               <div className="projects-part relative min-h-screen flex flex-col justify-center px-5 md:px-12 w-full max-w-full">
-                
+
                 {/* Projects Header */}
-                <motion.div 
-                  className="relative z-10 mx-auto w-full max-w-7xl mb-8 md:mb-10"
+                <motion.div
+                  className="relative z-10 w-full max-w-none mb-8 md:mb-10"
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: false, amount: 0.3 }}
@@ -318,9 +330,9 @@ export const WorksSection = memo(() => {
                 </motion.div>
 
                 {/* Projects Grid */}
-                <div className="relative z-10 mx-auto w-full max-w-7xl">
+                <div className="relative z-10 w-full max-w-none">
                   <div className="projects-grid">
-                    {projects.map((project, index) => (
+                    {projects.slice(-2).map((project, index) => (
                       <motion.div
                         key={project.id}
                         onClick={() => setSelectedId(project.id)}
@@ -329,8 +341,8 @@ export const WorksSection = memo(() => {
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: false, amount: 0.2 }}
-                        transition={{ 
-                          duration: 0.6, 
+                        transition={{
+                          duration: 0.6,
                           delay: index * 0.1,
                           scale: { duration: 0.35, ease: [0.22, 1, 0.36, 1] }
                         }}
@@ -368,6 +380,20 @@ export const WorksSection = memo(() => {
                       </motion.div>
                     ))}
                   </div>
+                  {projects.length > 2 && (
+                    <div className="mt-6 flex justify-center">
+                      <a
+                        href="/projects"
+                        onClick={(event) => {
+                          event.preventDefault();
+                          window.dispatchEvent(new CustomEvent('portfolio-navigate', { detail: { path: '/projects' } }));
+                        }}
+                        className="tech-font rounded-full border border-white/15 px-5 py-2.5 text-[10px] uppercase tracking-widest text-white/70 transition-colors hover:border-[#7c3aed]/50 hover:text-white"
+                      >
+                        Show More
+                      </a>
+                    </div>
+                  )}
                 </div>
 
 
@@ -384,7 +410,7 @@ export const WorksSection = memo(() => {
         /* ── Project Grid ── */
         .projects-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
+          grid-template-columns: repeat(2, minmax(0, 1fr));
           gap: 20px;
         }
 
@@ -726,11 +752,10 @@ export const WorksSection = memo(() => {
                               setZoom(1);
                               setPan({ x: 0, y: 0 });
                             }}
-                            className={`tech-font rounded-full px-4 py-2 text-[10px] uppercase tracking-widest transition-colors border ${
-                              oozeborneShowFlowchart
-                                ? 'bg-[#7c3aed] text-white border-[#7c3aed]'
-                                : 'bg-transparent text-white/70 border-white/15 hover:text-white'
-                            }`}
+                            className={`tech-font rounded-full px-4 py-2 text-[10px] uppercase tracking-widest transition-colors border ${oozeborneShowFlowchart
+                              ? 'bg-[#7c3aed] text-white border-[#7c3aed]'
+                              : 'bg-transparent text-white/70 border-white/15 hover:text-white'
+                              }`}
                           >
                             {oozeborneShowFlowchart ? 'Hide flow chart' : 'Show flow chart'}
                           </button>
@@ -757,7 +782,7 @@ export const WorksSection = memo(() => {
                               <div className="absolute top-2 left-2 z-10 tech-font text-[9px] text-white/40 uppercase bg-black/50 px-2 py-1 rounded">
                                 Scroll to Zoom • Drag to Pan • Click button to Toggle
                               </div>
-                              
+
                               <div className="absolute top-2 right-2 z-20 flex gap-2">
                                 <button
                                   type="button"
@@ -825,11 +850,10 @@ export const WorksSection = memo(() => {
                           <button
                             type="button"
                             onClick={() => setTsukiShowFlowchart(v => !v)}
-                            className={`tech-font rounded-full px-4 py-2 text-[10px] uppercase tracking-widest transition-colors border ${
-                              tsukiShowFlowchart
-                                ? 'bg-[#7c3aed] text-white border-[#7c3aed]'
-                                : 'bg-transparent text-white/70 border-white/15 hover:text-white'
-                            }`}
+                            className={`tech-font rounded-full px-4 py-2 text-[10px] uppercase tracking-widest transition-colors border ${tsukiShowFlowchart
+                              ? 'bg-[#7c3aed] text-white border-[#7c3aed]'
+                              : 'bg-transparent text-white/70 border-white/15 hover:text-white'
+                              }`}
                           >
                             {tsukiShowFlowchart ? 'Hide flow chart' : 'Show flow chart'}
                           </button>

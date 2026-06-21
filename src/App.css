@@ -42,6 +42,10 @@ main {
   height: 900vh;
 }
 
+main.projects-page {
+  height: auto;
+}
+
 .global-en-backdrop {
   position: fixed;
   top: 46.5%;
