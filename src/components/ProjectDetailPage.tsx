@@ -87,7 +87,7 @@ export function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
               <ul className="mt-8 grid gap-x-8 gap-y-5 sm:grid-cols-2">
                 {detail.features.map((feature, index) => (
                   <li key={feature} className="flex gap-4 text-sm leading-relaxed text-white/70">
-                    <span className="tech-font text-xs text-[#7c3aed]">0{index + 1}</span>
+                    <span className="tech-font text-xs text-[#7c3aed]">{String(index + 1).padStart(2, '0')}</span>
                     <span>{feature}</span>
                   </li>
                 ))}
@@ -130,6 +130,29 @@ export function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
               ))}
             </ol>
           </section>
+
+          {detail.readmeSections.length > 0 && (
+            <section className="mx-auto mt-24 max-w-6xl border-t border-white/10 pt-12">
+              <p className="tech-font text-[10px] uppercase tracking-[0.2em] text-[#7c3aed]">Repository guide</p>
+              <h2 className="heading-font mt-3 text-2xl font-bold uppercase md:text-4xl">README details</h2>
+              <div className="mt-10 grid gap-5 md:grid-cols-2">
+                {detail.readmeSections.map((section) => (
+                  <article key={section.title} className="border border-white/10 bg-white/[0.02] p-5 md:p-7">
+                    <p className="tech-font text-[10px] uppercase tracking-[0.18em] text-[#7c3aed]">{section.eyebrow}</p>
+                    <h3 className="heading-font mt-3 text-xl font-bold uppercase">{section.title}</h3>
+                    <ul className="mt-6 space-y-3">
+                      {section.items.map((item) => (
+                        <li key={item} className="flex gap-3 text-sm leading-relaxed text-white/65">
+                          <span className="mt-[0.65em] h-1 w-1 shrink-0 rounded-full bg-[#7c3aed]" />
+                          <span className="whitespace-pre-line">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </article>
+                ))}
+              </div>
+            </section>
+          )}
         </section>
       </article>
     </main>
