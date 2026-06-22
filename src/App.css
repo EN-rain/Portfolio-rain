@@ -28,6 +28,26 @@ body {
   transform-style: preserve-3d;
 }
 
+/* Keep typography sharp while parent sections are transformed during scroll. */
+.locked-content h1,
+.locked-content h2,
+.locked-content h3,
+.locked-content h4,
+.locked-content h5,
+.locked-content h6,
+.locked-content p,
+.locked-content span,
+.locked-content a,
+.locked-content button,
+.locked-content li {
+  filter: none !important;
+  -webkit-filter: none !important;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+}
+
 .heading-font {
   font-family: 'Sora', sans-serif;
   text-transform: uppercase;

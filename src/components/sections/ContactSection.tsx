@@ -37,7 +37,7 @@ export const ContactSection = () => {
           }}
         />
 
-        <div className="contact-shell locked-content relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col items-center justify-center gap-10 py-12 px-5 md:px-12">
+        <div className="contact-shell locked-content relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col items-center justify-center gap-10 px-8 py-12 md:px-20">
           <div
             className="contact-text contact-copy scroll-parallax-text"
             data-speed="0.04"
@@ -73,7 +73,7 @@ export const ContactSection = () => {
                 color: 'rgba(21, 18, 38, 0.72)'
               }}
             >
-              Junior Full-stack Engineer focused on building functional, high-performance web applications with modern technologies.
+              Full-Stack Engineer focused on building modern digital products with clean interfaces, reliable backend systems, and efficient deployment. I enjoy working across the entire development process, from planning and design to implementation and refinement.
             </p>
           </div>
 
@@ -241,7 +241,7 @@ export const ContactSection = () => {
           .contact-shell {
             display: flex !important;
             flex-direction: column !important;
-            padding: 140px 20px 60px !important; 
+            padding: 140px 28px 60px !important; 
             height: auto !important;
             min-height: 100vh !important;
             gap: 40px !important;

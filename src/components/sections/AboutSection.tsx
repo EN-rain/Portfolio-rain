@@ -1,73 +1,25 @@
 import heroImage from '../../assets/images/hero1.2.png';
 import { useMobileReveal } from '../../hooks/useMobileReveal';
-import { experience, projects } from '../../data/works';
-import jsIcon from '../../assets/icons/tech/javascript-original.svg';
-import reactIcon from '../../assets/icons/tech/react-original.svg';
-import tsIcon from '../../assets/icons/tech/typescript-original.svg';
-import nodeIcon from '../../assets/icons/tech/nodejs-original.svg';
-import expressIcon from '../../assets/icons/tech/express-original.svg';
-import supabaseIcon from '../../assets/icons/tech/supabase-original.svg';
-import postgresIcon from '../../assets/icons/tech/postgresql-original.svg';
-import tailwindIcon from '../../assets/icons/tech/tailwindcss-original.svg';
-import figmaIcon from '../../assets/icons/tech/figma-original.svg';
-import canvaIcon from '../../assets/icons/tech/canva-original.svg';
-import dockerIcon from '../../assets/icons/tech/docker-original.svg';
-import dotnetCoreIcon from '../../assets/icons/tech/dotnetcore-original.svg';
-import cockroachIcon from '../../assets/icons/tech/cockroachdb-original.svg';
-import chromaIcon from '../../assets/icons/tech/chromadb-original.svg';
-import websocketIcon from '../../assets/icons/tech/websocket-original.svg';
 
 export const AboutSection = () => {
   const revealRef = useMobileReveal<HTMLElement>();
-  const jobStackSkills = [
-    'JavaScript',
-    'React',
-    'TypeScript',
-    'Node.js',
-    'Express',
-    'Supabase',
-    'PostgreSQL',
-    'Tailwind CSS',
-    'Figma',
-    'Canva',
-    'Docker',
-    'WebSockets',
-    'ASP.NET Core',
-    'ChromaDB',
-    'CockroachDB',
-  ] as const;
-
-  const availableSkills = new Set([...experience.flatMap(e => e.highlights ?? []), ...projects.flatMap(p => p.stack ?? [])]);
-  const techStackSkills = jobStackSkills.filter(s => s === 'JavaScript' || s === 'Figma' || s === 'Canva' || availableSkills.has(s));
   const desktopSkillGroups = [
-    { label: 'Frontend', skills: ['JavaScript', 'React', 'TypeScript', 'Tailwind CSS'] },
-    { label: 'Backend', skills: ['Node.js', 'Express', 'ASP.NET Core', 'WebSockets'] },
-    { label: 'Database', skills: ['PostgreSQL', 'Supabase', 'ChromaDB', 'CockroachDB'] },
-    { label: 'Tooling', skills: ['Figma', 'Canva', 'Docker'] },
-  ].map(group => ({
-    ...group,
-    skills: group.skills.filter(s => techStackSkills.includes(s as typeof techStackSkills[number])),
-  })).filter(group => group.skills.length > 0);
+    {
+      label: 'Frontend & Mobile',
+      skills: ['React', 'TypeScript', 'JavaScript', 'HTML', 'CSS', 'Bootstrap', 'Blade', 'Java', 'Flutter', 'Dart'],
+    },
+    {
+      label: 'Backend & Databases',
+      skills: ['Laravel', 'PHP', 'Node.js', 'Express.js', 'NestJS', 'REST APIs', 'Prisma', 'Socket.IO', 'PostgreSQL', 'Supabase', 'Firebase', 'Redis'],
+    },
+    {
+      label: 'Tools & Deployment',
+      skills: ['Git', 'GitHub', 'Docker', 'Apache', 'Render', 'Vercel', 'Cloudinary', 'Sanctum', 'JWT', 'RBAC', '2FA'],
+    },
+  ];
 
-  const skillIcons = {
-    JavaScript: jsIcon,
-    React: reactIcon,
-    TypeScript: tsIcon,
-    'Node.js': nodeIcon,
-    Express: expressIcon,
-    Supabase: supabaseIcon,
-    PostgreSQL: postgresIcon,
-    'Tailwind CSS': tailwindIcon,
-    Figma: figmaIcon,
-    Canva: canvaIcon,
-    Docker: dockerIcon,
-    WebSockets: websocketIcon,
-    'ASP.NET Core': dotnetCoreIcon,
-    ChromaDB: chromaIcon,
-    CockroachDB: cockroachIcon,
-  } as const;
+  const techStackSkills = desktopSkillGroups.flatMap(group => group.skills);
 
-  const getSkillIcon = (skill: string) => (skillIcons as Record<string, string | undefined>)[skill];
   return (
     <section ref={revealRef} id="about" className="stack-section mask-shaped-section mask-theme-purple" style={{ zIndex: 20 }}>
       <div className="clip-gap-outer parallax-content">
@@ -86,17 +38,7 @@ export const AboutSection = () => {
                     <div className="about-skill-group-title">{group.label}</div>
                     <div className="about-skill-group-list">
                       {group.skills.map(s => (
-                        <span key={s} className="about-skill-tag">
-                          {getSkillIcon(s) ? (
-                            <img
-                              className="about-skill-icon"
-                              src={getSkillIcon(s)}
-                              alt=""
-                              aria-hidden="true"
-                            />
-                          ) : null}
-                          {s === 'JavaScript' ? 'JS' : s === 'Tailwind CSS' ? 'Tailwind' : s}
-                        </span>
+                        <span key={s} className="about-skill-tag">{s}</span>
                       ))}
                     </div>
                   </div>
@@ -126,33 +68,13 @@ export const AboutSection = () => {
                     <div className="about-tech-track">
                       <div className="about-tech-set">
                         {techStackSkills.map(s => (
-                          <span key={`r-a-${s}`} className="about-skill-tag">
-                            {getSkillIcon(s) ? (
-                              <img
-                                className="about-skill-icon"
-                                src={getSkillIcon(s)}
-                                alt=""
-                                aria-hidden="true"
-                              />
-                            ) : null}
-                            {s}
-                          </span>
+                          <span key={`r-a-${s}`} className="about-skill-tag">{s}</span>
                         ))}
                       </div>
 
                       <div className="about-tech-set" aria-hidden="true">
                         {techStackSkills.map(s => (
-                          <span key={`r-b-${s}`} className="about-skill-tag">
-                            {getSkillIcon(s) ? (
-                              <img
-                                className="about-skill-icon"
-                                src={getSkillIcon(s)}
-                                alt=""
-                                aria-hidden="true"
-                              />
-                            ) : null}
-                            {s}
-                          </span>
+                          <span key={`r-b-${s}`} className="about-skill-tag">{s}</span>
                         ))}
                       </div>
                     </div>
@@ -162,33 +84,13 @@ export const AboutSection = () => {
                     <div className="about-tech-track">
                       <div className="about-tech-set">
                         {techStackSkills.map(s => (
-                          <span key={`l-a-${s}`} className="about-skill-tag">
-                            {getSkillIcon(s) ? (
-                              <img
-                                className="about-skill-icon"
-                                src={getSkillIcon(s)}
-                                alt=""
-                                aria-hidden="true"
-                              />
-                            ) : null}
-                            {s}
-                          </span>
+                          <span key={`l-a-${s}`} className="about-skill-tag">{s}</span>
                         ))}
                       </div>
 
                       <div className="about-tech-set" aria-hidden="true">
                         {techStackSkills.map(s => (
-                          <span key={`l-b-${s}`} className="about-skill-tag">
-                            {getSkillIcon(s) ? (
-                              <img
-                                className="about-skill-icon"
-                                src={getSkillIcon(s)}
-                                alt=""
-                                aria-hidden="true"
-                              />
-                            ) : null}
-                            {s}
-                          </span>
+                          <span key={`l-b-${s}`} className="about-skill-tag">{s}</span>
                         ))}
                       </div>
                     </div>
@@ -269,27 +171,33 @@ export const AboutSection = () => {
 
         .about-shell {
           position: relative;
-          display: flex;
+          display: grid;
+          grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.22fr);
+          grid-template-rows: auto auto;
+          grid-template-areas:
+            "image content"
+            "skills skills";
+          align-content: center;
           align-items: center;
-          justify-content: center;
-          gap: 4rem;
+          column-gap: clamp(2.5rem, 5vw, 6rem);
+          row-gap: clamp(1rem, 2vh, 1.75rem);
           width: 100%;
           height: 100%;
-          padding: 4rem;
+          min-height: 0;
+          padding: clamp(5.25rem, 8vh, 6.5rem) clamp(3rem, 5vw, 6rem) clamp(1.5rem, 3vh, 2.5rem);
           z-index: 1;
         }
 
         .about-image-container {
-          flex: 1;
-          min-width: 0;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
+          display: contents;
         }
 
         .about-image-wrap {
+          grid-area: image;
           position: relative;
-          width: min(420px, 100%);
+          justify-self: center;
+          width: min(430px, 100%);
+          max-height: 54vh;
           aspect-ratio: 1 / 1;
           overflow: visible;
           animation: slideFromLeft 0.8s ease-out forwards;
@@ -300,20 +208,21 @@ export const AboutSection = () => {
         .about-image {
           width: 100%;
           height: 100%;
-          object-fit: cover;
+          object-fit: contain;
           object-position: center;
         }
 
         .about-content {
-          flex: 1;
-          max-width: none;
+          grid-area: content;
+          align-self: center;
+          max-width: 700px;
           min-width: 0;
           padding: 0;
         }
 
         .about-title {
           font-family: 'Sora', sans-serif;
-          font-size: 2.5rem;
+          font-size: clamp(1.2rem, 1.8vw, 1.8rem);
           font-weight: 700;
           color: #11081a;
           text-transform: uppercase;
@@ -326,7 +235,7 @@ export const AboutSection = () => {
 
         .about-name {
           font-family: 'Sora', sans-serif;
-          font-size: 3rem;
+          font-size: clamp(2.5rem, 4vw, 4.5rem);
           font-weight: 600;
           color: #000000;
           margin-left: -0.2rem;
@@ -345,7 +254,7 @@ export const AboutSection = () => {
         }
         .about-name-e,
         .about-name-n{
-          font-size: 6.5rem;
+          font-size: 1.5em;
           display: inline-block;
           line-height: 0.8;
           opacity: 0;
@@ -353,10 +262,14 @@ export const AboutSection = () => {
           user-select: none;
         }
 
+        .about-text-wrapper {
+          max-width: 680px;
+        }
+
         .about-text {
           font-family: 'Space Grotesk', sans-serif;
-          font-size: 1.1rem;
-          line-height: 1.8;
+          font-size: clamp(0.92rem, 1vw, 1.02rem);
+          line-height: 1.6;
           color: #4a4a5a;
           margin-top: 1.5rem;
           margin-bottom: 0;
@@ -383,13 +296,15 @@ export const AboutSection = () => {
         }
 
         .about-skills-box.about-skills-box--desktop {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-          margin-top: -28px;
-          width: 560px;
-          padding: 0;
-          box-sizing: content-box;
+          grid-area: skills;
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 0;
+          margin-top: 0;
+          width: 100%;
+          padding: 0.85rem 0 0;
+          border-top: 1px solid rgba(17, 8, 26, 0.14);
+          box-sizing: border-box;
         }
 
         .about-skills-box.about-skills-box--mobile {
@@ -399,7 +314,7 @@ export const AboutSection = () => {
         .about-skill-tag {
           display: inline-flex;
           align-items: center;
-          gap: 6px;
+          gap: 0;
           padding: 0;
           border-radius: 0;
           font-family: 'IBM Plex Mono', monospace;
@@ -412,20 +327,28 @@ export const AboutSection = () => {
         }
 
         .about-skill-group {
-          display: grid;
-          grid-template-columns: 92px 1fr;
-          align-items: start;
-          column-gap: 14px;
-          row-gap: 7px;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.55rem;
           min-width: 0;
+          padding: 0 1.25rem;
+          border-right: 1px solid rgba(17, 8, 26, 0.1);
+        }
+
+        .about-skill-group:first-child { padding-left: 0; }
+        .about-skill-group:last-child {
+          padding-right: 0;
+          border-right: 0;
         }
 
         .about-skill-group-title {
           font-family: 'Sora', sans-serif;
           font-size: 0.72rem;
           font-weight: 700;
-          line-height: 1;
+          line-height: 1.25;
           color: #11081a;
+          white-space: nowrap;
         }
 
         .about-skill-group-list {
@@ -433,14 +356,7 @@ export const AboutSection = () => {
           flex-direction: row;
           flex-wrap: wrap;
           align-items: flex-start;
-          gap: 6px 10px;
-        }
-
-        .about-skill-icon {
-          width: 12px;
-          height: 12px;
-          display: block;
-          flex: 0 0 auto;
+          gap: 0.4rem 0.75rem;
         }
 
         .about-sr-only {
@@ -508,6 +424,7 @@ export const AboutSection = () => {
 
         @media (max-width: 768px), (hover: none) and (pointer: coarse) {
           .about-shell {
+            display: flex !important;
             flex-direction: column !important;
             padding: 80px 20px 60px !important;
             height: auto !important;
@@ -515,6 +432,13 @@ export const AboutSection = () => {
             gap: 40px !important;
             align-items: center !important;
             text-align: center !important;
+          }
+
+          .about-image-container {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            width: 100% !important;
           }
 
           .about-image-wrap {
