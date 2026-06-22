@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { projects } from '../data/works';
 import { useLenis } from '../hooks/scroll/useLenis';
@@ -5,9 +6,19 @@ import projectLogoPlaceholder from '../assets/images/icon.jpg';
 
 export function ProjectsPage() {
   useLenis();
+  const [openingProjectId, setOpeningProjectId] = useState<string | null>(null);
+
+  const openProject = (projectId: string) => {
+    if (openingProjectId) return;
+
+    setOpeningProjectId(projectId);
+    window.setTimeout(() => {
+      window.dispatchEvent(new CustomEvent('portfolio-navigate', { detail: { path: `/projects/${projectId}` } }));
+    }, 180);
+  };
 
   return (
-    <main className="projects-page min-h-screen bg-black px-5 py-10 text-white md:px-12 md:py-14">
+    <main className={`projects-page min-h-screen bg-black px-5 py-10 text-white md:px-12 md:py-14 ${openingProjectId ? 'projects-page--navigating' : ''}`}>
       <div className="mx-auto w-full max-w-7xl">
         <a
           href="/"
@@ -37,14 +48,14 @@ export function ProjectsPage() {
               role="link"
               tabIndex={0}
               aria-label={`Open ${project.title} project`}
-              onClick={() => window.dispatchEvent(new CustomEvent('portfolio-navigate', { detail: { path: `/projects/${project.id}` } }))}
+              onClick={() => openProject(project.id)}
               onKeyDown={(event) => {
                 if (event.key === 'Enter' || event.key === ' ') {
                   event.preventDefault();
-                  window.dispatchEvent(new CustomEvent('portfolio-navigate', { detail: { path: `/projects/${project.id}` } }));
+                  openProject(project.id);
                 }
               }}
-              className="projects-page-card relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04]"
+              className={`projects-page-card relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] ${openingProjectId === project.id ? 'projects-page-card--opening' : ''}`}
             >
               <div className="relative aspect-[16/7] overflow-visible">
                 <div className="absolute inset-0 overflow-hidden bg-gradient-to-br from-[#1a1a2e] to-[#080808]">

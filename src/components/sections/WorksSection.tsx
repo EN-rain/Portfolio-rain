@@ -101,15 +101,13 @@ const PROJECT_ABOUT: Record<string, { description: string; keyFeatures: string[]
     ],
   },
   '08': {
-    description: 'Cash Me Out is a newspaper-style digital archive that revisits notable internet moments from 2020 through a structured month-and-day timeline. Public pages only display reviewed entries, while unpublished content stays inside a protected admin workflow.\n\nThe project includes a hidden desktop-only CMS for creating, reviewing, previewing, and publishing entries. Admin access uses a secret trigger, email magic links, and TOTP verification, while Supabase stores the archive data and publishing state.\n\nThe platform is designed as a curated time capsule rather than an open feed, giving each entry a consistent editorial layout and review process before it becomes publicly visible.',
+    description: 'Cache Me Outside is a newspaper-style digital archive that revisits selected internet moments from 2020 through a structured month-and-day timeline.\n\nThe project uses an editorial workspace to prepare, review, and preview entries before they become part of the public collection.\n\nIt is designed as a curated time capsule rather than an open feed, giving each entry a consistent editorial layout and a clear place in the year.',
     keyFeatures: [
-      'Browse reviewed 2020 internet moments by month and day',
-      'Manage draft and published entries through a hidden admin CMS',
-      'Protect admin access with email magic links and TOTP verification',
-      'Preview drafts with a visible watermark before publishing',
-      'Restrict admin pages and APIs to desktop access',
-      'Store archive content and publishing state in Supabase',
-      'Deploy the Next.js application through Vercel',
+      'Browse selected 2020 internet moments by month and day',
+      'Prepare and review archive entries before publishing',
+      'Preview entries in their final newspaper-style presentation',
+      'Keep drafts and published archive pieces organized separately',
+      'Explore a focused collection rather than an endless live feed',
     ],
   },
 };
@@ -335,7 +333,16 @@ export const WorksSection = memo(() => {
                     {projects.slice(-2).map((project, index) => (
                       <motion.div
                         key={project.id}
-                        onClick={() => setSelectedId(project.id)}
+                        role="link"
+                        tabIndex={0}
+                        aria-label={`Open ${project.title} project`}
+                        onClick={() => window.dispatchEvent(new CustomEvent('portfolio-navigate', { detail: { path: `/projects/${project.id}` } }))}
+                        onKeyDown={(event) => {
+                          if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            window.dispatchEvent(new CustomEvent('portfolio-navigate', { detail: { path: `/projects/${project.id}` } }));
+                          }
+                        }}
                         className="project-card group cursor-pointer"
                         whileHover={{ scale: 1.03 }}
                         initial={{ opacity: 0, y: 30 }}

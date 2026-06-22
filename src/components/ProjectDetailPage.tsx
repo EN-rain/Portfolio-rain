@@ -50,7 +50,7 @@ export function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
               aria-hidden="true"
               className="mb-5 h-[120px] w-[120px] rounded-xl border border-white/10 object-cover"
             />
-            <p className="tech-font mb-2 text-[12px] font-bold text-[#7c3aed]">{project.year}</p>
+            <p className="tech-font mb-2 text-[11px] font-medium uppercase tracking-[0.16em] text-white/65 md:text-[12px]">{project.year}</p>
             <h1 className="heading-font text-4xl font-bold uppercase tracking-tight md:text-7xl">{project.title}</h1>
             <p className="heading-font mt-2 text-[11px] uppercase tracking-wider text-white/60">{project.line2}</p>
             <div className="mt-4 flex flex-wrap gap-2">
@@ -98,7 +98,7 @@ export function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
           <div className="mx-auto mt-14 grid max-w-7xl border-t border-white/10 pt-7 lg:grid-cols-12 lg:gap-16 lg:pt-9">
             <div className="lg:col-span-3">
               <p className="tech-font text-[10px] uppercase tracking-[0.22em] text-[#7c3aed]">02 — Scope</p>
-              <h2 className="heading-font mt-3 text-2xl font-bold uppercase md:text-3xl">Capabilities</h2>
+              <h2 className="heading-font mt-3 text-2xl font-bold uppercase md:text-3xl">Features</h2>
             </div>
             <section className="lg:col-span-9">
               <ul className="grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:mt-1">
