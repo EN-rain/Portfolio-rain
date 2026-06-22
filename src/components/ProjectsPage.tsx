@@ -15,13 +15,13 @@ export function ProjectsPage() {
             event.preventDefault();
             window.dispatchEvent(new CustomEvent('portfolio-navigate', { detail: { path: '/' } }));
           }}
-          className="tech-font mb-10 inline-flex items-center gap-2 text-[11px] uppercase tracking-widest text-white/60 transition-colors hover:text-[#7c3aed]"
+          className="tech-font fixed left-5 top-6 z-50 inline-flex min-h-11 items-center gap-2 border border-white/10 bg-black/80 px-3 text-[11px] uppercase tracking-widest text-white/75 backdrop-blur-sm transition-colors hover:border-[#7c3aed] hover:text-white md:left-12 md:top-10"
         >
           <ArrowLeft size={15} />
           Back to portfolio
         </a>
 
-        <header className="projects-page-header mb-10">
+        <header className="projects-page-header mb-10 pt-16 md:pt-14">
           <p className="tech-font mb-3 text-[11px] uppercase tracking-[0.22em] text-[#7c3aed]">
             Personal work
           </p>
@@ -46,49 +46,38 @@ export function ProjectsPage() {
               }}
               className="projects-page-card relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04]"
             >
-              <div className="relative aspect-[16/7] overflow-hidden bg-gradient-to-br from-[#1a1a2e] to-[#080808]">
-                {project.img ? (
-                  <img
-                    src={project.img}
-                    alt={project.title}
-                    className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
-                  />
-                ) : (
-                  <div className="flex h-full items-center justify-center px-6 text-center">
-                    <span className="heading-font text-lg uppercase tracking-[0.18em] text-white/15">
-                      {project.status ?? project.line2}
-                    </span>
-                  </div>
-                )}
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+              <div className="relative aspect-[16/7] overflow-visible">
+                <div className="absolute inset-0 overflow-hidden bg-gradient-to-br from-[#1a1a2e] to-[#080808]">
+                  {project.img ? (
+                    <img
+                      src={project.img}
+                      alt={project.title}
+                      className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                    />
+                  ) : (
+                    <div className="flex h-full items-center justify-center px-6 text-center">
+                      <span className="heading-font text-lg uppercase tracking-[0.18em] text-white/15">
+                        {project.status ?? project.line2}
+                      </span>
+                    </div>
+                  )}
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                </div>
+                <img
+                  src={project.icon ?? projectLogoPlaceholder}
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute bottom-0 left-1/2 z-10 h-[120px] w-[120px] -translate-x-1/2 translate-y-1/2 rounded-xl border border-white/10 object-cover"
+                />
               </div>
 
-              <img
-                src={project.icon ?? projectLogoPlaceholder}
-                alt=""
-                aria-hidden="true"
-                className="absolute left-1/2 top-[calc(43.75%_-_120px)] z-10 h-[120px] w-[120px] -translate-x-1/2 rounded-xl border border-white/10 object-cover"
-              />
-
-              <div className="p-6 text-center">
+              <div className="px-6 pb-6 pt-20 text-center">
                 <p className="tech-font mb-2 text-[12px] font-bold text-[#7c3aed]">{project.year}</p>
                 <h2 className="heading-font text-2xl font-bold md:text-3xl">{project.title}</h2>
                 <p className="heading-font mt-1 text-[11px] uppercase tracking-wider text-white/45">
                   {project.line2}
                 </p>
                 <p className="mt-8 text-[13px] leading-relaxed text-white/65">{project.des}</p>
-
-                <div className="mt-5 flex flex-wrap justify-center gap-x-4 gap-y-2">
-                  {project.stack.map((technology) => (
-                    <span
-                      key={technology}
-                      className="tech-font text-[9px] uppercase tracking-widest text-white/50"
-                    >
-                      {technology}
-                    </span>
-                  ))}
-                </div>
-
               </div>
             </article>
           ))}

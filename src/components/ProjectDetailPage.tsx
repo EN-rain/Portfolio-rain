@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowLeft, ArrowRight, ExternalLink, Github } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Github } from 'lucide-react';
 import { projects } from '../data/works';
 import { projectDetails } from '../data/projectDetails';
 import { useLenis } from '../hooks/scroll/useLenis';
@@ -25,7 +25,7 @@ export function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
             event.preventDefault();
             window.dispatchEvent(new CustomEvent('portfolio-navigate', { detail: { path: '/projects' } }));
           }}
-          className="tech-font absolute left-5 top-6 z-20 inline-flex items-center gap-2 text-[11px] uppercase tracking-widest text-white/75 transition-colors hover:text-[#7c3aed] md:left-12 md:top-10"
+          className="tech-font fixed left-5 top-6 z-50 inline-flex min-h-11 items-center gap-2 border border-white/10 bg-black/80 px-3 text-[11px] uppercase tracking-widest text-white/75 backdrop-blur-sm transition-colors hover:border-[#7c3aed] hover:text-white md:left-12 md:top-10"
         >
           <ArrowLeft size={15} />
           Back to all projects
@@ -53,20 +53,25 @@ export function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
             <p className="tech-font mb-2 text-[12px] font-bold text-[#7c3aed]">{project.year}</p>
             <h1 className="heading-font text-4xl font-bold uppercase tracking-tight md:text-7xl">{project.title}</h1>
             <p className="heading-font mt-2 text-[11px] uppercase tracking-wider text-white/60">{project.line2}</p>
-          </div>
-        </div>
-
-        <section className="px-5 py-10 md:px-12 md:py-12">
-          <div className="mx-auto max-w-4xl text-left">
+            <div className="mt-4 flex flex-wrap gap-2">
+              {project.stack.map((technology) => (
+                <span
+                  key={technology}
+                  className="tech-font border border-white/15 bg-black/20 px-2.5 py-2 text-[9px] uppercase tracking-widest text-white/70 backdrop-blur-sm"
+                >
+                  {technology}
+                </span>
+              ))}
+            </div>
             {project.links && project.links.length > 0 && (
-              <div className="mb-10 flex flex-wrap justify-start gap-3">
+              <div className="mt-4 flex flex-wrap gap-3">
                 {project.links.map((link) => (
                   <a
                     key={link.url}
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="tech-font inline-flex min-h-11 items-center gap-2 border border-white/15 px-4 py-2 text-[10px] uppercase tracking-widest text-white/75 transition-colors hover:border-[#7c3aed] hover:text-white"
+                    className="tech-font inline-flex min-h-11 items-center gap-2 border border-white/20 bg-black/20 px-4 py-2 text-[10px] uppercase tracking-widest text-white/85 backdrop-blur-sm transition-colors hover:border-[#7c3aed] hover:text-white"
                   >
                     {link.type === 'github' ? <Github size={14} /> : <ExternalLink size={14} />}
                     {link.label}
@@ -74,17 +79,29 @@ export function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
                 ))}
               </div>
             )}
-            <h2 className="heading-font text-2xl font-bold uppercase md:text-4xl">About the project</h2>
-            <div className="mt-8 space-y-5 text-[15px] leading-relaxed text-white/70 md:text-base">
-              {detail.overview.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+          </div>
+        </div>
+
+        <section className="bg-black px-5 pb-10 pt-6 md:px-12 md:pb-16 md:pt-8">
+          <div className="mx-auto max-w-7xl">
+            <div className="grid gap-8 border-t border-white/10 pt-6 lg:grid-cols-12 lg:gap-16 lg:pt-7">
+              <div className="lg:col-span-3">
+                <p className="tech-font text-[10px] uppercase tracking-[0.22em] text-[#7c3aed]">01 — Overview</p>
+                <h2 className="heading-font mt-3 text-2xl font-bold uppercase md:text-3xl">About the project</h2>
+              </div>
+              <div className="space-y-6 text-[16px] leading-relaxed text-white/75 lg:col-span-8 lg:col-start-5 md:text-[17px]">
+                {detail.overview.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              </div>
             </div>
           </div>
 
-          <div className="mx-auto mt-20 max-w-6xl border-t border-white/10 pt-12 md:grid md:grid-cols-[1.35fr_0.65fr] md:gap-16">
-            <section>
-              <p className="tech-font text-[10px] uppercase tracking-[0.2em] text-[#7c3aed]">Capabilities</p>
-              <h2 className="heading-font mt-3 text-2xl font-bold uppercase md:text-3xl">Key features</h2>
-              <ul className="mt-8 grid gap-x-8 gap-y-5 sm:grid-cols-2">
+          <div className="mx-auto mt-14 grid max-w-7xl border-t border-white/10 pt-7 lg:grid-cols-12 lg:gap-16 lg:pt-9">
+            <div className="lg:col-span-3">
+              <p className="tech-font text-[10px] uppercase tracking-[0.22em] text-[#7c3aed]">02 — Scope</p>
+              <h2 className="heading-font mt-3 text-2xl font-bold uppercase md:text-3xl">Capabilities</h2>
+            </div>
+            <section className="lg:col-span-9">
+              <ul className="grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:mt-1">
                 {detail.features.map((feature, index) => (
                   <li key={feature} className="flex gap-4 text-sm leading-relaxed text-white/70">
                     <span className="tech-font text-xs text-[#7c3aed]">{String(index + 1).padStart(2, '0')}</span>
@@ -94,48 +111,16 @@ export function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
               </ul>
             </section>
 
-            <section className="mt-14 border-t border-white/10 pt-10 md:mt-0 md:border-l md:border-t-0 md:pl-12 md:pt-0">
-              <p className="tech-font text-[10px] uppercase tracking-[0.2em] text-[#7c3aed]">Toolkit</p>
-              <h2 className="heading-font mt-3 text-2xl font-bold uppercase md:text-3xl">Technology</h2>
-              <div className="mt-8 flex flex-wrap gap-3">
-                {project.stack.map((technology) => (
-                  <span key={technology} className="tech-font border border-white/10 px-3 py-2 text-[10px] uppercase tracking-widest text-white/60">{technology}</span>
-                ))}
-              </div>
-            </section>
           </div>
 
-          <section className="mx-auto mt-24 max-w-6xl border-t border-white/10 pt-12">
-            <p className="tech-font text-[10px] uppercase tracking-[0.2em] text-[#7c3aed]">System map</p>
-            <h2 className="heading-font mt-3 text-2xl font-bold uppercase md:text-4xl">Architecture flow</h2>
-
-            <ol className="mt-10 flex flex-col md:flex-row md:items-stretch">
-              {detail.architecture.map((step, index) => (
-                <li key={step.label} className="flex flex-col md:min-w-0 md:flex-1 md:flex-row">
-                  <div className="relative flex-1 border border-white/10 bg-white/[0.025] p-5 text-left transition-colors hover:border-[#7c3aed]/60 md:min-h-[230px] md:p-6">
-                    <span className="tech-font inline-flex h-8 w-8 items-center justify-center border border-[#7c3aed]/50 text-[10px] font-bold text-[#7c3aed]">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                    <h3 className="heading-font mt-5 text-base font-bold uppercase leading-snug">{step.label}</h3>
-                    <p className="mt-4 text-xs leading-relaxed text-white/60">{step.detail}</p>
-                  </div>
-
-                  {index < detail.architecture.length - 1 && (
-                    <div className="flex h-12 shrink-0 items-center justify-center text-[#7c3aed] md:h-auto md:w-12">
-                      <ArrowDown className="md:hidden" size={22} strokeWidth={1.8} aria-hidden="true" />
-                      <ArrowRight className="hidden md:block" size={22} strokeWidth={1.8} aria-hidden="true" />
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ol>
-          </section>
-
           {detail.readmeSections.length > 0 && (
-            <section className="mx-auto mt-24 max-w-6xl border-t border-white/10 pt-12">
-              <p className="tech-font text-[10px] uppercase tracking-[0.2em] text-[#7c3aed]">Repository guide</p>
-              <h2 className="heading-font mt-3 text-2xl font-bold uppercase md:text-4xl">README details</h2>
-              <div className="mt-10 grid gap-5 md:grid-cols-2">
+            <section className="mx-auto mt-14 max-w-7xl border-t border-white/10 pt-7 lg:pt-9">
+              <div className="grid gap-8 lg:grid-cols-12 lg:gap-16">
+                <div className="lg:col-span-3">
+                  <p className="tech-font text-[10px] uppercase tracking-[0.22em] text-[#7c3aed]">04 — Implementation notes</p>
+                  <h2 className="heading-font mt-3 text-2xl font-bold uppercase md:text-3xl">How it is built</h2>
+                </div>
+                <div className="grid gap-5 md:grid-cols-2 lg:col-span-9">
                 {detail.readmeSections.map((section) => (
                   <article key={section.title} className="border border-white/10 bg-white/[0.02] p-5 md:p-7">
                     <p className="tech-font text-[10px] uppercase tracking-[0.18em] text-[#7c3aed]">{section.eyebrow}</p>
@@ -150,6 +135,7 @@ export function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
                     </ul>
                   </article>
                 ))}
+                </div>
               </div>
             </section>
           )}
