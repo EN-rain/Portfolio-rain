@@ -324,10 +324,11 @@ const animateSection0Parallax = (
     if (letterN) letterN.style.transform = `translate3d(calc(${letterNX}% + ${letterNOffsetX}px), calc(${letterNY}% + ${letterNOffsetY}px), 0) scale(${globalEnScale})`;
   }
 
-  // Parallax layers
+  // Parallax layers (crosshair stays fixed via locked-content, so skip it here)
   const { parallaxLayers } = cache;
   const parallaxIntensity = 0.5;
   parallaxLayers.forEach(layer => {
+    if (layer.classList.contains('home-section__crosshair')) return;
     const speedY = parseFloat(layer.getAttribute('data-speed') || '0');
     const speedX = parseFloat(layer.getAttribute('data-speed-x') || '0');
     layer.style.transform = `translate3d(${currentScroll * speedX * parallaxIntensity}px, ${currentScroll * speedY * parallaxIntensity}px, 0)`;

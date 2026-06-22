@@ -18,19 +18,19 @@ export const HomeSection = () => {
           <div className="home-section">
             {/* Background gradient orb with parallax */}
             <div className="home-section__orb parallax-layer mobile-hide" data-speed="0.05" data-speed-x="-0.02" />
-            
+
             <div className="home-section__grain parallax-layer mobile-hide" data-speed="-0.08" data-speed-x="0.02" />
             <div className="home-section__vignette parallax-layer mobile-hide" data-speed="-0.05" />
             <div className="home-section__ring parallax-layer home-section__intro-ring mobile-hide" data-speed="-0.2" data-speed-x="0.05" />
-            <div className="home-section__crosshair parallax-layer home-section__intro-crosshair mobile-hide" data-speed="0.16" data-speed-x="-0.03" />
-            
+            <div className="home-section__crosshair parallax-layer locked-content home-section__intro-crosshair mobile-hide" data-speed="0.16" data-speed-x="-0.03" />
+
             {/* Floating geometric shapes with parallax */}
             <div className="home-section__shape home-section__shape--1 parallax-layer mobile-hide" data-speed="-0.12" data-speed-x="0.08" />
             <div className="home-section__shape home-section__shape--2 parallax-layer mobile-hide" data-speed="0.18" data-speed-x="-0.06" />
             <div className="home-section__shape home-section__shape--3 parallax-layer mobile-hide" data-speed="-0.15" data-speed-x="0.04" />
-            
-            <div className="home-section__circuit home-section__circuit--left parallax-layer home-section__intro-rail-left mobile-hide" data-speed="-0.18" data-speed-x="0.06" />
-            <div className="home-section__circuit home-section__circuit--right parallax-layer home-section__intro-rail-right mobile-hide" data-speed="0.2" data-speed-x="-0.04" />
+
+            <div className="home-section__circuit home-section__circuit--left locked-content home-section__intro-rail-left mobile-hide" />
+            <div className="home-section__circuit home-section__circuit--right locked-content home-section__intro-rail-right mobile-hide" />
 
             <div className="home-section__center locked-content">
               <div className="home-section__image-wrap" data-speed-mobile="0.15">
