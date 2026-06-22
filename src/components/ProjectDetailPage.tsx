@@ -17,7 +17,7 @@ export function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
   if (!project || !detail) return null;
 
   return (
-    <main className="projects-page min-h-dvh bg-black text-white">
+    <main className="projects-page project-detail-page min-h-dvh bg-black text-white">
       <article className="w-full">
         <a
           href="/projects"
