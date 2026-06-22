@@ -1,15 +1,22 @@
+export type ProjectReadmeSection = {
+  eyebrow: string;
+  title: string;
+  items: string[];
+};
+
 export type ProjectDetail = {
   overview: string[];
   features: string[];
   architecture: { label: string; detail: string }[];
+  readmeSections: ProjectReadmeSection[];
 };
 
 export const projectDetails: Record<string, ProjectDetail> = {
   '01': {
     overview: [
-      'ChemQuest2 is a Godot 4.6 chemistry-learning game that combines a story-driven hometown hub with quest progression, an element glossary, achievements, and interactive minigames. It is designed for desktop preview and Android export using Godot\'s mobile renderer.',
-      'Chapter One begins in the hometown hub and branches into lesson areas for elements, compounds, mixtures, separation methods, accuracy and precision, density, and states of matter. NPC interactions and quests connect those lessons to the game\'s narrative progression.',
-      'Shared Godot managers handle quests, saving, spawning, dialogue, music, sound effects, fades, guidance, and player feedback. Quest definitions and supporting content are stored in project data files, while local progress is written through Godot\'s user storage.',
+      'ChemQuest2 is a Godot 4.6 chemistry-learning game that combines a story-driven hometown hub with quests, an element glossary, achievements, and interactive minigames. It supports desktop preview and Android export through Godot\'s mobile renderer.',
+      'Chapter One branches from the hometown into lessons for elements, compounds, mixtures, separation methods, accuracy and precision, density, and states of matter. NPC interactions, buildings, quests, and rewards connect those lessons to the game\'s progression.',
+      'Shared managers coordinate quests, saving, spawning, dialogue, music, sound effects, fades, guidance, and feedback. Project data files hold quest definitions and learning content, while Godot user storage preserves the player\'s current scene and progress.',
     ],
     features: [
       'Story-driven hometown hub',
@@ -19,36 +26,63 @@ export const projectDetails: Record<string, ProjectDetail> = {
       'Accuracy, precision, and density challenges',
       'States-of-matter platforming and minigames',
       'Element glossary and achievements',
-      'Local save and Android export support',
+      'Local saves and Android export support',
     ],
     architecture: [
+      { label: 'Intro and menu', detail: 'Godot opens the intro scene, then routes the player through the main menu and into the story flow.' },
+      { label: 'Hometown hub', detail: 'NPCs, dialogue, panels, maps, and building entrances direct the player toward lesson objectives.' },
+      { label: 'Quest progression', detail: 'QuestManager loads quest definitions, tracks active objectives, and connects hub interactions to lesson progression.' },
+      { label: 'Lesson areas', detail: 'Building One and Building Two contain separate chemistry lessons, activities, platforming sections, and minigames.' },
+      { label: 'Save and export', detail: 'SaveManager writes progress to local user storage, while the Android preset packages the mobile build.' },
+    ],
+    readmeSections: [
       {
-        label: 'Intro and menu',
-        detail: 'Godot opens intro.tscn, then sends the player through the main menu into the story-driven game flow.',
+        eyebrow: 'Configuration',
+        title: 'Project information',
+        items: [
+          'Built with Godot 4.6 using the mobile renderer and a 1280 × 720 default viewport.',
+          'The intro scene leads to the main menu and the main game flow.',
+          'Targets desktop preview and Android export.',
+          'Touch support uses mouse-to-touch emulation and mobile-oriented settings.',
+        ],
       },
       {
-        label: 'Hometown hub',
-        detail: 'The hometown provides NPCs, dialogue, map access, panels, and building entrances that guide the player toward lesson objectives.',
+        eyebrow: 'Input and content',
+        title: 'Controls and lesson coverage',
+        items: [
+          'Desktop controls include movement, interaction, jumping, and dropping.',
+          'Building One covers elements, compounds, mixtures, separation methods, and accuracy versus precision.',
+          'Building Two covers density challenges and states-of-matter platforming or minigames.',
+          'The glossary provides element information and achievements connect rewards to quest completion.',
+        ],
       },
       {
-        label: 'Quest progression',
-        detail: 'QuestManager loads quest definitions, tracks active objectives, and coordinates progress with dialogue and scene transitions.',
+        eyebrow: 'Repository',
+        title: 'Structure and systems',
+        items: [
+          'Shared assets contain fonts, UI, characters, and environments.',
+          'Global folders contain autoload managers, shared data, music, and sound effects.',
+          'Chapter One contains the hometown hub, NPCs, panels, map, building entrances, and lesson scenes.',
+          'Quest, save, spawn, dialogue, music, fade, guide, and feedback managers coordinate runtime behavior.',
+        ],
       },
       {
-        label: 'Lesson areas',
-        detail: 'Building One and Building Two contain separate chemistry lessons, activities, platforming sections, and minigames.',
-      },
-      {
-        label: 'Save and export',
-        detail: 'SaveManager stores scene, spawn, quest, and feedback data in user storage, while the Android preset packages the mobile build.',
+        eyebrow: 'Development',
+        title: 'Data, running, and export',
+        items: [
+          'Quest, feedback, and glossary information is stored in project data files.',
+          'Install Godot 4.6 or newer, open the project, run it, and start from the intro screen.',
+          'Playable Android builds are distributed through repository releases.',
+          'The Android preset enables a 64-bit ARM build; generated editor and local platform folders stay out of version control.',
+        ],
       },
     ],
   },
   '02': {
     overview: [
-      'StudentFlow is a student-management platform with a Laravel web application, Laravel REST API, and native Java Android client. It supports administrator, teacher, and student roles across school and classroom workflows.',
-      'The system includes teacher and student management, classes, enrollment, classroom join requests, attendance, grade categories, grade items, scores, assignments, announcements, exams, reports, activity logs, and school settings. Student sign-in can also use configured Google or GitHub providers.',
-      'The Blade application uses web sessions, while API clients use Laravel Sanctum bearer tokens. SQLite supports local development, Dompdf generates PDF reports, and the Android client uses Java 17, XML layouts, Retrofit, Gson, OkHttp, Material Components, and AndroidX Security.',
+      'StudentFlow is a student-management system with a Laravel web application, Laravel REST API, and native Java Android client. It supports administrator, teacher, and student roles across school and classroom workflows.',
+      'The platform includes teacher and student management, classes, enrollment, join requests, attendance, grade categories, grade items, scores, assignments, announcements, exams, reports, activity logs, and school settings. Student accounts can also use configured social sign-in providers.',
+      'Blade pages use web sessions, while API clients use Laravel Sanctum bearer tokens. SQLite supports local development, Dompdf produces reports, and the Android application uses Java 17, XML layouts, Retrofit, Gson, OkHttp, Material Components, and AndroidX Security.',
     ],
     features: [
       'Administrator, teacher, and student roles',
@@ -63,33 +97,60 @@ export const projectDetails: Record<string, ProjectDetail> = {
       'Native Java Android client',
     ],
     architecture: [
+      { label: 'Web and Android clients', detail: 'Users enter through Laravel Blade pages or the native Java Android client.' },
+      { label: 'Authentication', detail: 'Blade uses sessions, while API consumers use Sanctum bearer tokens and supported social sign-in.' },
+      { label: 'Laravel modules', detail: 'Routes, middleware, controllers, mail classes, and services process classroom and account workflows.' },
+      { label: 'Database layer', detail: 'Models, migrations, factories, and seeders persist users, classes, assessments, attendance, and logs.' },
+      { label: 'Responses and reports', detail: 'Laravel returns Blade or JSON responses, sends supported email, and produces PDF reports.' },
+    ],
+    readmeSections: [
       {
-        label: 'Web and Android clients',
-        detail: 'Users access StudentFlow through Blade pages in the Laravel web app or through the native Java Android application.',
+        eyebrow: 'Repository',
+        title: 'Project structure',
+        items: [
+          'Laravel application code is separated into controllers, models, middleware, mail, services, routes, Blade resources, and database files.',
+          'Feature tests live under the test suite, while the native Java Android client is maintained in its own directory.',
+          'Documentation covers the API, Android setup, deployment, hosting, and the user manual.',
+          'PowerShell scripts provide web, API, and combined QA workflows.',
+        ],
       },
       {
-        label: 'Authentication',
-        detail: 'Web requests use Laravel sessions, while Android and other API requests use Sanctum bearer tokens and supported social sign-in routes.',
+        eyebrow: 'Requirements',
+        title: 'Stack and setup',
+        items: [
+          'Requires PHP 8.2 or newer, Composer, Node.js, npm, and a Laravel-supported database.',
+          'Local setup installs Composer and frontend dependencies, creates the application key, runs migrations and seeders, and builds frontend assets.',
+          'The local web server runs through Laravel\'s development command.',
+          'Starter seed data can create administrators, teachers, students, classes, enrollment, assessments, grades, and attendance for QA.',
+        ],
       },
       {
-        label: 'Laravel modules',
-        detail: 'Routes, controllers, middleware, mail classes, and services process classes, students, attendance, grades, assignments, announcements, exams, and reports.',
+        eyebrow: 'Authentication and mobile',
+        title: 'Web, API, and Android access',
+        items: [
+          'The Blade application uses session authentication; API clients use Sanctum bearer tokens.',
+          'The API covers login, social sign-in, password recovery, profile, password change, and logout.',
+          'The Android app targets modern Android versions, uses Java 17, and connects through Retrofit.',
+          'Emulators use the host-mapping address for local development, while physical devices use the computer\'s LAN address.',
+        ],
       },
       {
-        label: 'Database layer',
-        detail: 'Migrations and models persist accounts, school settings, classroom records, assessments, submissions, attendance, and activity logs.',
-      },
-      {
-        label: 'Responses and reports',
-        detail: 'Laravel returns Blade pages or JSON API responses, sends supported email notifications, and generates PDF reports through Dompdf.',
+        eyebrow: 'Quality and delivery',
+        title: 'Modules, testing, and deployment',
+        items: [
+          'API groups cover administration, classes, students, attendance, assignments, announcements, exams, reports, and student-facing actions.',
+          'Backend tests, formatting checks, database rebuilds, and PowerShell QA scripts are documented.',
+          'Deployment files include container and hosting configuration plus supporting scripts.',
+          'Environment files, authentication secrets, access tokens, and production databases must not be committed.',
+        ],
       },
     ],
   },
   '03': {
     overview: [
       'TsukiAI Voice Chat is a .NET 8 and WPF desktop voice assistant with a local HTTP API, multi-provider language-model support, semantic memory, and Discord voice integration through a Node.js bridge.',
-      'Its core voice pipeline follows speech-to-text, language-model inference, and text-to-speech. The application supports local and remote inference, configurable providers such as Cerebras, Groq, Gemini, GitHub Models, and Mistral, and an optional Chroma-backed semantic-memory service.',
-      'The solution separates core services and models, the WPF application and local ASP.NET Core host, automated tests, the Discord voice bridge, and helper scripts. Retry policies, circuit breakers, correlation IDs, and bounded background queues improve resilience around external services and memory write-back.',
+      'Its voice pipeline follows speech-to-text, model inference, and text-to-speech. The application supports local and remote inference, configurable cloud providers, and an optional Chroma-backed semantic-memory service.',
+      'The solution separates core services, the WPF runtime, automated tests, the Discord bridge, and helper scripts. Retry policies, circuit breakers, correlation IDs, and bounded queues improve resilience around outbound requests and memory write-back.',
     ],
     features: [
       'WPF desktop voice interface',
@@ -99,38 +160,65 @@ export const projectDetails: Record<string, ProjectDetail> = {
       'Chroma-backed semantic memory',
       'Local ASP.NET Core API',
       'Discord voice bridge',
-      'Optional VOICEVOX local speech synthesis',
+      'Optional local speech synthesis',
       'Retries, circuit breakers, and correlation IDs',
       'Core and runtime test projects',
     ],
     architecture: [
+      { label: 'Voice input', detail: 'Audio enters through the WPF application or Discord bridge and is prepared for recognition.' },
+      { label: 'Speech to text', detail: 'The voice pipeline converts captured audio into text through a configured local or cloud service.' },
+      { label: 'Model and memory', detail: 'Core services route text to a selected model provider and optionally use semantic memory.' },
+      { label: 'Text to speech', detail: 'The generated response is converted into audio through the configured synthesis service.' },
+      { label: 'Desktop or Discord output', detail: 'Audio returns to the desktop UI or Discord bridge with resilience around external requests.' },
+    ],
+    readmeSections: [
       {
-        label: 'Voice input',
-        detail: 'Audio enters through the WPF application or the Discord voice bridge and is prepared for the configured recognition service.',
+        eyebrow: 'Capabilities',
+        title: 'Voice and AI runtime',
+        items: [
+          'The primary flow is speech recognition, language-model inference, then speech synthesis.',
+          'Supports both local and remote inference with configurable model routing.',
+          'Semantic memory can connect through a Chroma-backed service.',
+          'The Discord bridge supplies voice input and output outside the desktop interface.',
+        ],
       },
       {
-        label: 'Speech to text',
-        detail: 'The voice pipeline converts the captured audio into text using the selected local or cloud speech-recognition provider.',
+        eyebrow: 'Repository',
+        title: 'Solution layout',
+        items: [
+          'Core services and models are separated from the WPF voice application and local HTTP API.',
+          'Core tests and voice-runtime tests are maintained as separate projects.',
+          'The Discord bridge is a Node.js sidecar.',
+          'Utility scripts include semantic-memory helpers.',
+        ],
       },
       {
-        label: 'Model and memory',
-        detail: 'Core services route the text to the configured local or remote language model and can use the Chroma-backed memory service.',
+        eyebrow: 'Requirements',
+        title: 'Prerequisites and configuration',
+        items: [
+          'Requires Windows 10 or 11 and the .NET 8 SDK.',
+          'The Discord bridge requires Node.js 18 or newer.',
+          'Local speech synthesis and cloud speech or translation services are optional.',
+          'Runtime provider endpoints and credentials are configured through the project environment file.',
+        ],
       },
       {
-        label: 'Text to speech',
-        detail: 'The generated response is converted into audio through the configured speech-synthesis provider, including optional VOICEVOX.',
-      },
-      {
-        label: 'Desktop or Discord output',
-        detail: 'The response returns to the WPF interface or through the Node.js bridge to Discord voice, with resilience policies surrounding outbound calls.',
+        eyebrow: 'Development',
+        title: 'Build, run, test, and troubleshoot',
+        items: [
+          'The solution supports standard .NET build, run, restore, and test commands.',
+          'The WPF project hosts the local API used by the bridge and tooling.',
+          'Discord audio troubleshooting includes checking bot permissions, voice-channel configuration, and the bridge API address.',
+          'Speech failures should be checked against configured provider endpoints and local API availability.',
+        ],
       },
     ],
   },
   '04': {
     overview: [
-      'Oozeborne is a Godot 4.6 four-player cooperative survivors game backed by Moon Server, a custom containerized multiplayer backend. The client includes gameplay scenes, scripts, assets, and resource data for classes, skills, and items.',
-      'Moon Server separates lobby and account operations from active gameplay. A Node.js lobby API handles authentication, rooms, profiles, and administration, while a Go WebSocket game server runs the authoritative room simulation at 20 updates per second.',
-      'PostgreSQL stores persistent player data, Redis handles session state, room registration, and pub/sub, and a Next.js Moon Control Center provides administration and live monitoring. Docker Compose connects and runs the complete stack.',
+      'Oozeborne is a Godot 4.6 four-player cooperative survivors game backed by Moon Server, a custom containerized game backend. The client contains scenes, scripts, assets, and resource data for classes, skills, and items.',
+      'Moon Server separates account and lobby work from active gameplay. A Node.js lobby API handles authentication, rooms, profiles, and administration, while a Go WebSocket server runs an authoritative simulation at 20 updates per second.',
+      'PostgreSQL stores persistent player data, Redis handles session state, room registration, and pub/sub, and a Next.js Moon Control Center provides administration and live monitoring. Docker Compose connects the full stack.',
     ],
     features: [
       'Four-player cooperative survivors gameplay',
@@ -145,33 +233,60 @@ export const projectDetails: Record<string, ProjectDetail> = {
       'Docker Compose deployment',
     ],
     architecture: [
+      { label: 'Godot client', detail: 'The client supplies authentication, lobby, class selection, survivor gameplay, skills, items, effects, and UI.' },
+      { label: 'Lobby API', detail: 'The Node.js REST service handles JWT authentication, rooms, profiles, and administration.' },
+      { label: 'Game server', detail: 'The Go WebSocket service runs the authoritative 20 Hz simulation and synchronizes rooms.' },
+      { label: 'PostgreSQL and Redis', detail: 'PostgreSQL stores persistent player data; Redis manages sessions, rooms, and pub/sub.' },
+      { label: 'Control center', detail: 'The Next.js portal monitors and tunes services while Docker Compose runs the stack.' },
+    ],
+    readmeSections: [
       {
-        label: 'Godot client',
-        detail: 'The Godot game presents authentication, lobby, class selection, survivor gameplay, skills, items, effects, and player-facing UI.',
+        eyebrow: 'Repository',
+        title: 'Workspace structure',
+        items: [
+          'The Godot client separates scripts, scenes, assets, class or skill resources, and a legacy unused code-generation tool.',
+          'Moon Server contains the Go game server, Node.js lobby API, Next.js admin portal, database migrations, and container configuration.',
+          'Architecture documentation and development utilities live in dedicated folders.',
+          'The repository is licensed under MIT.',
+        ],
       },
       {
-        label: 'Lobby API',
-        detail: 'The Node.js REST service handles JWT authentication, room management, profiles, and administrative requests.',
+        eyebrow: 'Local development',
+        title: 'Starting the stack',
+        items: [
+          'Copy the example environment configuration and start the full service stack with Docker Compose.',
+          'Open the Godot project and run the client after the services are healthy.',
+          'The README documents local and remote update workflows for service deployment.',
+          'Development administrator access must be changed before any non-local use.',
+        ],
       },
       {
-        label: 'Game server',
-        detail: 'The Go WebSocket service runs the authoritative 20 Hz multiplayer simulation and synchronizes active rooms.',
+        eyebrow: 'Services',
+        title: 'Backend responsibilities',
+        items: [
+          'The lobby API handles authentication, rooms, profiles, and administration.',
+          'The game server provides the authoritative 20 Hz WebSocket simulation.',
+          'The admin portal provides the Moon Control Center.',
+          'PostgreSQL stores persistent player data, Redis stores runtime state, and a development database browser is included.',
+        ],
       },
       {
-        label: 'PostgreSQL and Redis',
-        detail: 'PostgreSQL stores persistent player data, while Redis manages session state, room registry information, and pub/sub.',
-      },
-      {
-        label: 'Control center',
-        detail: 'The Next.js Moon Control Center monitors and tunes the services, with Docker Compose managing the complete deployment.',
+        eyebrow: 'Operations',
+        title: 'Gameplay, commands, and documentation',
+        items: [
+          'Documented gameplay includes five main classes, eighteen subclasses, skill trees, progression, status effects, shops, coins, upgrades, and slime variants.',
+          'Docker Compose commands cover start, background start, stop, log viewing, database reset, and single-service rebuilds.',
+          'Requirements include Godot 4.6, Docker, and Docker Compose, with Go and Node.js optional for direct service development.',
+          'Documentation covers workspace, game, multiplayer, and server architecture.',
+        ],
       },
     ],
   },
   '05': {
     overview: [
-      'TypeDuel is a competitive 2D pixel typing duel built with Godot and a Node.js backend. Players log in, enter matchmaking or create custom rooms, choose a character loadout, and fight through round-based typing battles.',
-      'Matches combine typing speed and accuracy with health, mana, active skills, passive disruption effects, win streaks, forfeits, and rematches. The current roster includes Riven, Liora, and Zephon, with several active and passive abilities.',
-      'REST endpoints support lobby, account, and social flows, while Socket.IO and WebSocket connections synchronize match events. Live rooms remain in server memory, and SQLite persists users, leaderboard records, chat messages, friends, feedback, and match history.',
+      'TypeDuel is a competitive 2D pixel typing duel built with Godot and a Node.js backend. Players log in, enter matchmaking or create custom rooms, select a character loadout, and fight through round-based typing battles.',
+      'Matches combine speed and accuracy with health, mana, active skills, passive disruption effects, win streaks, forfeits, and rematches. The documented roster includes Riven, Liora, and Zephon.',
+      'REST endpoints support account, lobby, room, social, and history workflows, while Socket.IO and WebSocket connections synchronize match events. Live rooms remain in memory and SQLite persists accounts, social records, chat, leaderboards, and history.',
     ],
     features: [
       'Real-time multiplayer typing duels',
@@ -186,33 +301,61 @@ export const projectDetails: Record<string, ProjectDetail> = {
       'SQLite persistence',
     ],
     architecture: [
+      { label: 'Login and lobby', detail: 'The Godot client uses Express routes for accounts, profiles, matchmaking, custom rooms, chat, and friends.' },
+      { label: 'Loadout selection', detail: 'Each player chooses one character, two active skills, and one passive before the match.' },
+      { label: 'Round phases', detail: 'Each round moves from skill selection to shared typing with WPM, accuracy, typos, mana, and mutations.' },
+      { label: 'Realtime synchronization', detail: 'Socket.IO and WebSocket events carry joins, skill picks, progress, HP, phases, forfeits, and voice relay.' },
+      { label: 'Results and persistence', detail: 'SQLite stores persistent records while the server cleans stale rooms, chat, uploads, and disconnects.' },
+    ],
+    readmeSections: [
       {
-        label: 'Login and lobby',
-        detail: 'The Godot client uses the Express API for registration, login, profiles, matchmaking, custom rooms, friends, chat, and leaderboard data.',
+        eyebrow: 'Repository',
+        title: 'Project layout',
+        items: [
+          'The Godot client contains UI, gameplay, entity, audio, and HUD scenes plus autoload, domain, and network-service scripts.',
+          'The Node.js server contains controllers, routes, realtime handlers, room and matchmaking services, SQLite schema, balance data, migrations, and seeds.',
+          'Shared API contracts document request, response, and room-state expectations.',
+          'Architecture, game-design, and gameplay-flow documents are included.',
+        ],
       },
       {
-        label: 'Loadout selection',
-        detail: 'Each player chooses one character, two active skills, and one passive before the room starts the match.',
+        eyebrow: 'Requirements',
+        title: 'Run locally',
+        items: [
+          'Requires Godot 4.6 or a compatible Godot 4.x build, Node.js 18 or newer, and npm.',
+          'The backend installs dependencies, initializes the SQLite schema, runs migrations, and seeds an empty database.',
+          'The Godot project begins from its login scene and points to the local backend during development.',
+          'Two Godot instances with separate accounts can be used for local multiplayer testing; Docker is optional.',
+        ],
       },
       {
-        label: 'Round phases',
-        detail: 'The match repeats a skill-select phase followed by a shared typing phase that tracks progress, WPM, accuracy, typos, mana, and mutations.',
+        eyebrow: 'Gameplay and networking',
+        title: 'Match flow and API',
+        items: [
+          'Players enter matchmaking or a custom room, select one character, two active skills, and one passive, then repeat skill-select and typing phases.',
+          'The same sentence is used for both players while the game tracks WPM, accuracy, typos, mana, and passive mutations.',
+          'A match ends through zero health, forfeit, or disconnect auto-forfeit, then updates history and leaderboards.',
+          'API and realtime groups cover accounts, rooms, game data, chat, friends, feedback, progress, HP, phases, forfeits, and voice relay.',
+        ],
       },
       {
-        label: 'Realtime synchronization',
-        detail: 'Socket.IO and WebSocket events carry joins, skill picks, typing progress, HP updates, phase changes, forfeits, and related match state.',
-      },
-      {
-        label: 'Results and persistence',
-        detail: 'The backend stores accounts, social data, leaderboards, chat, and match history in SQLite while cleaning stale rooms and disconnects.',
+        eyebrow: 'Data and development',
+        title: 'Balance, persistence, and credits',
+        items: [
+          'Character, skill, and sentence definitions are shared through JSON data files in the client and server.',
+          'Riven, Liora, and Zephon have documented health, damage, and innate traits.',
+          'Rooms remain in memory; users, social data, leaderboards, chat, and match history use SQLite.',
+          'The server cleans stale rooms, disconnect forfeits, old chat, and unused uploads; the automated test command is currently a placeholder.',
+          'The README credits the UI, audio, sprite, and Universal LPC asset sources.',
+        ],
       },
     ],
   },
   '06': {
     overview: [
-      'CSCprep is a React 19 and Vite reviewer application for Civil Service Exam practice. It provides randomized exams, subject-specific sessions, an optional one-hour timer, answer review, themes, and smooth transitions.',
-      'The question bank combines five local JSON files covering verbal reasoning, numerical reasoning, analytical ability, Filipino, and general information. Figure and table questions can display cropped images from the public question-image directory.',
-      'The repository also includes extraction, audit, and image-cropping scripts for the source reviewer PDFs. The documented CSC 11 data set contains 716 extracted and verified questions with no missing or duplicate IDs.',
+      'CSCprep is a React 19 and Vite reviewer application for Civil Service Exam practice. It provides randomized exams, subject-specific sessions, optional timed mode, answer review, themes, and smooth scrolling.',
+      'The question bank combines five local JSON files for verbal reasoning, numerical reasoning, analytical ability, Filipino, and general information. Figure and table items can use cropped images stored with the public assets.',
+      'The repository includes scripts that extract, audit, and crop source material from reviewer PDFs. The documented CSC 11 data set contains 716 extracted questions and 716 JSON questions, with no missing or duplicate IDs.',
     ],
     features: [
       'Random and subject-based exam sessions',
@@ -227,33 +370,60 @@ export const projectDetails: Record<string, ProjectDetail> = {
       'PDF extraction and audit scripts',
     ],
     architecture: [
+      { label: 'Question sources', detail: 'Five subject JSON files and cropped public images provide the reviewer content.' },
+      { label: 'Combined question bank', detail: 'A TypeScript module combines the subject files into the collection consumed by the app.' },
+      { label: 'Exam generation', detail: 'Exam utilities prepare random or subject-based sessions and apply cooldown or history logic.' },
+      { label: 'React exam flow', detail: 'The main app manages active exams, timers, answers, skipped-item checks, review, themes, and transitions.' },
+      { label: 'Build and data audit', detail: 'Vite builds the site while Python scripts extract, audit, and crop PDF-backed content.' },
+    ],
+    readmeSections: [
       {
-        label: 'Question sources',
-        detail: 'Five subject JSON files and public question images provide the reviewer content.',
+        eyebrow: 'Features',
+        title: 'Reviewer behavior',
+        items: [
+          'Supports random and subject-specific sessions, an optional one-hour timer, and answer review filters.',
+          'Confirms skipped items before submission and confirms exits inside the application.',
+          'Includes dark and light themes, smooth transitions, and Lenis scrolling.',
+          'Figure and table questions can display cropped images.',
+        ],
       },
       {
-        label: 'Combined question bank',
-        detail: 'questionBank.ts combines the subject data into the collection used by the application.',
+        eyebrow: 'Development',
+        title: 'Install, build, and preview',
+        items: [
+          'The README documents dependency installation, the Vite development server, production builds, production preview, and type checking.',
+          'The app is built with React 19, TypeScript, Vite, and Lenis.',
+          'No separate backend setup is described because the question data is bundled with the project.',
+        ],
       },
       {
-        label: 'Exam generation',
-        detail: 'exam.ts prepares random or subject-based sessions and applies question-history logic.',
+        eyebrow: 'Repository',
+        title: 'Source structure',
+        items: [
+          'The main application file owns the exam UI and flow, while the stylesheet contains themes and animations.',
+          'Five subject JSON files are combined through the question-bank module.',
+          'Exam utilities handle session generation and question-history behavior.',
+          'Public assets contain cropped question images, and scripts contain extraction, audit, and cropping helpers.',
+        ],
       },
       {
-        label: 'React exam flow',
-        detail: 'App.tsx manages the active exam, timer, answers, skipped-item checks, review screens, themes, and transitions.',
-      },
-      {
-        label: 'Build and data audit',
-        detail: 'Vite builds the static app, while the Python scripts extract, audit, and crop PDF-backed question content.',
+        eyebrow: 'Data quality',
+        title: 'Question-bank verification',
+        items: [
+          'The CSC 11 reviewer PDF was checked against the JSON bank.',
+          'The audit found 716 extracted questions and 716 JSON questions.',
+          'No CSC 11 question IDs were missing or duplicated.',
+          'Extracted text was cleaned for OCR issues, section labels, and explanations.',
+          'Generated builds, dependencies, source PDFs, extraction logs, and local-only files remain excluded from commits.',
+        ],
       },
     ],
   },
   '07': {
     overview: [
-      'PocketTrade is a used-phone marketplace with a Flutter Android application, NestJS API, and React administration panel. The repository separates those clients into mobile, backend, and admin projects.',
-      'The platform supports email and password sign-in, email OTP verification and reset, JWT access and refresh tokens, listings, favorites, conversations, blocks, reports, push tokens, and administrative operations.',
-      'Prisma and PostgreSQL persist marketplace data, Cloudinary stores uploaded media, Socket.IO supports realtime communication, and Firebase Cloud Messaging delivers push notifications. The admin panel uses React, Vite, Tailwind CSS, and Recharts, while Flutter uses Dio, GoRouter, and secure storage.',
+      'PocketTrade is a used-phone marketplace with a Flutter Android application, NestJS API, and React administration panel. The repository separates mobile, backend, admin, QA scripts, and supporting documentation.',
+      'The platform supports email and password sign-in, OTP verification and reset, JWT access and refresh tokens, listings, favorites, conversations, blocks, reports, push tokens, and administrative operations.',
+      'Prisma and PostgreSQL persist marketplace data, Cloudinary stores uploaded media, Socket.IO supports realtime communication, and Firebase Cloud Messaging delivers push notifications. The admin panel uses React, Vite, Tailwind CSS, and Recharts; Flutter uses Dio, GoRouter, and secure storage.',
     ],
     features: [
       'Flutter Android marketplace app',
@@ -268,66 +438,124 @@ export const projectDetails: Record<string, ProjectDetail> = {
       'Socket.IO and Firebase notifications',
     ],
     architecture: [
+      { label: 'Mobile and admin clients', detail: 'The Flutter app serves marketplace users, while the React panel provides protected administration.' },
+      { label: 'NestJS API', detail: 'NestJS exposes authentication, listing, favorite, conversation, block, report, push-token, and admin routes.' },
+      { label: 'Prisma and PostgreSQL', detail: 'Prisma writes account, marketplace, messaging, and moderation records to PostgreSQL.' },
+      { label: 'Media storage', detail: 'Cloudinary stores listing images while the database retains related listing metadata.' },
+      { label: 'Realtime and push', detail: 'Socket.IO delivers conversation updates and Firebase sends device notifications.' },
+    ],
+    readmeSections: [
       {
-        label: 'Mobile and admin clients',
-        detail: 'The Flutter Android app serves marketplace users, while the React panel provides protected administrative screens.',
+        eyebrow: 'Repository',
+        title: 'Project structure',
+        items: [
+          'The backend contains the NestJS API, Prisma schema, migrations, seed data, and Jest tests.',
+          'The admin directory contains the React and TypeScript administration panel.',
+          'The mobile directory contains the Flutter Android client.',
+          'QA scripts, test output, and supporting implementation notes are stored separately.',
+        ],
       },
       {
-        label: 'NestJS API',
-        detail: 'NestJS exposes authentication, listing, favorite, conversation, block, report, push-token, and admin routes.',
+        eyebrow: 'Requirements',
+        title: 'Stack and services',
+        items: [
+          'Requires Node.js, npm, PostgreSQL, Flutter, and the Android SDK.',
+          'The backend uses NestJS, TypeScript, Prisma, and PostgreSQL.',
+          'Cloud media, transactional email, and push notification services are required for complete functionality.',
+          'The admin panel uses React, Vite, Tailwind CSS, and Recharts; mobile uses Dio, GoRouter, and secure storage.',
+        ],
       },
       {
-        label: 'Prisma and PostgreSQL',
-        detail: 'Prisma maps the backend data model and writes accounts, marketplace records, and messaging data to PostgreSQL.',
+        eyebrow: 'Setup and API',
+        title: 'Backend, admin, and mobile flow',
+        items: [
+          'Backend setup installs dependencies, generates Prisma code, applies migrations, seeds development data, and starts the API.',
+          'The development seed includes administrator, buyer, seller, listing, favorite, and conversation examples.',
+          'The admin panel points to the API through its frontend environment configuration.',
+          'The Flutter app uses the emulator host address locally and the computer\'s LAN address on a physical device.',
+          'Authentication routes cover OTP, registration, login, password recovery, refresh, and logout; marketplace routes cover listings and supporting modules.',
+        ],
       },
       {
-        label: 'Media storage',
-        detail: 'Cloudinary stores uploaded listing media while the database retains the related marketplace metadata.',
-      },
-      {
-        label: 'Realtime and push',
-        detail: 'Socket.IO delivers realtime updates, Firebase Cloud Messaging sends notifications, and both clients consume the same API.',
+        eyebrow: 'Quality and deployment',
+        title: 'Tests, builds, and release notes',
+        items: [
+          'Backend tests and builds, admin builds and linting, and Flutter analysis and APK builds are documented.',
+          'A Windows QA runner supports API, APK, and custom base-address options and writes logs to a QA results folder.',
+          'Deployment guidance is provided in a dedicated document.',
+          'A separate implementation-status document distinguishes complete, partial, and unavailable features.',
+          'Environment files and service credentials must not be committed.',
+        ],
       },
     ],
   },
   '08': {
     overview: [
       'Cache Me Outside is a newspaper-style time capsule for selected internet moments from 2020. Public pages are organized by year, month, and day and display reviewed entries through the archive interface.',
-      'The application includes hidden, desktop-only administration tools for CMS management, entry generation, review, and preview. Access begins with a secret trigger, continues through an emailed magic link, and requires a TOTP authenticator code.',
-      'The project uses Next.js with Supabase-backed data and is designed for Vercel deployment. Unauthorized or mobile requests to protected admin routes return a not-found response, and draft previews display a visible watermark.',
+      'The application includes hidden, desktop-only administration tools for CMS management, generation, review, and preview. Access starts with a hidden trigger, continues through an emailed verification link, and requires an authenticator-app code.',
+      'The project uses Next.js with Supabase-backed data and is designed for Vercel deployment. Unauthorized or mobile requests to admin routes return a not-found response, and draft previews display a watermark.',
     ],
     features: [
       'Newspaper-style 2020 archive',
       'Year, month, and day public routes',
       'Reviewed public entries',
-      'Hidden admin trigger',
-      'Email magic-link verification',
-      'TOTP two-factor authentication',
+      'Hidden admin entry point',
+      'Email link verification',
+      'Authenticator-app two-factor verification',
       'Desktop-only admin access',
       'CMS and entry generator',
       'Review and watermarked preview',
       'Supabase and Vercel deployment',
     ],
     architecture: [
+      { label: 'Public archive routes', detail: 'Visitors browse the 2020 archive through year, month, and day pages.' },
+      { label: 'Reviewed entries', detail: 'The newspaper interface renders reviewed public entries while drafts remain protected.' },
+      { label: 'Hidden trigger', detail: 'An administrator starts the protected access flow through a hidden public-page control.' },
+      { label: 'Email and two-factor check', detail: 'The system verifies an emailed link, desktop access, and an authenticator-app code.' },
+      { label: 'CMS and preview', detail: 'Protected routes provide CMS, generator, review, and watermarked preview tools.' },
+    ],
+    readmeSections: [
       {
-        label: 'Public archive routes',
-        detail: 'Visitors browse the 2020 archive through year, month, and day routes.',
+        eyebrow: 'Setup',
+        title: 'Quick start and deployment',
+        items: [
+          'Install dependencies, copy the example local configuration, and run the development server.',
+          'The root address redirects visitors to the 2020 archive.',
+          'The initial database migration must be applied to the configured Supabase project.',
+          'Vercel deployment uses the same project configuration and the production site address.',
+        ],
       },
       {
-        label: 'Reviewed entries',
-        detail: 'The newspaper interface renders reviewed public entries while keeping draft administration data protected.',
+        eyebrow: 'Environment',
+        title: 'Service configuration',
+        items: [
+          'The project requires public Supabase connection settings and a server-only administrative connection.',
+          'Email delivery supports the documented provider or an SMTP fallback.',
+          'Administrator access requires an inbox, authenticator setup, and a hidden trigger configuration.',
+          'The current MVP uses authenticator-app verification instead of Google OAuth.',
+        ],
       },
       {
-        label: 'Secret trigger',
-        detail: 'An administrator enters the hidden secret word from a public page to begin the protected access flow.',
+        eyebrow: 'Security',
+        title: 'Admin access flow',
+        items: [
+          'The administrator starts from a hidden form on a public page.',
+          'An emailed link continues the verification process.',
+          'Admin access is restricted to desktop browsers and requires an authenticator-app code.',
+          'Protected CMS, generator, review, and preview pages become available after verification.',
+          'Unauthorized and mobile requests to protected routes return a not-found response.',
+        ],
       },
       {
-        label: 'Magic link and TOTP',
-        detail: 'The system emails a magic link, requires a desktop browser, and verifies an authenticator-app code.',
-      },
-      {
-        label: 'CMS and preview',
-        detail: 'Protected admin routes provide CMS, generator, review, and watermarked preview tools using the configured Supabase project.',
+        eyebrow: 'Routes and tools',
+        title: 'Public archive and CMS behavior',
+        items: [
+          'Public routes cover the year, month, and day archive levels.',
+          'Admin routes cover the dashboard, entries, generator, review, and preview.',
+          'The generator reads curated local data and never publishes directly.',
+          'Preview is desktop-only and displays a draft watermark.',
+          'Development, production build, and unit-test scripts are documented, with full product specifications in the planning documents.',
+        ],
       },
     ],
   },
