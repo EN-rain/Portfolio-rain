@@ -228,9 +228,9 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
               } else {
                 // Section 1 settles at enterEnd = pauseLength + transitionLength.
                 const enterEnd = pauseLength + transitionLength;
-                // Start fading in the last 20% of enter transition
-                const fadeStart = enterEnd - transitionLength * 0.2;
-                const fadeRange = transitionLength * 0.35;
+                // Start fading in much earlier and give it more scroll distance
+                const fadeStart = enterEnd - transitionLength * 0.85;
+                const fadeRange = transitionLength * 0.85;
                 const rawProgress = Math.max(0, Math.min(1, (currentScroll - fadeStart) / fadeRange));
                 const easeOut3 = (t: number) => 1 - Math.pow(1 - t, 3);
 
@@ -315,7 +315,33 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
               }
             }
           }
+
+          // ── About section parallax bg layers ──────────────────────────────────
+          // Section 1 settles at scroll = pauseLength + transitionLength.
+          if (window.matchMedia('(min-width: 1024px)').matches) {
+            const sec1SettleScroll = pauseLength + transitionLength;
+            const relativeScroll = currentScroll - sec1SettleScroll;
+            const parallaxIntensity = 0.6;
+            
+            // Query live to survive HMR without breaking, though cache is better
+            let cachedLayers = (secEl as any)._cachedBgLayers as { el: HTMLElement, speedX: number, speedY: number }[] | undefined;
+            if (!cachedLayers) {
+              const nodes = secEl.querySelectorAll('.about-bg-layer');
+              cachedLayers = Array.from(nodes).map(node => ({
+                el: node as HTMLElement,
+                speedX: parseFloat(node.getAttribute('data-speed-x') || '0'),
+                speedY: parseFloat(node.getAttribute('data-speed') || '0')
+              }));
+              (secEl as any)._cachedBgLayers = cachedLayers;
+            }
+            
+            for (let j = 0; j < cachedLayers.length; j++) {
+              const item = cachedLayers[j];
+              item.el.style.transform = `translate3d(${relativeScroll * item.speedX * parallaxIntensity}px, ${relativeScroll * item.speedY * parallaxIntensity}px, 0)`;
+            }
+          }
         }
+
 
         const referenceStart = i === 0 ? 0 : ((i - 1) * (transitionLength + pauseLength)) + pauseLength;
         cache.textParallaxBlocks.forEach(block => {

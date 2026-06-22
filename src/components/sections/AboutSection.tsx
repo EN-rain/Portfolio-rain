@@ -1,8 +1,65 @@
+import { useEffect, useRef } from 'react';
 import heroImage from '../../assets/images/hero1.2.png';
 import { useMobileReveal } from '../../hooks/useMobileReveal';
 
+// Canva bg layers — each is 1920×1080 transparent PNG with the element at its exact canvas position
+import bgL01 from '../../assets/images/bg_cropped/layer_01_Freeform_2.webp';
+import bgL02 from '../../assets/images/bg_cropped/layer_02_Freeform_3.webp';
+import bgL03 from '../../assets/images/bg_cropped/layer_03_Freeform_4.webp';
+import bgL04 from '../../assets/images/bg_cropped/layer_04_Freeform_5.webp';
+import bgL05 from '../../assets/images/bg_cropped/layer_05_Freeform_6.webp';
+import bgL06 from '../../assets/images/bg_cropped/layer_06_Freeform_7.webp';
+import bgL07 from '../../assets/images/bg_cropped/layer_07_Freeform_8.webp';
+import bgL08 from '../../assets/images/bg_cropped/layer_08_Freeform_9.webp';
+import bgL09 from '../../assets/images/bg_cropped/layer_09_Freeform_10.webp';
+import bgL10 from '../../assets/images/bg_cropped/layer_10_Freeform_11.webp';
+import bgL11 from '../../assets/images/bg_cropped/layer_11_Freeform_12.webp';
+import bgL12 from '../../assets/images/bg_cropped/layer_12_Freeform_13.webp';
+import bgL13 from '../../assets/images/bg_cropped/layer_13_Freeform_14.webp';
+import bgL14 from '../../assets/images/bg_cropped/layer_14_Freeform_15.webp';
+import bgL15 from '../../assets/images/bg_cropped/layer_15_Freeform_16.webp';
+import bgL16 from '../../assets/images/bg_cropped/layer_16_Freeform_17.webp';
+import bgL17 from '../../assets/images/bg_cropped/layer_17_Freeform_18.webp';
+import bgL18 from '../../assets/images/bg_cropped/layer_18_Freeform_19.webp';
+import bgL19 from '../../assets/images/bg_cropped/layer_19_Freeform_20.webp';
+import bgL20 from '../../assets/images/bg_cropped/layer_20_Freeform_21.webp';
+import bgL21 from '../../assets/images/bg_cropped/layer_21_Freeform_22.webp';
+import bgL22 from '../../assets/images/bg_cropped/layer_22_Freeform_23.webp';
+import bgL23 from '../../assets/images/bg_cropped/layer_23_Freeform_24.webp';
+
+// Each layer: { src, speedY, speedX }
+// Layers 1-4 are large background shapes → slow (far away)
+// Layers 5-9 are mid shapes → medium
+// Layers 10-23 are small decorative elements → fast (close)
+const BG_LAYERS = [
+  { src: bgL01, speedY: 0.04, speedX: -0.01, css: { left: '0.0521%', top: '0.0000%', width: '55.9375%', height: '45.9259%' } },
+  { src: bgL02, speedY: 0.06, speedX: 0.02, css: { left: '0.0521%', top: '0.0000%', width: '27.3958%', height: '43.7963%' } },
+  { src: bgL03, speedY: 0.05, speedX: -0.02, css: { left: '0.0521%', top: '54.0741%', width: '17.8646%', height: '45.9259%' } },
+  { src: bgL04, speedY: 0.1, speedX: -0.04, css: { left: '0.0521%', top: '54.0741%', width: '40.4688%', height: '45.9259%' } },
+  { src: bgL05, speedY: 0.12, speedX: 0.05, css: { left: '28.5417%', top: '70.7407%', width: '15.5208%', height: '29.2593%' } },
+  { src: bgL06, speedY: 0.09, speedX: -0.03, css: { left: '44.0104%', top: '70.7407%', width: '20.2604%', height: '29.2593%' } },
+  { src: bgL07, speedY: 0.08, speedX: 0.02, css: { left: '67.8125%', top: '0.0000%', width: '32.1354%', height: '22.9630%' } },
+  { src: bgL08, speedY: 0.15, speedX: -0.05, css: { left: '80.0000%', top: '45.8333%', width: '45.0000%', height: '75.0000%' } },
+  { src: bgL09, speedY: 0.11, speedX: 0.04, css: { left: '13.0729%', top: '33.2407%', width: '86.9271%', height: '66.7593%' } },
+  { src: bgL10, speedY: 0.06, speedX: -0.01, css: { left: '1.1458%', top: '37.4074%', width: '7.2396%', height: '6.3889%' } },
+  { src: bgL11, speedY: 0.07, speedX: 0.02, css: { left: '2.3438%', top: '45.8333%', width: '2.4479%', height: '4.2593%' } },
+  { src: bgL12, speedY: 0.08, speedX: -0.03, css: { left: '7.1354%', top: '47.7778%', width: '2.4479%', height: '4.3519%' } },
+  { src: bgL13, speedY: 0.05, speedX: 0.01, css: { left: '17.8646%', top: '22.8704%', width: '2.4479%', height: '2.2222%' } },
+  { src: bgL14, speedY: 0.09, speedX: -0.02, css: { left: '21.4063%', top: '60.3704%', width: '2.4479%', height: '4.2593%' } },
+  { src: bgL15, speedY: 0.13, speedX: 0.04, css: { left: '23.8021%', top: '79.0741%', width: '1.1979%', height: '2.2222%' } },
+  { src: bgL16, speedY: 0.1, speedX: -0.03, css: { left: '33.3333%', top: '85.3704%', width: '8.3854%', height: '6.3889%' } },
+  { src: bgL17, speedY: 0.06, speedX: 0.01, css: { left: '48.8021%', top: '62.5000%', width: '2.3958%', height: '4.2593%' } },
+  { src: bgL18, speedY: 0.07, speedX: -0.02, css: { left: '82.0833%', top: '16.5741%', width: '3.6458%', height: '8.5185%' } },
+  { src: bgL19, speedY: 0.08, speedX: 0.03, css: { left: '89.2188%', top: '10.3704%', width: '9.6354%', height: '8.4259%' } },
+  { src: bgL20, speedY: 0.11, speedX: -0.04, css: { left: '86.8750%', top: '64.5370%', width: '2.3958%', height: '4.2593%' } },
+  { src: bgL21, speedY: 0.09, speedX: 0.02, css: { left: '86.8750%', top: '43.7037%', width: '2.3958%', height: '4.2593%' } },
+  { src: bgL22, speedY: 0.12, speedX: -0.05, css: { left: '90.4167%', top: '37.4074%', width: '2.4479%', height: '4.3519%' } },
+  { src: bgL23, speedY: 0.1, speedX: 0.01, css: { left: '90.4167%', top: '70.7407%', width: '8.4375%', height: '8.4259%' } },
+];
+
 export const AboutSection = () => {
   const revealRef = useMobileReveal<HTMLElement>();
+  // The 23 Canva background layers will be driven purely by the scroll system now.
   const desktopSkillGroups = [
     {
       label: 'Frontend & Mobile',
@@ -26,13 +83,37 @@ export const AboutSection = () => {
         <div className="clip-gap-inner">
           <div className="absolute inset-0" style={{ backgroundColor: '#f7f7fc' }}></div>
 
+          {/* ── Canva background layers ──
+               Wrapper: bg-image → gets scroll counter-transform (stays screen-fixed)
+               Inner img: about-bg-layer → gets scroll parallax depth ── */}
+          <div className="about-bg-parallax" aria-hidden="true">
+            {BG_LAYERS.map((layer, i) => (
+              <div key={i} className="about-bg-wrap bg-image mobile-hide">
+                <img
+                  src={layer.src}
+                  alt=""
+                  className="about-bg-layer"
+                  style={{
+                    left: layer.css.left,
+                    top: layer.css.top,
+                    width: layer.css.width,
+                    height: layer.css.height,
+                  }}
+                  data-speed={layer.speedY}
+                  data-speed-x={layer.speedX}
+                  draggable={false}
+                />
+              </div>
+            ))}
+          </div>
+
           <div className="about-shell locked-content">
             <div className="about-image-container relative">
               <div data-about-fade data-about-fade-order="0" data-about-fade-dir="left" className="about-image-wrap about-scroll-fade">
                 <img src={heroImage} alt="Profile" className="about-image" />
               </div>
 
-              <div data-about-fade data-about-fade-order="5" data-about-fade-dir="pop-children" className="about-skills-box about-skills-box--desktop about-scroll-fade">
+              <div data-about-fade data-about-fade-order="4" data-about-fade-dir="bottom" className="about-skills-box about-skills-box--desktop about-scroll-fade">
                 {desktopSkillGroups.map(group => (
                   <div key={group.label} className="about-skill-group">
                     <div className="about-skill-group-title">{group.label}</div>
@@ -50,7 +131,7 @@ export const AboutSection = () => {
               <h2 data-about-fade data-about-fade-order="1" data-about-fade-dir="top" className="about-title about-scroll-fade">Hello!, I'm</h2>
               <h3 data-about-fade data-about-fade-order="2" data-about-fade-dir="right" className="about-name about-name--first about-scroll-fade"><span className="about-name-e">E</span>drian</h3>
               <h3 data-about-fade data-about-fade-order="2.6" data-about-fade-dir="right" className="about-name about-name--second about-scroll-fade"><span className="about-name-n">N</span>ieves</h3>
-              
+
               <div className="about-text-wrapper">
                 <p data-about-fade data-about-fade-order="3" data-about-fade-dir="bottom" className="about-text about-scroll-fade">
                   I’m a Full-Stack Developer based in Leon City, Philippines. My development journey started with curiosity about how digital products work, then grew into a focus on building useful tools that solve real problems.
@@ -103,6 +184,35 @@ export const AboutSection = () => {
       </div>
 
       <style>{`
+        /* ── About bg layers ── */
+        .about-bg-parallax {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        /* Wrapper: scroll system writes bg-image counter-transform here — keeps it screen-fixed */
+        .about-bg-wrap {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          will-change: transform;
+          backface-visibility: hidden;
+        }
+
+        /* Img: JS writes scroll parallax transform here */
+        .about-bg-layer {
+          position: absolute;
+          object-fit: cover;
+          object-position: center;
+          will-change: transform;
+          /* Removed opacity: 0.92 to prevent expensive GPU off-screen buffer blending */
+          backface-visibility: hidden;
+          user-select: none;
+          transform: translate3d(0, 0, 0);
+        }
+
         /* Keyframe animations */
         @keyframes slideFromLeft {
           from {
