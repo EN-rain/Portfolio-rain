@@ -111,10 +111,10 @@ export const AboutSection = () => {
               
               <div className="about-text-wrapper">
                 <p data-about-fade data-about-fade-order="3" data-about-fade-dir="bottom" className="about-text about-scroll-fade">
-                  A Junior Full-Stack Developer based in Leon City, Philippines. I got into development because I like building things that actually solve problems, not just things that look good in a repo.
+                  I’m a Full-Stack Developer based in Leon City, Philippines. My development journey started with curiosity about how digital products work, then grew into a focus on building useful tools that solve real problems.
                 </p>
                 <p data-about-fade data-about-fade-order="3.5" data-about-fade-dir="bottom" className="about-text about-scroll-fade">
-                  From 2FA dashboards to automated reporting pipelines, I build end-to-end and own every part of it. Open to full-time work, project based and part time.
+                  I’ve worked across web applications, dashboards, automation, APIs, and mobile experiences. Each project has helped me improve how I turn ideas into clear, reliable products, from planning the user experience to building and refining the final result.
                 </p>
               </div>
 

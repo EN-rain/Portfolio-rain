@@ -7,6 +7,7 @@ import { experience, projects } from '../../data/works';
 import architectureFlowchart from '../../assets/images/architecture-flowchart.png';
 import multiplayerFlowchart from '../../assets/images/multiplayer-flowchart.png';
 import awardImg from '../../assets/images/award.png';
+import projectLogoPlaceholder from '../../assets/images/icon.jpg';
 
 const PROJECT_ABOUT: Record<string, { description: string; keyFeatures: string[] }> = {
   '01': {
@@ -163,6 +164,7 @@ const stackIcons = {
 export const WorksSection = memo(() => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [enOpacity, setEnOpacity] = useState(0);
+  const [isProjectsNavigating, setIsProjectsNavigating] = useState(false);
   const [selectedId, setSelectedId] = useState<string>('');
   const [tsukiShowFlowchart, setTsukiShowFlowchart] = useState(false);
   const [oozeborneShowFlowchart, setOozeborneShowFlowchart] = useState(false);
@@ -227,6 +229,15 @@ export const WorksSection = memo(() => {
     setIsDragging(false);
   };
 
+  const navigateFromWorks = (path: string) => {
+    if (isProjectsNavigating) return;
+
+    setIsProjectsNavigating(true);
+    window.setTimeout(() => {
+      window.dispatchEvent(new CustomEvent('portfolio-navigate', { detail: { path, projectTransition: true } }));
+    }, 260);
+  };
+
   // Lock body scroll and pause Lenis when a project is expanded
   useEffect(() => {
     if (selectedId) {
@@ -254,7 +265,7 @@ export const WorksSection = memo(() => {
     <section id="works" className="stack-section mask-shaped-section works-combined-section" style={{ zIndex: 140, '--mask-color': '#6c2bd9' } as CSSProperties}>
       <div className="clip-gap-outer parallax-content h-full w-full">
         <div className="clip-gap-inner absolute inset-0 bg-black overflow-hidden">
-          <div ref={scrollContainerRef} className="works-scroll-container h-full w-full overflow-y-auto overflow-x-hidden locked-content bg-black flex flex-col">
+          <div ref={scrollContainerRef} className={`works-scroll-container h-full w-full overflow-y-auto overflow-x-hidden locked-content bg-black flex flex-col ${isProjectsNavigating ? 'works-projects-leaving' : ''}`}>
 
             {/* Experience Part */}
             <div ref={experienceRef} className="experience-part relative min-h-screen w-full flex flex-col justify-center px-5 md:px-12 flex-shrink-0">
@@ -311,7 +322,7 @@ export const WorksSection = memo(() => {
             </div>
 
             {/* Projects Part */}
-            <div ref={projectsRef} className="projects-wrapper relative min-h-screen w-full flex-shrink-0 overflow-visible mb-[80px]">
+            <div ref={projectsRef} data-works-projects-start className="projects-wrapper relative min-h-screen w-full flex-shrink-0 overflow-visible mb-[80px]">
               <div className="projects-part relative min-h-screen flex flex-col justify-center px-5 md:px-12 w-full max-w-full">
 
                 {/* Projects Header */}
@@ -336,11 +347,11 @@ export const WorksSection = memo(() => {
                         role="link"
                         tabIndex={0}
                         aria-label={`Open ${project.title} project`}
-                        onClick={() => window.dispatchEvent(new CustomEvent('portfolio-navigate', { detail: { path: `/projects/${project.id}` } }))}
+                        onClick={() => navigateFromWorks(`/projects/${project.id}`)}
                         onKeyDown={(event) => {
                           if (event.key === 'Enter' || event.key === ' ') {
                             event.preventDefault();
-                            window.dispatchEvent(new CustomEvent('portfolio-navigate', { detail: { path: `/projects/${project.id}` } }));
+                            navigateFromWorks(`/projects/${project.id}`);
                           }
                         }}
                         className="project-card group cursor-pointer"
@@ -354,51 +365,61 @@ export const WorksSection = memo(() => {
                           scale: { duration: 0.35, ease: [0.22, 1, 0.36, 1] }
                         }}
                       >
-                        <div className="project-card-image">
-                          {project.img ? (
-                            <img
-                              src={project.img}
-                              alt={project.title}
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                            />
-                          ) : (
-                            <div className="w-full h-full bg-gradient-to-br from-[#1a1a2e] to-[#0a0a0a] flex items-center justify-center">
-                              {project.status && (
-                                <span className="heading-font text-[14px] md:text-[18px] tracking-[0.15em] text-white/10 uppercase">{project.status}</span>
-                              )}
-                            </div>
-                          )}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-                          {project.id === '01' && (
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <div className="tech-font text-[10px] md:text-[11px] uppercase tracking-widest text-white text-center px-3 py-1.5 rounded-full bg-black shadow-[0_10px_30px_rgba(0,0,0,0.7)]">
-                                Best Capstone Award
+                        <div className="project-card-media">
+                          <div className="project-card-image">
+                            {project.img ? (
+                              <img
+                                src={project.img}
+                                alt={project.title}
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-gradient-to-br from-[#1a1a2e] to-[#0a0a0a] flex items-center justify-center">
+                                {project.status && (
+                                  <span className="heading-font text-[14px] md:text-[18px] tracking-[0.15em] text-white/10 uppercase">{project.status}</span>
+                                )}
                               </div>
-                            </div>
-                          )}
+                            )}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                            {project.id === '01' && (
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="tech-font text-[10px] md:text-[11px] uppercase tracking-widest text-white text-center px-3 py-1.5 rounded-full bg-black shadow-[0_10px_30px_rgba(0,0,0,0.7)]">
+                                  Best Capstone Award
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                          <img
+                            src={project.icon ?? projectLogoPlaceholder}
+                            alt=""
+                            aria-hidden="true"
+                            className="project-card-logo"
+                          />
                         </div>
                         <div className="project-card-info">
                           <div className="tech-font text-[13px] font-bold text-[#7c3aed] mb-1">{project.year}</div>
-                          <div className="flex flex-wrap items-center gap-2">
+                          <div className="flex flex-wrap justify-center gap-2">
                             <h3 className="heading-font text-xl md:text-2xl font-bold text-white leading-tight">{project.title}</h3>
                           </div>
                           <p className="heading-font text-[11px] text-white/55 uppercase tracking-wider mt-1">{project.line2}</p>
+                          <p className="mt-6 text-[13px] leading-relaxed text-white/65">{project.des}</p>
                         </div>
                       </motion.div>
                     ))}
                   </div>
                   {projects.length > 2 && (
-                    <div className="mt-6 flex justify-center">
+                    <div className="mt-6 flex flex-col items-center">
                       <a
                         href="/projects"
                         onClick={(event) => {
                           event.preventDefault();
-                          window.dispatchEvent(new CustomEvent('portfolio-navigate', { detail: { path: '/projects' } }));
+                          navigateFromWorks('/projects');
                         }}
-                        className="tech-font rounded-full border border-white/15 px-5 py-2.5 text-[10px] uppercase tracking-widest text-white/70 transition-colors hover:border-[#7c3aed]/50 hover:text-white"
+                        className="tech-font inline-flex min-h-11 items-center border border-white/10 bg-black px-3 text-[11px] uppercase tracking-widest text-white transition-colors hover:border-[#7c3aed]"
                       >
-                        Show More
+                        Show More Projects
                       </a>
+                      <span aria-hidden="true" className="mt-2 text-3xl leading-none text-white/65">⌄</span>
                     </div>
                   )}
                 </div>
@@ -412,6 +433,16 @@ export const WorksSection = memo(() => {
       <style>{`
         .works-scroll-container::-webkit-scrollbar { display: none; }
         .works-scroll-container { -ms-overflow-style: none; scrollbar-width: none; scroll-behavior: smooth; overscroll-behavior-y: contain; }
+        .works-scroll-container .experience-part,
+        .works-scroll-container .projects-wrapper {
+          transition: opacity 260ms ease, transform 260ms ease;
+        }
+        .works-scroll-container.works-projects-leaving .experience-part,
+        .works-scroll-container.works-projects-leaving .projects-wrapper {
+          opacity: 0;
+          transform: translateY(-16px);
+          pointer-events: none;
+        }
         .projects-part { width: 100%; }
 
         /* ── Project Grid ── */
@@ -434,14 +465,32 @@ export const WorksSection = memo(() => {
         .project-card:hover {
           border-color: rgba(124, 58, 237, 0.4);
         }
-        .project-card-image {
+        .project-card-media {
           position: relative;
           width: 100%;
-          aspect-ratio: 16 / 9;
+          aspect-ratio: 16 / 7;
+          overflow: visible;
+        }
+        .project-card-image {
+          position: absolute;
+          inset: 0;
           overflow: hidden;
         }
+        .project-card-logo {
+          position: absolute;
+          left: 50%;
+          bottom: 0;
+          z-index: 10;
+          width: 120px;
+          height: 120px;
+          transform: translate(-50%, 50%);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 12px;
+          object-fit: cover;
+        }
         .project-card-info {
-          padding: 14px 16px 16px;
+          padding: 80px 24px 24px;
+          text-align: center;
         }
 
         /* ── Expanded Overlay (scoped to projects area) ── */

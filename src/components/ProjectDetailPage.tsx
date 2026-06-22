@@ -16,6 +16,10 @@ export function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
 
   if (!project || !detail) return null;
 
+  const returnToProjects = () => {
+    window.dispatchEvent(new CustomEvent('portfolio-navigate', { detail: { path: '/projects', projectTransition: true } }));
+  };
+
   return (
     <main className="projects-page project-detail-page min-h-dvh bg-black text-left text-white">
       <article className="w-full">
@@ -23,7 +27,7 @@ export function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
           href="/projects"
           onClick={(event) => {
             event.preventDefault();
-            window.dispatchEvent(new CustomEvent('portfolio-navigate', { detail: { path: '/projects' } }));
+            returnToProjects();
           }}
           className="tech-font fixed left-5 top-6 z-50 inline-flex min-h-11 items-center gap-2 border border-white/10 bg-black/80 px-3 text-[11px] uppercase tracking-widest text-white/75 backdrop-blur-sm transition-colors hover:border-[#7c3aed] hover:text-white md:left-12 md:top-10"
         >
@@ -51,7 +55,7 @@ export function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
               className="mb-5 h-[120px] w-[120px] rounded-xl border border-white/10 object-cover"
             />
             <p className="tech-font mb-2 text-[11px] font-medium uppercase tracking-[0.16em] text-white/65 md:text-[12px]">{project.year}</p>
-            <h1 className="heading-font text-4xl font-bold uppercase tracking-tight md:text-7xl">{project.title}</h1>
+            <h1 className="heading-font text-4xl font-bold tracking-tight md:text-7xl">{project.title}</h1>
             <p className="heading-font mt-2 text-[11px] uppercase tracking-wider text-white/60">{project.line2}</p>
             <div className="mt-4 flex flex-wrap gap-2">
               {project.stack.map((technology) => (
@@ -86,7 +90,7 @@ export function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
           <div className="mx-auto max-w-7xl">
             <div className="grid gap-8 border-t border-white/10 pt-6 lg:grid-cols-12 lg:gap-16 lg:pt-7">
               <div className="lg:col-span-3">
-                <p className="tech-font text-[10px] uppercase tracking-[0.22em] text-[#7c3aed]">01 — Overview</p>
+                <p className="tech-font text-[10px] uppercase tracking-[0.22em] text-[#7c3aed]">Overview</p>
                 <h2 className="heading-font mt-3 text-2xl font-bold uppercase md:text-3xl">About the project</h2>
               </div>
               <div className="space-y-6 text-[16px] leading-relaxed text-white/75 lg:col-span-8 lg:col-start-5 md:text-[17px]">
@@ -97,7 +101,7 @@ export function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
 
           <div className="mx-auto mt-14 grid max-w-7xl border-t border-white/10 pt-7 lg:grid-cols-12 lg:gap-16 lg:pt-9">
             <div className="lg:col-span-3">
-              <p className="tech-font text-[10px] uppercase tracking-[0.22em] text-[#7c3aed]">02 — Scope</p>
+              <p className="tech-font text-[10px] uppercase tracking-[0.22em] text-[#7c3aed]">Scope</p>
               <h2 className="heading-font mt-3 text-2xl font-bold uppercase md:text-3xl">Features</h2>
             </div>
             <section className="lg:col-span-9">
@@ -117,12 +121,12 @@ export function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
             <section className="mx-auto mt-14 max-w-7xl border-t border-white/10 pt-7 lg:pt-9">
               <div className="grid gap-8 lg:grid-cols-12 lg:gap-16">
                 <div className="lg:col-span-3">
-                  <p className="tech-font text-[10px] uppercase tracking-[0.22em] text-[#7c3aed]">04 — Implementation notes</p>
+                  <p className="tech-font text-[10px] uppercase tracking-[0.22em] text-[#7c3aed]">Implementation notes</p>
                   <h2 className="heading-font mt-3 text-2xl font-bold uppercase md:text-3xl">How it is built</h2>
                 </div>
                 <div className="grid gap-5 md:grid-cols-2 lg:col-span-9">
                 {detail.readmeSections.map((section) => (
-                  <article key={section.title} className="border border-white/10 bg-white/[0.02] p-5 md:p-7">
+                  <article key={section.title} className="bg-white/[0.02] p-5 md:p-7">
                     <p className="tech-font text-[10px] uppercase tracking-[0.18em] text-[#7c3aed]">{section.eyebrow}</p>
                     <h3 className="heading-font mt-3 text-xl font-bold uppercase">{section.title}</h3>
                     <ul className="mt-6 space-y-3">

@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useScrollAnimation } from './hooks/useScrollAnimation';
 import {
   HomeSection,
@@ -19,6 +20,7 @@ const assetModules = import.meta.glob('./assets/**/*.{png,jpg,jpeg,webp,gif,svg,
 
 const preloadUrls = Array.from(new Set(Object.values(assetModules)));
 const mediaExtensions = /\.(mp4|webm|ogg|mp3|wav)(\?.*)?$/i;
+let portfolioLoadingComplete = false;
 
 const withTimeout = (promise: Promise<void>, timeoutMs: number) =>
   new Promise<void>((resolve) => {
@@ -71,13 +73,15 @@ function PortfolioApp() {
   const [vh, setVh] = useState(window.innerHeight);
   const [isScrolling, setIsScrolling] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [showLoading, setShowLoading] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(portfolioLoadingComplete);
+  const [showLoading, setShowLoading] = useState(!portfolioLoadingComplete);
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   useScrollAnimation(setCurrentSection);
 
   useEffect(() => {
+    if (portfolioLoadingComplete) return;
+
     let cancelled = false;
     let completed = 0;
     const tasks = [
@@ -101,6 +105,7 @@ function PortfolioApp() {
       if (!cancelled) {
         setLoadingProgress(100);
         setIsLoaded(true);
+        portfolioLoadingComplete = true;
       }
     });
 
@@ -170,7 +175,10 @@ function PortfolioApp() {
         <LoadingScreen
           progress={loadingProgress}
           isComplete={isLoaded}
-          onComplete={() => setShowLoading(false)}
+          onComplete={() => {
+            portfolioLoadingComplete = true;
+            setShowLoading(false);
+          }}
         />
       )}
       <nav className={`fixed-navbar ${isScrolling ? 'scrolling' : ''}`}>
@@ -228,8 +236,54 @@ function App() {
 
     const handlePopState = () => setPathname(window.location.pathname);
     const handleNavigation = (event: Event) => {
-      const path = (event as CustomEvent<{ path: string }>).detail.path;
+      const { path, projectTransition, returnToWorksProjects } = (event as CustomEvent<{
+        path: string;
+        projectTransition?: boolean;
+        returnToWorksProjects?: boolean;
+      }>).detail;
       if (!path || path === window.location.pathname || isTransitioning) return;
+
+      if (returnToWorksProjects) {
+        setIsTransitioning(true);
+
+        window.setTimeout(() => {
+          window.history.pushState({}, '', path);
+          setPathname(path);
+
+          window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(() => {
+              const isMobile = window.matchMedia('(max-width: 768px)').matches;
+              const worksTarget = isMobile
+                ? document.querySelector<HTMLElement>('#works')?.offsetTop ?? 0
+                : window.innerHeight * 5 - 2;
+
+              window.scrollTo({ top: worksTarget, behavior: 'auto' });
+
+              const worksContainer = document.querySelector<HTMLElement>('.works-scroll-container');
+              if (worksContainer) {
+                const projectsStart = worksContainer.querySelector<HTMLElement>('[data-works-projects-start]');
+                const previousScrollBehavior = worksContainer.style.scrollBehavior;
+                worksContainer.style.scrollBehavior = 'auto';
+                worksContainer.scrollTop = projectsStart?.offsetTop
+                  ?? worksContainer.scrollHeight - worksContainer.clientHeight;
+                worksContainer.style.scrollBehavior = previousScrollBehavior;
+              }
+
+              window.requestAnimationFrame(() => setIsTransitioning(false));
+            });
+          });
+        }, 320);
+        return;
+      }
+
+      if (projectTransition) {
+        window.history.pushState({}, '', path);
+        setPathname(path);
+        window.requestAnimationFrame(() => {
+          window.scrollTo(0, 0);
+        });
+        return;
+      }
 
       setIsTransitioning(true);
       window.setTimeout(() => {
@@ -252,11 +306,24 @@ function App() {
 
   return (
     <>
-      <div className={`route-content ${isTransitioning ? 'route-content--hidden' : ''}`}>
-        {pathname === '/projects' ? (
-          <ProjectsPage />
-        ) : pathname.startsWith('/projects/') ? (
-          <ProjectDetailPage projectId={pathname.split('/')[2]} />
+      <div className={`route-content ${isTransitioning ? 'route-content--hidden' : ''} ${pathname.startsWith('/projects') ? 'route-content--projects' : ''}`}>
+        {pathname.startsWith('/projects') ? (
+          <AnimatePresence mode="popLayout">
+            <motion.div
+              key={pathname}
+              className="project-route-layer"
+              initial={{ opacity: 0, y: 64 }}
+              animate={isTransitioning
+                ? { opacity: 0, y: -28, filter: 'blur(6px)' }
+                : { opacity: 1, y: 0, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, y: -64 }}
+              transition={isTransitioning
+                ? { duration: 0.32, ease: [0.4, 0, 1, 1] }
+                : { duration: 1.4, delay: 0.12, ease: [0.45, 0, 0.55, 1] }}
+            >
+              {pathname === '/projects' ? <ProjectsPage /> : <ProjectDetailPage projectId={pathname.split('/')[2]} />}
+            </motion.div>
+          </AnimatePresence>
         ) : (
           <PortfolioApp />
         )}

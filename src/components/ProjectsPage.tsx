@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { projects } from '../data/works';
 import { useLenis } from '../hooks/scroll/useLenis';
@@ -6,25 +5,23 @@ import projectLogoPlaceholder from '../assets/images/icon.jpg';
 
 export function ProjectsPage() {
   useLenis();
-  const [openingProjectId, setOpeningProjectId] = useState<string | null>(null);
 
   const openProject = (projectId: string) => {
-    if (openingProjectId) return;
+    window.dispatchEvent(new CustomEvent('portfolio-navigate', { detail: { path: `/projects/${projectId}`, projectTransition: true } }));
+  };
 
-    setOpeningProjectId(projectId);
-    window.setTimeout(() => {
-      window.dispatchEvent(new CustomEvent('portfolio-navigate', { detail: { path: `/projects/${projectId}` } }));
-    }, 180);
+  const returnToPortfolio = () => {
+    window.dispatchEvent(new CustomEvent('portfolio-navigate', { detail: { path: '/', projectTransition: true, returnToWorksProjects: true } }));
   };
 
   return (
-    <main className={`projects-page min-h-screen bg-black px-5 py-10 text-white md:px-12 md:py-14 ${openingProjectId ? 'projects-page--navigating' : ''}`}>
+    <main className="projects-page projects-index-page min-h-screen bg-black px-5 py-10 text-white md:px-12 md:py-14">
       <div className="mx-auto w-full max-w-7xl">
         <a
           href="/"
           onClick={(event) => {
             event.preventDefault();
-            window.dispatchEvent(new CustomEvent('portfolio-navigate', { detail: { path: '/' } }));
+            returnToPortfolio();
           }}
           className="tech-font fixed left-5 top-6 z-50 inline-flex min-h-11 items-center gap-2 border border-white/10 bg-black/80 px-3 text-[11px] uppercase tracking-widest text-white/75 backdrop-blur-sm transition-colors hover:border-[#7c3aed] hover:text-white md:left-12 md:top-10"
         >
@@ -55,7 +52,7 @@ export function ProjectsPage() {
                   openProject(project.id);
                 }
               }}
-              className={`projects-page-card relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] ${openingProjectId === project.id ? 'projects-page-card--opening' : ''}`}
+              className="projects-page-card relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04]"
             >
               <div className="relative aspect-[16/7] overflow-visible">
                 <div className="absolute inset-0 overflow-hidden bg-gradient-to-br from-[#1a1a2e] to-[#080808]">
