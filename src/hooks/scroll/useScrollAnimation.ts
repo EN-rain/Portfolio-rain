@@ -216,38 +216,33 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
           // About (Section 1): directional scroll-driven animations.
           const { aboutFadeTargets } = cache;
           if (aboutFadeTargets && aboutFadeTargets.length > 0) {
-            const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
-            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-            if (isDesktop) {
-              if (reduceMotion) {
-                aboutFadeTargets.forEach((el) => {
-                  el.style.opacity = '1';
-                  el.style.transform = '';
-                });
-              } else {
-                // Section 1 settles at enterEnd = pauseLength + transitionLength.
+            // Remove reduceMotion check to ensure animations always run even if OS animations are disabled
+            // Section 1 settles at enterEnd = pauseLength + transitionLength.
                 const enterEnd = pauseLength + transitionLength;
-                // Start fading in much earlier and give it more scroll distance
-                const fadeStart = enterEnd - transitionLength * 0.85;
-                const fadeRange = transitionLength * 0.85;
+                // Start fading in during the last 45% of the slide-up
+                const fadeStart = enterEnd - transitionLength * 0.45;
+                const fadeRange = transitionLength * 0.45;
                 const rawProgress = Math.max(0, Math.min(1, (currentScroll - fadeStart) / fadeRange));
                 const easeOut3 = (t: number) => 1 - Math.pow(1 - t, 3);
 
                 aboutFadeTargets.forEach((el) => {
                   const order = parseFloat(el.getAttribute('data-about-fade-order') || '0');
                   const dir = el.getAttribute('data-about-fade-dir') || 'bottom';
-                  // Stagger: each order unit delays by 5% of progress
+                  // Moderate stagger so it doesn't take too long
                   const staggerOffset = order * 0.05;
                   const denom = Math.max(0.01, 1 - staggerOffset);
                   const elRaw = Math.max(0, Math.min(1, (rawProgress - staggerOffset) / denom));
+                  
+                  // Opacity uses linear/ease-in so it doesn't pop instantly
+                  const opacityP = Math.pow(elRaw, 1.5); 
+                  // Transform uses ease-out for smooth sliding settling
                   const p = easeOut3(elRaw);
 
                   el.style.transition = 'none';
 
                   if (dir === 'pop-children') {
                     // The container itself just fades in
-                    el.style.opacity = p.toString();
+                    el.style.opacity = opacityP.toString();
                     el.style.transform = '';
                     // Animate each child with staggered scale pop-in
                     const children = el.children;
@@ -263,7 +258,7 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
                       child.style.transform = `scale(${childP})`;
                     }
                   } else {
-                    el.style.opacity = p.toString();
+                    el.style.opacity = opacityP.toString();
                     // Apply directional transforms based on data-about-fade-dir
                     const isImageWrap = el.classList.contains('about-image-wrap');
                     const baseY = isImageWrap ? -60 : 0;
@@ -313,8 +308,6 @@ export const useScrollAnimation = (onSectionChange: (index: number) => void) => 
                   });
                 }
               }
-            }
-          }
 
           // ── About section parallax bg layers ──────────────────────────────────
           // Section 1 settles at scroll = pauseLength + transitionLength.

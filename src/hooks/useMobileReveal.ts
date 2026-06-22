@@ -9,8 +9,20 @@ export const useMobileReveal = <T extends HTMLElement = HTMLElement>() => {
     const el = ref.current;
     if (!el) return;
 
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    if (!isMobile) return;
+    // Activate native scroll reveals on any screen smaller than 1024px
+    // since desktop JS-driven scroll animations take over at min-width: 1024px.
+    const isMobile = window.matchMedia('(max-width: 1023px)').matches;
+    if (!isMobile) {
+      // Even on desktop, add the is-revealed class just in case CSS rules depend on it
+      const desktopObserver = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add('is-revealed');
+          desktopObserver.disconnect();
+        }
+      }, { threshold: 0.1 });
+      desktopObserver.observe(el);
+      return;
+    }
 
     // Set initial state
     gsap.set(el, { opacity: 0, y: 60 });
@@ -25,6 +37,8 @@ export const useMobileReveal = <T extends HTMLElement = HTMLElement>() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
+          el.classList.add('is-revealed');
+          
           const tl = gsap.timeline({
             defaults: { ease: 'power4.out', duration: 1.2 }
           });

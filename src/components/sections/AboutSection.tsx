@@ -113,7 +113,7 @@ export const AboutSection = () => {
                 <img src={heroImage} alt="Profile" className="about-image" />
               </div>
 
-              <div data-about-fade data-about-fade-order="4" data-about-fade-dir="bottom" className="about-skills-box about-skills-box--desktop about-scroll-fade">
+              <div data-about-fade data-about-fade-order="10" data-about-fade-dir="bottom" className="about-skills-box about-skills-box--desktop about-scroll-fade">
                 {desktopSkillGroups.map(group => (
                   <div key={group.label} className="about-skill-group">
                     <div className="about-skill-group-title">{group.label}</div>
@@ -133,10 +133,10 @@ export const AboutSection = () => {
               <h3 data-about-fade data-about-fade-order="2.6" data-about-fade-dir="right" className="about-name about-name--second about-scroll-fade"><span className="about-name-n">N</span>ieves</h3>
 
               <div className="about-text-wrapper">
-                <p data-about-fade data-about-fade-order="3" data-about-fade-dir="bottom" className="about-text about-scroll-fade">
+                <p data-about-fade data-about-fade-order="6" data-about-fade-dir="bottom" className="about-text about-scroll-fade">
                   I’m a Full-Stack Developer based in Leon City, Philippines. My development journey started with curiosity about how digital products work, then grew into a focus on building useful tools that solve real problems.
                 </p>
-                <p data-about-fade data-about-fade-order="3.5" data-about-fade-dir="bottom" className="about-text about-scroll-fade">
+                <p data-about-fade data-about-fade-order="8" data-about-fade-dir="bottom" className="about-text about-scroll-fade">
                   I’ve worked across web applications, dashboards, automation, APIs, and mobile experiences. Each project has helped me improve how I turn ideas into clear, reliable products, from planning the user experience to building and refining the final result.
                 </p>
               </div>
@@ -310,8 +310,6 @@ export const AboutSection = () => {
           max-height: 54vh;
           aspect-ratio: 1 / 1;
           overflow: visible;
-          animation: slideFromLeft 0.8s ease-out forwards;
-          animation-delay: 0.2s;
           opacity: 0;
         }
 
@@ -337,8 +335,6 @@ export const AboutSection = () => {
           color: #11081a;
           text-transform: uppercase;
           letter-spacing: 0.05em;
-          animation: slideFromTop 0.8s ease-out forwards;
-          animation-delay: 0.3s;
           opacity: 0;
           margin: 0;
         }
@@ -350,8 +346,6 @@ export const AboutSection = () => {
           color: #000000;
           margin-left: -0.2rem;
           line-height: 1.1;
-          animation: slideFromRight 0.8s ease-out forwards;
-          animation-delay: 0.4s;
           opacity: 0;
           display: block;
           text-align: left;
@@ -383,14 +377,13 @@ export const AboutSection = () => {
           color: #4a4a5a;
           margin-top: 1.5rem;
           margin-bottom: 0;
+          opacity: 0;
         }
-
-        @media (min-width: 1024px) {
-          .about-scroll-fade {
-            opacity: 0;
-            animation: none !important;
-            will-change: opacity, transform;
-          }
+        
+        .about-scroll-fade {
+          opacity: 0;
+          animation: none !important;
+          will-change: opacity, transform;
         }
 
         .about-skills-box {
@@ -400,8 +393,6 @@ export const AboutSection = () => {
           gap: 8px;
           justify-content: center;
           align-content: center;
-          animation: slideFromBottom 0.8s ease-out forwards;
-          animation-delay: 0.6s;
           opacity: 0;
         }
 
