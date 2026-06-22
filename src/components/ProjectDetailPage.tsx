@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { ArrowLeft, ExternalLink, Github } from 'lucide-react';
 import { projects } from '../data/works';
 import { projectDetails } from '../data/projectDetails';
@@ -10,6 +11,7 @@ type ProjectDetailPageProps = {
 
 export function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
   useLenis();
+  const [isLeaving, setIsLeaving] = useState(false);
 
   const project = projects.find((item) => item.id === projectId);
   const detail = projectDetails[projectId];
@@ -17,7 +19,11 @@ export function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
   if (!project || !detail) return null;
 
   const returnToProjects = () => {
-    window.dispatchEvent(new CustomEvent('portfolio-navigate', { detail: { path: '/projects', projectTransition: true } }));
+    if (isLeaving) return;
+    setIsLeaving(true);
+    window.dispatchEvent(new CustomEvent('portfolio-navigate', {
+      detail: { path: '/projects' },
+    }));
   };
 
   return (
@@ -29,7 +35,7 @@ export function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
             event.preventDefault();
             returnToProjects();
           }}
-          className="tech-font fixed left-5 top-6 z-50 inline-flex min-h-11 items-center gap-2 border border-white/10 bg-black/80 px-3 text-[11px] uppercase tracking-widest text-white/75 backdrop-blur-sm transition-colors hover:border-[#7c3aed] hover:text-white md:left-12 md:top-10"
+          className={`tech-font fixed left-5 top-6 z-50 inline-flex min-h-11 items-center gap-2 border border-white/10 bg-black/80 px-3 text-[11px] uppercase tracking-widest text-white/75 backdrop-blur-sm transition-[transform,opacity,border-color,color] duration-300 ease-in-out hover:border-[#7c3aed] hover:text-white md:left-12 md:top-10 ${isLeaving ? '-translate-x-10 opacity-0 pointer-events-none' : ''}`}
         >
           <ArrowLeft size={15} />
           Back to all projects

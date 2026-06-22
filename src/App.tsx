@@ -228,13 +228,32 @@ function PortfolioApp() {
 function App() {
   const [pathname, setPathname] = useState(window.location.pathname);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const currentPathRef = useRef(window.location.pathname);
+  const routeScrollPositionsRef = useRef<Record<string, number>>({
+    [window.location.pathname]: window.scrollY,
+  });
 
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
     }
 
-    const handlePopState = () => setPathname(window.location.pathname);
+    const restoreRouteScroll = (path: string) => {
+      const savedPosition = routeScrollPositionsRef.current[path] ?? 0;
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          window.scrollTo({ top: savedPosition, behavior: 'auto' });
+        });
+      });
+    };
+
+    const handlePopState = () => {
+      routeScrollPositionsRef.current[currentPathRef.current] = window.scrollY;
+      const nextPath = window.location.pathname;
+      currentPathRef.current = nextPath;
+      setPathname(nextPath);
+      restoreRouteScroll(nextPath);
+    };
     const handleNavigation = (event: Event) => {
       const { path, projectTransition, returnToWorksProjects } = (event as CustomEvent<{
         path: string;
@@ -243,11 +262,14 @@ function App() {
       }>).detail;
       if (!path || path === window.location.pathname || isTransitioning) return;
 
+      routeScrollPositionsRef.current[currentPathRef.current] = window.scrollY;
+
       if (returnToWorksProjects) {
         setIsTransitioning(true);
 
         window.setTimeout(() => {
           window.history.pushState({}, '', path);
+          currentPathRef.current = path;
           setPathname(path);
 
           window.requestAnimationFrame(() => {
@@ -278,19 +300,19 @@ function App() {
 
       if (projectTransition) {
         window.history.pushState({}, '', path);
+        currentPathRef.current = path;
         setPathname(path);
-        window.requestAnimationFrame(() => {
-          window.scrollTo(0, 0);
-        });
+        restoreRouteScroll(path);
         return;
       }
 
       setIsTransitioning(true);
       window.setTimeout(() => {
         window.history.pushState({}, '', path);
+        currentPathRef.current = path;
         setPathname(path);
         window.requestAnimationFrame(() => {
-          window.scrollTo(0, 0);
+          window.scrollTo({ top: routeScrollPositionsRef.current[path] ?? 0, behavior: 'auto' });
           window.requestAnimationFrame(() => setIsTransitioning(false));
         });
       }, 320);
@@ -314,11 +336,11 @@ function App() {
               className="project-route-layer"
               initial={{ opacity: 0, y: 64 }}
               animate={isTransitioning
-                ? { opacity: 0, y: -28, filter: 'blur(6px)' }
+                ? { opacity: 1, y: -18, filter: 'blur(2px)' }
                 : { opacity: 1, y: 0, filter: 'blur(0px)' }}
               exit={{ opacity: 0, y: -64 }}
               transition={isTransitioning
-                ? { duration: 0.32, ease: [0.4, 0, 1, 1] }
+                ? { duration: 0.32, ease: [0.45, 0, 0.55, 1] }
                 : { duration: 1.4, delay: 0.12, ease: [0.45, 0, 0.55, 1] }}
             >
               {pathname === '/projects' ? <ProjectsPage /> : <ProjectDetailPage projectId={pathname.split('/')[2]} />}
