@@ -524,13 +524,23 @@ export const AboutSection = () => {
         }
 
         @media (max-width: 768px), (hover: none) and (pointer: coarse) {
+          .about-bg-parallax,
+          .about-shell,
+          .about-content,
+          .about-skills-box--mobile,
+          .about-tech-marquee,
+          .about-tech-row {
+            max-width: 100%;
+            overflow-x: clip;
+          }
+
           .about-shell {
             display: flex !important;
             flex-direction: column !important;
-            padding: 80px 20px 60px !important;
+            padding: 24px 20px 56px !important;
             height: auto !important;
             min-height: 100vh !important;
-            gap: 40px !important;
+            gap: 24px !important;
             align-items: center !important;
             text-align: center !important;
           }
@@ -543,11 +553,10 @@ export const AboutSection = () => {
           }
 
           .about-image-wrap {
-            width: 350px !important;
-            height: 350px !important;
+            width: min(300px, 82vw) !important;
+            height: min(300px, 82vw) !important;
             transform: none !important;
             margin: 0 auto !important;
-            margin-top: -100px !important;
           }
 
 
@@ -563,6 +572,8 @@ export const AboutSection = () => {
             text-align: center !important;
             margin: 0 auto !important;
             text-transform: uppercase !important;
+            transform: none !important;
+            width: 100% !important;
           }
           .about-name--first {
             margin-bottom: 0 !important;

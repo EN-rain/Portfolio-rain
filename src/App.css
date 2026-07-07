@@ -514,6 +514,22 @@ main.projects-page {
     visibility: visible !important;
   }
 
+  .about-scroll-fade,
+  .about-skills-box,
+  .experience-part,
+  .experience-header,
+  .experience-part .group,
+  .projects-wrapper,
+  .projects-part,
+  .projects-part .max-w-7xl,
+  .project-card,
+  .contact-text,
+  .contact-grid {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
   /* Works header: ensure EN/CT are visible on mobile */
   #works [data-en-target="experience-en"],
   #works [data-en-target="projects-ct"] {
