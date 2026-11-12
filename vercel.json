@@ -1,0 +1,8 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/cv", "destination": "/cv.pdf" },
+    { "source": "/resume", "destination": "/EDRIAN-NIEVES-RESUME.pdf" },
+    { "source": "/((?!assets/|.*\\..*).*)", "destination": "/index.html" }
+  ]
+}
